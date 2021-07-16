@@ -4,6 +4,13 @@ pool:
 stages:
 - stage: Terraform
   jobs:
+  - job: init
+    steps:
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        allowTelemetryCollection: true
   - job: validate
     steps:
     - script: "ls"
@@ -11,13 +18,6 @@ stages:
       inputs:
         command: 'validate'
         workingDirectory: '$(System.DefaultWorkingDirectory/terraform'
-        allowTelemetryCollection: true
-  - job: init
-    steps:
-    - task: TerraformCLI@0
-      inputs:
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         allowTelemetryCollection: true
   - job: plan
     steps:
