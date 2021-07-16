@@ -29,11 +29,9 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: $(moonjun_subscription)
+        environmentServiceName: $(SUBSCRIPTION)
         allowTelemetryCollection: true
       displayName: "Plan"
-      env:
-        SUBSCRIPTION: $(moonjun_subscription)
 
 # Below will probably be changed.
     # - task: TerraformCLI@0
@@ -72,36 +70,34 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: $(subscription)
+        environmentServiceName: $(SUBSCRIPTION)
         allowTelemetryCollection: true
       displayName: "Apply"
-      env:
-        SUBSCRIPTION: $(moonjun_subscription)
+        
+# Output kubeconfig details into file
+    - script: "terraform output kube_config_dev >> may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
-# # Output kubeconfig details into file
-#     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    - script: "terraform output kube_config_staging >> may24_devops_config_staging"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
-#     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-
-# # Delete the first and last lines of dev/staging config file
-#     - script: "sed -i '1d;$d' may24_devops_config_dev"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+# Delete the first and last lines of dev/staging config file
+    - script: "sed -i '1d;$d' may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
 
-#     - script: "sed -i '1d;$d' may24_devops_config_staging"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    - script: "sed -i '1d;$d' may24_devops_config_staging"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
-# # Publish the kubeconfig files as artifacts
-#     - task: PublishPipelineArtifact@1
-#       inputs:
-#         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
-#         artifact: 'may24_devops_config_dev'
-#         publishLocation: 'pipeline'
+# Publish the kubeconfig files as artifacts
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
+        artifact: 'may24_devops_config_dev'
+        publishLocation: 'pipeline'
 
-#     - task: PublishPipelineArtifact@1
-#       inputs:
-#         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
-#         artifact: 'may24_devops_config_staging'
-#         publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
+        artifact: 'may24_devops_config_staging'
+        publishLocation: 'pipeline'
