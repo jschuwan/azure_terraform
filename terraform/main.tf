@@ -108,5 +108,3 @@ Test configuration using kubectl:
 kubectl get nodes
 CONFIGURE
 }
-
-#module {}
