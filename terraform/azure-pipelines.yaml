@@ -34,35 +34,35 @@ stages:
       displayName: "Plan"
 
 # Below will probably be changed.
-    - task: TerraformCLI@0
-      inputs:
-        command: 'import'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: $(subscription)
-        allowTelemetryCollection: true
-        resourceAddress: 'azurerm_resource_group.may24_devops'
-        resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
-      displayName: "Import resource group"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'import'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    #     environmentServiceName: $(subscription)
+    #     allowTelemetryCollection: true
+    #     resourceAddress: 'azurerm_resource_group.may24_devops'
+    #     resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
+    #   displayName: "Import resource group"
 
-    - task: TerraformCLI@0
-      inputs:
-        command: 'import'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: $(subscription)
-        allowTelemetryCollection: true
-        resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_dev'
-        resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
-      displayName: "Import dev cluster"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'import'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    #     environmentServiceName: $(subscription)
+    #     allowTelemetryCollection: true
+    #     resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_dev'
+    #     resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
+    #   displayName: "Import dev cluster"
 
-    - task: TerraformCLI@0
-      inputs:
-        command: 'import'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: $(subscription)
-        allowTelemetryCollection: true
-        resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_staging'
-        resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_staging'
-      displayName: "Import staging cluster"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'import'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    #     environmentServiceName: $(subscription)
+    #     allowTelemetryCollection: true
+    #     resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_staging'
+    #     resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_staging'
+    #   displayName: "Import staging cluster"
 # Above will probably be changed.
 
     - task: TerraformCLI@0
