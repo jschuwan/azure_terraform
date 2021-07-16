@@ -73,6 +73,10 @@ stages:
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
+    # Delete the first and last lines of output file.
+    - script: "sed -i '1d;$d' may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
