@@ -16,7 +16,7 @@ stages:
     - task: TerraformCLI@0
       inputs:
         command: 'init'
-        workingDirectory: '$(terraformDir)'
+        workingDirectory: $(terraformDir)
         allowTelemetryCollection: true
       displayName: "init"
 
