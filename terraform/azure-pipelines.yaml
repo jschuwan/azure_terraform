@@ -6,6 +6,7 @@ stages:
   jobs:
   - job: validate
     steps:
+    - script: "ls"
     - task: TerraformCLI@0
       inputs:
         command: 'validate'
