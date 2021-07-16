@@ -29,6 +29,7 @@ stages:
         allowTelemetryCollection: true
       displayName: "Plan"
 
+# Below will probably be changed.
     - task: TerraformCLI@0
       inputs:
         command: 'import'
@@ -37,7 +38,29 @@ stages:
         allowTelemetryCollection: true
         resourceAddress: 'azurerm_resource_group.may24_devops'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
-        
+      displayName: "Import resource group"
+
+    - task: TerraformCLI@0
+      inputs:
+        command: 'import'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        allowTelemetryCollection: true
+        resourceAddress: 'azurerm_resource_group.may24_devops'
+        resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
+      displayName: "Import dev cluster"
+
+    - task: TerraformCLI@0
+      inputs:
+        command: 'import'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        allowTelemetryCollection: true
+        resourceAddress: 'azurerm_resource_group.may24_devops'
+        resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_staging'
+      displayName: "Import staging cluster"
+# Above will probably be changed.
+
     - task: TerraformCLI@0
       enabled: true
       inputs:
