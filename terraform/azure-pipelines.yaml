@@ -39,6 +39,6 @@ stages:
     - script: "ls $(System.DefaultWorkingDirectory)"
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
+        targetPath: '$(System.DefaultWorkingDirectory)/may24_devops_config_dev'
         artifact: 'may24_devops_config_dev'
         publishLocation: 'pipeline'
