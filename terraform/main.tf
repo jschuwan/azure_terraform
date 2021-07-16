@@ -62,7 +62,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         node_count          = var.kubernetes_cluster_staging["node_count"]
         vm_size             = "Standard_DS2_v2"
         #enable_auto_scaling = false
-    
+    }
     // service_principal {
     //   client_id     = var.appId
     //   client_secret = var.password
