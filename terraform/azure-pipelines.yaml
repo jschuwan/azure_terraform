@@ -36,9 +36,9 @@ stages:
 
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
     
-    - script: "ls $(System.DefaultWorkingDirectory)/terraform"
+    - script: "ls $(System.DefaultWorkingDirectory)"
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform'
+        targetPath: '$(System.DefaultWorkingDirectory)'
         artifact: 'may24_devops_config_dev'
         publishLocation: 'pipeline'
