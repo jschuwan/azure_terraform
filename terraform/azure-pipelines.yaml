@@ -27,7 +27,7 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
       displayName: "Plan"
 
@@ -36,7 +36,7 @@ stages:
       inputs:
         command: 'import'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
         resourceAddress: 'azurerm_resource_group.may24_devops'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
@@ -46,7 +46,7 @@ stages:
       inputs:
         command: 'import'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
         resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_dev'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
@@ -56,7 +56,7 @@ stages:
       inputs:
         command: 'import'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
         resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_staging'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_staging'
@@ -68,7 +68,7 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
       displayName: "Apply"
 
