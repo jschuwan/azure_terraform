@@ -47,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         Group                   = "DevOps"
         Environment             = "dev"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = timestamp
+        CreatedDate             = timestamp()
     }
 }
 
@@ -80,7 +80,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         Group                   = "DevOps"
         Environment             = "staging"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = timestamp
+        CreatedDate             = timestamp()
     }
 }
 
