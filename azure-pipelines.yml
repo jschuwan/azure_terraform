@@ -9,11 +9,20 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+- stage: Terraform
+  jobs:
+  - job: Validate
+    steps:
+    - task: TerraformCLI@0
+      inputs:
+        command: 'validate'
+        allowTelemetryCollection: true
+  - job: Plan
+    steps:
+    - task: TerraformCLI@0
+      enabled: false
+      inputs:
+        command: 'plan'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
+        allowTelemetryCollection: true
