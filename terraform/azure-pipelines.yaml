@@ -25,7 +25,7 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: '$(test_sub)'
         allowTelemetryCollection: true
       displayName: "Plan"
 
@@ -34,7 +34,7 @@ stages:
       inputs:
         command: 'import'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: '$(test_sub)'
         allowTelemetryCollection: true
         resourceAddress: 'azurerm_resource_group.may24_devops'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
@@ -44,7 +44,7 @@ stages:
       inputs:
         command: 'import'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: '$(test_sub)'
         allowTelemetryCollection: true
         resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_dev'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
