@@ -1,121 +1,95 @@
 terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=2.46.0"
+    required_providers {
+        azurerm = {
+            source  = "hashicorp/azurerm"
+            version = "=2.60.0"
+        }
     }
-  }
 }
 
 provider "azurerm" {
-  features {}
+    features {}
 }
 
-# Resource Group for Development
-resource "azurerm_resource_group" "devopsDev" {
-  name     = "devops_resource_group_dev"
-  location = "eastus"
-  tags = {
-    Group                 = "DevOps"
-    Environment           = "Development"
-    ContactBeforeDelete   = "NickEscalona"
-    CreatedDate           = timestamp()
-  }  
+resource "azurerm_resource_group" "may24_devops" {
+    name        = var.resource_group["name"]
+    location    = var.resource_group["location"]
 }
 
-# Resource Group for Staging
-resource "azurerm_resource_group" "devopsStaging" {
-  name     = "devops_resource_group_staging"
-  location = "centralus"
+resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
+    name                = var.kubernetes_cluster_dev["name"]
+    location            = azurerm_resource_group.may24_devops.location
+    resource_group_name = azurerm_resource_group.may24_devops.name
+    dns_prefix          = var.kubernetes_cluster_dev["dns_prefix"]
 
-  tags = {
-    Group                 = "DevOps"
-    Environment           = "Staging"
-    ContactBeforeDelete   = "NickEscalona"
-    CreatedDate           = timestamp()
-  }  
-}
-
-# Azure Container Registry
-resource "azurerm_container_registry" "devops" {
-  name                  = "DevOpsMay2021ACR"
-  resource_group_name   = azurerm_resource_group.devopsDev.name
-  location              = azurerm_resource_group.devopsDev.location
-  sku                   = "Standard"
-
-  tags = {
-    Group                 = "DevOps"
-    ContactBeforeDelete   = "NickEscalona"
-    CreatedDate           = timestamp()
-  }  
-}
-
-# Development Cluster and Node Pool
-resource "azurerm_kubernetes_cluster" "devopsDev" {
-  name                = "devops_dev_cluster"
-  location            = azurerm_resource_group.devopsDev.location
-  resource_group_name = azurerm_resource_group.devopsDev.name
-  dns_prefix          = "devops-p3-dev"
-
-  default_node_pool {
-      name        = "development"
-      node_count  = 3
-      vm_size     = "Standard_DS2_v2"
+    default_node_pool {
+        name                = "default"
+        node_count          = var.kubernetes_cluster_dev["node_count"]
+        vm_size             = "Standard_DS2_v2"
+        #enable_auto_scaling = false
     }
 
-  identity {
-    type = "SystemAssigned"
-  }
-
-  tags = {
-    Group                 = "DevOps"
-    Environment           = "Development"
-    ContactBeforeDelete   = "NickEscalona"
-    CreatedDate           = timestamp()
-  }  
-}
-
-# Staging Cluster and Node Pool
-resource "azurerm_kubernetes_cluster" "devopsStaging" {
-  name                = "devops_staging_cluster"
-  location            = azurerm_resource_group.devopsStaging.location
-  resource_group_name = azurerm_resource_group.devopsStaging.name
-  dns_prefix          = "devops-p3-staging"
-
-  default_node_pool {
-      name        = "staging"
-      node_count  = 3
-      vm_size     = "Standard_DS2_v2"
+# Can be used with Service principal for my own Azure Service but how for Nick's?
+    service_principal {
+      client_id     = var.appId
+      client_secret = var.password
     }
 
-  identity {
-    type = "SystemAssigned"
-  }
+    role_based_access_control {
+      enabled = true
+    }
 
-  tags = {
-    Group                 = "DevOps"
-    Environment           = "Staging"
-    ContactBeforeDelete   = "NickEscalona"
-    CreatedDate           = timestamp()
-  }  
+    tags = {
+        environment = "dev"
+    }
 }
 
-output "client_certificate_dev" {
-  value       = azurerm_kubernetes_cluster.devopsDev.kube_config.0.client_certificate
-  description = "Client Certificate for Development Cluster"
+resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
+    name                = var.kubernetes_cluster_staging["name"]
+    location            = azurerm_resource_group.may24_devops.location
+    resource_group_name = azurerm_resource_group.may24_devops.name
+    dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"
+    default_node_pool {
+        name                = "default"
+        node_count          = var.kubernetes_cluster_staging["node_count"]
+        vm_size             = "Standard_DS2_v2"
+        #enable_auto_scaling = false
+    
+    service_principal {
+      client_id     = var.appId
+      client_secret = var.password
+    
+    role_based_access_control {
+      enabled = true
+    
+    identity {
+        type = "SystemAssigned"
+    }
+
+    tags = {
+        environment = "dev"
+    }
 }
 
-output "kube_config_dev" {
-  value       = azurerm_kubernetes_cluster.devopsDev.kube_config_raw
-  description = "KubeConfig for Development Cluster"
+# Provides the config file to connect to AKS cluster
+output "kube_config" {
+    value = azurerm_kubernetes_cluster.may24_devops_dev.kube_config_raw
 }
 
-output "client_certificate_staging" {
-  value       = azurerm_kubernetes_cluster.devopsStaging.kube_config.0.client_certificate
-  description = "Client Certificate for Staging Cluster"
+# terraform output configure
+# Probably want this in a separate outputs.tf file?
+output "configure" {
+    value = <<CONFIGURE
+
+Run the following commands to configure the kubernetes client:
+
+terraform output kube_config > ~/.kube/may24_devops_config
+export KUBECONFIG=~/.kube/may24_devops_config
+
+Test configuration using kubectl:
+
+kubectl get nodes
+CONFIGURE
 }
 
-output "kube_config_staging" {
-  value       = azurerm_kubernetes_cluster.devopsStaging.kube_config_raw
-  description = "KubeConfig for Staging Cluster"
-}
+#module {}
