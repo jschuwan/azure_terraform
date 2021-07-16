@@ -71,6 +71,7 @@ stages:
       displayName: "Apply"
 
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
     - task: PublishPipelineArtifact@1
       inputs:
