@@ -13,6 +13,7 @@ stages:
         allowTelemetryCollection: true
 
     - task: TerraformCLI@0
+      enabled: false
       inputs:
         command: 'validate'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
@@ -26,7 +27,7 @@ stages:
         allowTelemetryCollection: true
 
     - task: TerraformCLI@0
-      enabled: true
+      enabled: false
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
@@ -35,6 +36,9 @@ stages:
 
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
     
+    - script: "ls $(System.DefaultWorkingDirectory)"
+    - script: "ls $(System.DefaultWorkingDirectory)/terraform"
+    - script: "ls $(Pipeline.Workspace)"
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/terraform'
