@@ -4,7 +4,7 @@ pool:
 #variables:
   # subscription: $(moonjun_subscription)
   # subscription: $(revature_subscription)
-  terraformDir: $(System.DefaultWorkingDirectory)/terraform
+  terraformDir: '$(System.DefaultWorkingDirectory)/terraform'
 
 
 # Currently using Moonjun's subscription
