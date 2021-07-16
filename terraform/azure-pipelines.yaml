@@ -14,7 +14,7 @@ stages:
     - task: TerraformCLI@0
       inputs:
         command: 'validate'
-        workingDirectory: '$(System.DefaultWorkingDirectory/terraform'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         allowTelemetryCollection: true
     - task: TerraformCLI@0
       inputs:
