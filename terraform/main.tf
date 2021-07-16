@@ -23,7 +23,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
     dns_prefix          = var.kubernetes_cluster_dev["dns_prefix"]
 
     default_node_pool {
-        name                = "default"
+        name                = var.kubernetes_cluster_dev["node_pool_name"]
         node_count          = var.kubernetes_cluster_dev["node_count"]
         vm_size             = "Standard_DS2_v2"
         #enable_auto_scaling = false
@@ -39,8 +39,15 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
       enabled = true
     }
 
+    // identity {
+    //     type = "SystemAssigned"
+    // }
+
     tags = {
-        environment = "dev"
+        Group                   = "DevOps"
+        Environment             = "dev"
+        ContactBeforeDelete     = "Nick Escalona"
+        CreatedDate             = timestamp
     }
 }
 
@@ -48,9 +55,10 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
     name                = var.kubernetes_cluster_staging["name"]
     location            = azurerm_resource_group.may24_devops.location
     resource_group_name = azurerm_resource_group.may24_devops.name
-    dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"
+    dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"]
+
     default_node_pool {
-        name                = "default"
+        name                = var.kubernetes_cluster_staging["node_pool_name"]
         node_count          = var.kubernetes_cluster_staging["node_count"]
         vm_size             = "Standard_DS2_v2"
         #enable_auto_scaling = false
@@ -61,13 +69,17 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
     
     role_based_access_control {
       enabled = true
-    
-    identity {
-        type = "SystemAssigned"
     }
 
+    // identity {
+    //     type = "SystemAssigned"
+    // }
+
     tags = {
-        environment = "dev"
+        Group                   = "DevOps"
+        Environment             = "dev"
+        ContactBeforeDelete     = "Nick Escalona"
+        CreatedDate             = timestamp
     }
 }
 
