@@ -30,7 +30,7 @@ stages:
       displayName: "Plan"
     
     - script: "terraform import azurerm_resource_group.may24_devops /subscriptions/$(sub-id)/resourceGroups/$(rg-name)"
-    
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
     - task: TerraformCLI@0
       enabled: true
       inputs:
