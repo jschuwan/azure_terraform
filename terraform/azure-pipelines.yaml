@@ -4,7 +4,7 @@ pool:
 #variables:
   # subscription: $(moonjun_subscription)
   # subscription: $(revature_subscription)
-  terraformDir: '$(System.DefaultWorkingDirectory)/terraform'
+  terraformDir: $(System.DefaultWorkingDirectory)/terraform
 
 
 # Currently using Moonjun's subscription
@@ -16,7 +16,7 @@ stages:
     - task: TerraformCLI@0
       inputs:
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        workingDirectory: '$(terraformDir)'
         allowTelemetryCollection: true
       displayName: "init"
 
@@ -24,14 +24,14 @@ stages:
       enabled: true
       inputs:
         command: 'validate'
-        workingDirectory: $(terraformDir)
+        workingDirectory: '$(terraformDir)'
         allowTelemetryCollection: true
       displayName: "Validate"
 
     - task: TerraformCLI@0
       inputs:
         command: 'plan'
-        workingDirectory: $(terraformDir)
+        workingDirectory: '$(terraformDir)'
         environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         allowTelemetryCollection: true
       displayName: "Plan"
@@ -73,25 +73,25 @@ stages:
       enabled: false
       inputs:
         command: 'apply'
-        workingDirectory: $(terraformDir)
+        workingDirectory: '$(terraformDir)''$(terraformDir)'
         environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         allowTelemetryCollection: true
       displayName: "Apply"
         
 # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
-      workingDirectory: $(terraformDir)
+      workingDirectory: '$(terraformDir)'
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
-      workingDirectory: $(terraformDir)
+      workingDirectory: '$(terraformDir)'
 
 # Delete the first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
-      workingDirectory: $(terraformDir)
+      workingDirectory: '$(terraformDir)'
 
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
-      workingDirectory: $(terraformDir)
+      workingDirectory: '$(terraformDir)'
 
 # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
