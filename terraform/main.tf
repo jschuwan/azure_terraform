@@ -30,24 +30,24 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
     }
 
 # Can be used with Service principal for my own Azure Service but how for Nick's?
-    service_principal {
-      client_id     = var.appId
-      client_secret = var.password
-    }
+    // service_principal {
+    //   client_id     = var.appId
+    //   client_secret = var.password
+    // }
 
     role_based_access_control {
       enabled = true
     }
 
-    // identity {
-    //     type = "SystemAssigned"
-    // }
+    identity {
+        type = "SystemAssigned"
+    }
 
     tags = {
         Group                   = "DevOps"
         Environment             = "dev"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = timestamp
+        CreatedDate             = "2021-7-16"
     }
 }
 
@@ -62,30 +62,36 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         node_count          = var.kubernetes_cluster_staging["node_count"]
         vm_size             = "Standard_DS2_v2"
         #enable_auto_scaling = false
-    
-    service_principal {
-      client_id     = var.appId
-      client_secret = var.password
-    
+    }
+    // service_principal {
+    //   client_id     = var.appId
+    //   client_secret = var.password
+    // }
+
     role_based_access_control {
       enabled = true
     }
 
-    // identity {
-    //     type = "SystemAssigned"
-    // }
+    identity {
+        type = "SystemAssigned"
+    }
 
     tags = {
         Group                   = "DevOps"
-        Environment             = "dev"
+        Environment             = "staging"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = timestamp
+        CreatedDate             = "2021-7-16"
     }
 }
 
-# Provides the config file to connect to AKS cluster
-output "kube_config" {
+output "kube_config_dev" {
     value = azurerm_kubernetes_cluster.may24_devops_dev.kube_config_raw
+    sensitive = true
+}
+
+output "kube_config_staging" {
+    value = azurerm_kubernetes_cluster.may24_devops_staging.kube_config_raw
+    sensitive = true
 }
 
 # terraform output configure
@@ -95,7 +101,8 @@ output "configure" {
 
 Run the following commands to configure the kubernetes client:
 
-terraform output kube_config > ~/.kube/may24_devops_config
+terraform output kube_config_dev > ~/.kube/may24_devops_config_dev
+terraform output kube_config_staging > ~/.kube/may24_devops_config_staging
 export KUBECONFIG=~/.kube/may24_devops_config
 
 Test configuration using kubectl:
@@ -103,5 +110,3 @@ Test configuration using kubectl:
 kubectl get nodes
 CONFIGURE
 }
-
-#module {}
