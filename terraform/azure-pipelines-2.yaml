@@ -31,7 +31,7 @@ stages:
 
   - job: ImportResource1
     steps:
-    - template: templates/imports.yml
+    - template: '$(System.DefaultWorkingDirectory)/terraform/templates/imports.yaml'
       parameters:
         resourceAddress: 'azurerm_resource_group.may24_devops'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
@@ -39,7 +39,7 @@ stages:
 
   - job: ImportResource2
     steps:
-    - template: templates/imports.yml
+    - template: '$(System.DefaultWorkingDirectory)/terraform/templates/imports.yaml'
       parameters:
         resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_dev'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
@@ -47,7 +47,7 @@ stages:
 
   - job: ImportResource2
     steps:
-    - template: templates/imports.yml
+    - template: '$(System.DefaultWorkingDirectory)/terraform/templates/imports.yaml'
       parameters:
         resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_staging'
         resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_staging'
