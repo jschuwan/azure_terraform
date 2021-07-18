@@ -1,13 +1,13 @@
 parameters:
-- name: 'branchName'
+- name: branchName
   type: string
   default: 'master'
 
-- name: 'enabled'
+- name: enabled
   type: boolean
   default: true
 
-- name: 'directory'
+- name: directory
   type: string
 
 steps:
