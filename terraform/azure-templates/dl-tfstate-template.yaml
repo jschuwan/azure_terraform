@@ -4,7 +4,8 @@ parameters:
   directory: ''
 
 steps:
-  - script: 'echo ${{ parameters.branchName }} + {{ parameters.directory }}'
+  - script: 'echo ${{ parameters.branchName }}'
+  - script: 'echo {{ parameters.directory }}'
 # - task: DownloadPipelineArtifact@2
 #   enabled: ${{ parameters.enabled }}
 #   inputs:
