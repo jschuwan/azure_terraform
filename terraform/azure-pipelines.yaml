@@ -14,8 +14,8 @@ stages:
     steps:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
-        branchName: $(branch)
-        directory: $(terraformDirectory)
+        branchName: '$(branch)'
+        directory: '$(terraformDirectory)'
 
     - task: TerraformCLI@0
       inputs:
