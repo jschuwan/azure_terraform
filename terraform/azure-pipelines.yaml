@@ -19,7 +19,7 @@ stages:
         definition: '149'
         buildVersionToDownload: 'latestFromBranch'
         branchName: 'refs/heads/pipeline-import-test'
-        itemPattern: 'terraform.tfstate'
+        itemPattern: 'tf_state/terraform.tfstate'
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
         
     - script: 'mv $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate ../'
