@@ -12,7 +12,7 @@ stages:
   jobs:
   - job: init
     steps:
-    - template: $(System.DefaultWorkingDirectory)/templates/dl-tfstate-template.yaml
+    - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         branchName: $(branch)
         directory: $(terraformDirectory)
