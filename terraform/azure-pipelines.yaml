@@ -10,7 +10,6 @@ stages:
     steps:
 
     # This task should only be run if NOT first run.
-    # If previous build failed, then it will not get passed init task.
     - task: DownloadPipelineArtifact@2
       enabled: true
       inputs:
