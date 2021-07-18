@@ -23,5 +23,5 @@ steps:
 
 - script: 'cp ${{ parameters.directory }}/tf_state/terraform.tfstate ${{ parameters.directory }}'
   enabled: ${{ parameters.enabled }}
-  workingDirectory: ${{ parameters.directory }}
+  workingDirectory: '${{ parameters.directory }}'
   displayName: Move tfstate to WD

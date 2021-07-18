@@ -4,8 +4,8 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  terraformDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-  branch: 'pipeline-templates'
+  terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
+  branch: pipeline-templates
 
 stages:
 - stage: Terraform
