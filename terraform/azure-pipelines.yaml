@@ -19,7 +19,6 @@ stages:
         definition: '149'
         buildVersionToDownload: 'latestFromBranch'
         branchName: 'refs/heads/pipeline-import-test'
-        itemPattern: 'tf_state/terraform.tfstate'
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
 
     - script: 'ls $(System.DefaultWorkingDirectory)/terraform'
@@ -27,13 +26,10 @@ stages:
     - script: 'ls $(System.DefaultWorkingDirectory)/terraform/tf_state/'
       enabled: true  
 
-    - script: 'cp $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate ../'
+    - script: 'cp $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate $(System.DefaultWorkingDirectory)/terraform/'
       enabled: true
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       displayName: Move tfstate
-    
-    - script: 'ls $(System.DefaultWorkingDirectory)/terraform/tf_state/'
-      enabled: true
 
     - script: 'ls $(System.DefaultWorkingDirectory)/terraform'
 
