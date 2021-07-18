@@ -12,14 +12,14 @@ stages:
     # This task should only be run if NOT first run.
     # If previous build failed, then it will not get passed init task.
     - task: DownloadPipelineArtifact@2
-      enabled: true
+      enabled: false
       inputs:
         buildType: 'specific'
         project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
         definition: '149'
         buildVersionToDownload: 'latestFromBranch'
         branchName: 'refs/heads/pipeline-import-test'
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate/terraform.tfstate'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
         
 
     - task: TerraformCLI@0
