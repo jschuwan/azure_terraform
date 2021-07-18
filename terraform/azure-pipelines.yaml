@@ -12,6 +12,7 @@ stages:
   jobs:
   - job: init
     steps:
+    - script: 'echo $(terraformDirectory) + $(branch)'
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         branchName: $(branch)
