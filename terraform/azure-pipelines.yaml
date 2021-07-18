@@ -62,16 +62,20 @@ stages:
 # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: false
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: false
 
 # Delete the first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: false
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: false
 
 # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
