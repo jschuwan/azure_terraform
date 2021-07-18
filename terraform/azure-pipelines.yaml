@@ -23,6 +23,13 @@ stages:
         
     - script: 'mv $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate ../'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      displayName: Move tfstate
+    
+    - script: 'ls .'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+    - script: 'cat terraform.tfstate'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
     - task: TerraformCLI@0
       inputs:
