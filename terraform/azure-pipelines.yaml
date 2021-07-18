@@ -12,7 +12,7 @@ stages:
     # This task should only be run if NOT first run.
     # If previous build failed, then it will not get passed init task.
     - task: DownloadPipelineArtifact@2
-      enabled: false
+      enabled: true
       inputs:
         buildType: 'specific'
         project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
@@ -22,19 +22,19 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
         
     - script: 'mv $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate ../'
-      enabled: false
+      enabled: true
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       displayName: Move tfstate
     
     - script: 'ls .'
-      enabled: false
+      enabled: true
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/tf_state/'
 
     - script: 'ls .'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
     - script: 'cat terraform.tfstate'
-      enabled: false
+      enabled: true
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
     - task: TerraformCLI@0
