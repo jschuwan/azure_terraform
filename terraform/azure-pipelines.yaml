@@ -21,7 +21,12 @@ stages:
         branchName: 'refs/heads/pipeline-import-test'
         itemPattern: 'tf_state/terraform.tfstate'
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
-        
+
+    - script: 'ls $(System.DefaultWorkingDirectory)/terraform'
+    
+    - script: 'ls $(System.DefaultWorkingDirectory)/terraform/tf_state/'
+      enabled: true  
+
     - script: 'mv $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate ../'
       enabled: true
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
