@@ -10,6 +10,7 @@ stages:
     steps:
 
     # This task should only be run if NOT first run.
+#============= Template this ==========================================
     - task: DownloadPipelineArtifact@2
       enabled: true
       inputs:
@@ -24,6 +25,7 @@ stages:
       enabled: true
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       displayName: Move tfstate to WD
+# ======================================================================
 
     - task: TerraformCLI@0
       inputs:
@@ -57,8 +59,38 @@ stages:
         allowTelemetryCollection: true
       displayName: "Apply"
 
+# Output kubeconfig details into file
+    - script: "terraform output kube_config_dev >> may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+    - script: "terraform output kube_config_staging >> may24_devops_config_staging"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+# Delete the first and last lines of dev/staging config file
+    - script: "sed -i '1d;$d' may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+    - script: "sed -i '1d;$d' may24_devops_config_staging"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+# Publish the kubeconfig files as artifacts
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
+        artifact: 'may24_devops_config_dev'
+        publishLocation: 'pipeline'
+      displayName: Publish dev kubeconfig
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
+        artifact: 'may24_devops_config_staging'
+        publishLocation: 'pipeline'
+      displayName: Publish staging kubeconfig
+
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
         artifact: 'tf_state'
         publishLocation: 'pipeline'
+      displayName: Publish state file
