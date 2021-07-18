@@ -19,7 +19,7 @@ stages:
         definition: '149'
         buildVersionToDownload: 'latestFromBranch'
         branchName: 'refs/heads/pipeline-import-test'
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate/terraform.tfstate'
         
 
     - task: TerraformCLI@0
@@ -57,5 +57,5 @@ stages:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
-        artifact: 'terraform.tfstate'
+        artifact: 'tf_state'
         publishLocation: 'pipeline'
