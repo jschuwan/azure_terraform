@@ -77,14 +77,14 @@ stages:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
-        artifact: 'may24_devops_config_dev'
+        artifact: 'kubeconfig_dev'
         publishLocation: 'pipeline'
       displayName: Publish dev kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
-        artifact: 'may24_devops_config_staging'
+        artifact: 'kubeconfig_staging'
         publishLocation: 'pipeline'
       displayName: Publish staging kubeconfig
 
