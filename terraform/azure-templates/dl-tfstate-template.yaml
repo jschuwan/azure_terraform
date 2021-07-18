@@ -10,7 +10,8 @@ parameters:
 - name: 'directory'
   type: string
 
-- job:
+jobs:
+- job: DL-state
   steps:
     - task: DownloadPipelineArtifact@2
       enabled: ${{ parameters.enabled }}
