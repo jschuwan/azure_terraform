@@ -1,14 +1,7 @@
 parameters:
-- name: branchName
-  type: string
-  default: 'master'
-
-- name: enabled
-  type: boolean
-  default: true
-
-- name: directory
-  type: string
+  enabled: true
+  branchName: ''
+  directory: ''
 
 steps:
 - task: DownloadPipelineArtifact@2
