@@ -1,8 +1,3 @@
-# variable "serviceprinciple_id" {}
-# variable "subscription_id" {}
-# variable "serviceprinciple_key" {}
-# variable "tenant_id" {}
-
 variable "resource_group" {
 # Replace with your own values if this is used as a template
     type = map

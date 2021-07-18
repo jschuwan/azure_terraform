@@ -1,17 +1,32 @@
+trigger: none
+
 pool:
   vmImage: ubuntu-latest
 
-#variables:
-  # subscription: $(moonjun_subscription)
-  # subscription: $(revature_subscription)
-
-
-# Currently using Moonjun's subscription
 stages:
 - stage: Terraform
   jobs:
   - job: init
     steps:
+
+    # This task should only be run if NOT first run.
+#============= Template this ==========================================
+    - task: DownloadPipelineArtifact@2
+      enabled: true
+      inputs:
+        buildType: 'specific'
+        project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
+        definition: '149'
+        buildVersionToDownload: 'latestFromBranch'
+        branchName: 'refs/heads/pipeline-import-test'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
+
+    - script: 'cp $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate $(System.DefaultWorkingDirectory)/terraform/'
+      enabled: true
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      displayName: Move tfstate to WD
+# ======================================================================
+
     - task: TerraformCLI@0
       inputs:
         command: 'init'
@@ -35,72 +50,51 @@ stages:
         allowTelemetryCollection: true
       displayName: "Plan"
 
-# Below will probably be changed.
-# Needs to be commented out on the first run. Probably a better way of doing this.
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'import'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    #     environmentServiceName: $(subscription)
-    #     allowTelemetryCollection: true
-    #     resourceAddress: 'azurerm_resource_group.may24_devops'
-    #     resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)'
-    #   displayName: "Import resource group"
-
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'import'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    #     environmentServiceName: $(subscription)
-    #     allowTelemetryCollection: true
-    #     resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_dev'
-    #     resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_dev'
-    #   displayName: "Import dev cluster"
-
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'import'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    #     environmentServiceName: $(subscription)
-    #     allowTelemetryCollection: true
-    #     resourceAddress: 'azurerm_kubernetes_cluster.may24_devops_staging'
-    #     resourceId: '/subscriptions/$(sub-id)/resourceGroups/$(rg-name)/managedClusters/may24_devops_aks_staging'
-    #   displayName: "Import staging cluster"
-# Above will probably be changed.
-
     - task: TerraformCLI@0
-      enabled: false
+      enabled: true
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         allowTelemetryCollection: true
       displayName: "Apply"
-        
+
 # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
 # Delete the first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-
+      enabled: true
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
 # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
-        artifact: 'may24_devops_config_dev'
+        artifact: 'kubeconfig_dev'
         publishLocation: 'pipeline'
+      displayName: Publish dev kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
-        artifact: 'may24_devops_config_staging'
+        artifact: 'kubeconfig_staging'
         publishLocation: 'pipeline'
+      displayName: Publish staging kubeconfig
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
+        artifact: 'tf_state'
+        publishLocation: 'pipeline'
+      displayName: Publish state file

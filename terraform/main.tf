@@ -29,12 +29,6 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         #enable_auto_scaling = false
     }
 
-# Can be used with Service principal for my own Azure Service but how for Nick's?
-    // service_principal {
-    //   client_id     = var.appId
-    //   client_secret = var.password
-    // }
-
     role_based_access_control {
       enabled = true
     }
@@ -63,10 +57,6 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         vm_size             = "Standard_DS2_v2"
         #enable_auto_scaling = false
     }
-    // service_principal {
-    //   client_id     = var.appId
-    //   client_secret = var.password
-    // }
 
     role_based_access_control {
       enabled = true
