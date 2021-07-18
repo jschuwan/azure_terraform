@@ -11,7 +11,7 @@ stages:
 
     # This task should only be run if NOT first run.
     - task: DownloadPipelineArtifact@2
-      enabled: false
+      enabled: true
       inputs:
         buildType: 'specific'
         project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
