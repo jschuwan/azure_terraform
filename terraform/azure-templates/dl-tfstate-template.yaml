@@ -1,5 +1,5 @@
 parameters:
-  enabled: true
+  enabled: false
   branchName: ''
   directory: ''
 
