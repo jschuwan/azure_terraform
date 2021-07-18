@@ -3,29 +3,19 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  terraformDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+  branch: 'pipeline-templates'
+
 stages:
 - stage: Terraform
   jobs:
   - job: init
     steps:
-
-    # This task should only be run if NOT first run.
-#============= Template this ==========================================
-    - task: DownloadPipelineArtifact@2
-      enabled: true
-      inputs:
-        buildType: 'specific'
-        project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
-        definition: '149'
-        buildVersionToDownload: 'latestFromBranch'
-        branchName: 'refs/heads/pipeline-import-test'
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
-
-    - script: 'cp $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate $(System.DefaultWorkingDirectory)/terraform/'
-      enabled: true
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      displayName: Move tfstate to WD
-# ======================================================================
+    - template: templates/dl-tfstate-template.yaml
+      parameters:
+        branchName: $(branch)
+        directory: $(terraformDirectory)
 
     - task: TerraformCLI@0
       inputs:

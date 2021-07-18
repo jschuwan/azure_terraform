@@ -1,0 +1,32 @@
+parameters:
+- name: 'branchName'
+  type: string
+  default: 'master'
+
+- name: 'enabled'
+  type: boolean
+  default: true
+
+- name: 'directory'
+  type: string
+
+
+jobs:
+- job:
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - task: DownloadPipelineArtifact@2
+    enabled: ${{ parameters.enabled }}
+    inputs:
+      buildType: 'specific'
+      project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
+      definition: '149'
+      buildVersionToDownload: 'latestFromBranch'
+      branchName: 'refs/heads/${{ parameters.branchName }}' # pipeline-import-test
+      targetPath: ${{ parameters.directory }}
+
+  - script: 'cp ${{ parameters.directory }}/tf_state/terraform.tfstate ${{ parameters.directory }}'
+    enabled: ${{ parameters.enabled }}
+    workingDirectory: ${{ parameters.directory }}
+    displayName: Move tfstate to WD
