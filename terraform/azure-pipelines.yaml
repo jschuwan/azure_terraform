@@ -19,7 +19,7 @@ stages:
         definition: '149'
         buildVersionToDownload: 'latestFromBranch'
         branchName: 'refs/heads/pipeline-import-test'
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
         
 
     - task: TerraformCLI@0
