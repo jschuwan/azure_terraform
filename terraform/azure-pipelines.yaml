@@ -18,74 +18,74 @@ stages:
         branchName: $(branch)
         directory: $(terraformDirectory)
 
-#     - task: TerraformCLI@0
-#       inputs:
-#         command: 'init'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#         allowTelemetryCollection: true
-#       displayName: "init"
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        allowTelemetryCollection: true
+      displayName: "init"
 
-#     - task: TerraformCLI@0
-#       enabled: true
-#       inputs:
-#         command: 'validate'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#         allowTelemetryCollection: true
-#       displayName: "Validate"
+    - task: TerraformCLI@0
+      enabled: true
+      inputs:
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        allowTelemetryCollection: true
+      displayName: "Validate"
 
-#     - task: TerraformCLI@0
-#       inputs:
-#         command: 'plan'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#         environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
-#         allowTelemetryCollection: true
-#       displayName: "Plan"
+    - task: TerraformCLI@0
+      inputs:
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        allowTelemetryCollection: true
+      displayName: "Plan"
 
-#     - task: TerraformCLI@0
-#       enabled: true
-#       inputs:
-#         command: 'apply'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#         environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
-#         allowTelemetryCollection: true
-#       displayName: "Apply"
+    - task: TerraformCLI@0
+      enabled: true
+      inputs:
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        allowTelemetryCollection: true
+      displayName: "Apply"
 
-# # Output kubeconfig details into file
-#     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#       enabled: true
+# Output kubeconfig details into file
+    - script: "terraform output kube_config_dev >> may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
-#     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#       enabled: true
+    - script: "terraform output kube_config_staging >> may24_devops_config_staging"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
-# # Delete the first and last lines of dev/staging config file
-#     - script: "sed -i '1d;$d' may24_devops_config_dev"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#       enabled: true
+# Delete the first and last lines of dev/staging config file
+    - script: "sed -i '1d;$d' may24_devops_config_dev"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
-#     - script: "sed -i '1d;$d' may24_devops_config_staging"
-#       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-#       enabled: true
+    - script: "sed -i '1d;$d' may24_devops_config_staging"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      enabled: true
 
-# # Publish the kubeconfig files as artifacts
-#     - task: PublishPipelineArtifact@1
-#       inputs:
-#         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
-#         artifact: 'kubeconfig_dev'
-#         publishLocation: 'pipeline'
-#       displayName: Publish dev kubeconfig
+# Publish the kubeconfig files as artifacts
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
+        artifact: 'kubeconfig_dev'
+        publishLocation: 'pipeline'
+      displayName: Publish dev kubeconfig
 
-#     - task: PublishPipelineArtifact@1
-#       inputs:
-#         targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
-#         artifact: 'kubeconfig_staging'
-#         publishLocation: 'pipeline'
-#       displayName: Publish staging kubeconfig
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
+        artifact: 'kubeconfig_staging'
+        publishLocation: 'pipeline'
+      displayName: Publish staging kubeconfig
 
-#     - task: PublishPipelineArtifact@1
-#       inputs:
-#         targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
-#         artifact: 'tf_state'
-#         publishLocation: 'pipeline'
-#       displayName: Publish state file
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
+        artifact: 'tf_state'
+        publishLocation: 'pipeline'
+      displayName: Publish state file
