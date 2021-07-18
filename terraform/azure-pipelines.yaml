@@ -26,6 +26,9 @@ stages:
       displayName: Move tfstate
     
     - script: 'ls .'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/tf_state/'
+
+    - script: 'ls .'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
     - script: 'cat terraform.tfstate'
