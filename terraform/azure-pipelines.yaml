@@ -22,6 +22,7 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
         
     - script: 'mv $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate ../'
+      enabled: false
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       displayName: Move tfstate
     
