@@ -16,7 +16,7 @@ stages:
   - job: TFBuild
     steps:
     - script: 'echo $(terraformDirectory) + $(branch)'
-      displayName: RetrieveTFState
+      displayName: Retrieve TF State
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         branchName: $(branch)
@@ -27,7 +27,7 @@ stages:
         command: 'init'
         workingDirectory: 'terraform'
         allowTelemetryCollection: true
-      displayName: "init"
+      displayName: "TF Init"
 
     - task: TerraformCLI@0
       enabled: true
@@ -35,7 +35,7 @@ stages:
         command: 'validate'
         workingDirectory: 'terraform'
         allowTelemetryCollection: true
-      displayName: "Validate"
+      displayName: "TF Validate"
 
     - task: TerraformCLI@0
       inputs:
@@ -43,7 +43,7 @@ stages:
         workingDirectory: 'terraform'
         environmentServiceName: $(may24_devops_subscription)
         allowTelemetryCollection: true
-      displayName: "Plan"
+      displayName: "TF Plan"
 
     - task: TerraformCLI@0
       enabled: 'true'
@@ -52,29 +52,27 @@ stages:
         workingDirectory: 'terraform'
         environmentServiceName: $(may24_devops_subscription)
         allowTelemetryCollection: true
-      displayName: "Apply"
+      displayName: "TF Apply"
 
-  # Output kubeconfig details into file
-  - job: PersistKubeConfig
-    dependsOn: PlanAndApply
-    steps:
+    # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
       workingDirectory: 'terraform'
+      displayName: Save kubeconfig dev
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
       workingDirectory: 'terraform'
+      displayName: Save kubeconfig staging
 
     # Delete EOD output from first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
       workingDirectory: 'terraform'
+      displayName: Format kubeconfig dev
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
       workingDirectory: 'terraform'
+      displayName: Format kubeconfig staging
 
     # Publish the kubeconfig files as artifacts
-  - job: PublishArtifact
-    dependsOn: PersistKubeConfig
-    steps:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: 'terraform/may24_devops_config_dev'
