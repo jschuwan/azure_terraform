@@ -13,9 +13,10 @@ variables:
 stages:
 - stage: Terraform
   jobs:
-  - job: InitializeAndValidate
+  - job: TFBuild
     steps:
     - script: 'echo $(terraformDirectory) + $(branch)'
+      displayName: RetrieveTFState
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         branchName: $(branch)
@@ -36,9 +37,6 @@ stages:
         allowTelemetryCollection: true
       displayName: "Validate"
 
-  - job: PlanAndApply
-    dependsOn: InitializeAndValidate
-    steps:
     - task: TerraformCLI@0
       inputs:
         command: 'plan'
