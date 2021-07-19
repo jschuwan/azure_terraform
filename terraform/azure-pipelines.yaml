@@ -13,7 +13,7 @@ variables:
 stages:
 - stage: Terraform
   jobs:
-  - job: init
+  - job: InitializeAndValidate
     steps:
     - script: 'echo $(terraformDirectory) + $(branch)'
     - template: azure-templates/dl-tfstate-template.yaml
@@ -36,6 +36,9 @@ stages:
         allowTelemetryCollection: true
       displayName: "Validate"
 
+  - job: PlanAndApply
+    dependsOn: InitializeAndValidate
+    steps:
     - task: TerraformCLI@0
       inputs:
         command: 'plan'
@@ -53,7 +56,10 @@ stages:
         allowTelemetryCollection: true
       displayName: "Apply"
 
-    # Output kubeconfig details into file
+  # Output kubeconfig details into file
+  - job: PersistKubeConfig
+    dependsOn: PlanAndApply
+    steps:
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
       workingDirectory: 'terraform'
 
@@ -68,6 +74,9 @@ stages:
       workingDirectory: 'terraform'
 
     # Publish the kubeconfig files as artifacts
+  - job: PublishArtifact
+    dependsOn: PersistKubeConfig
+    steps:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: 'terraform/may24_devops_config_dev'
