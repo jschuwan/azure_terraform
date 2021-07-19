@@ -4,6 +4,10 @@ terraform {
             source  = "hashicorp/azurerm"
             version = "=2.60.0"
         }
+         kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.3.2"
+        }
     }
 }
 
@@ -14,6 +18,20 @@ provider "azurerm" {
 resource "azurerm_resource_group" "may24_devops" {
     name        = var.resource_group["name"]
     location    = var.resource_group["location"]
+}
+
+resource "azurerm_container_registry" "may24_devops_registry" {
+    name                = var.container_registry["name"]
+    location            = azurerm_resource_group.may24_devops.location
+    resource_group_name = azurerm_resource_group.may24_devops.name
+    sku                 = "Standard"
+
+
+  tags = {
+        Group                   = "DevOps"
+        ContactBeforeDelete     = "Nick Escalona"
+        CreatedDate             = timestamp()
+  }  
 }
 
 resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
@@ -41,7 +59,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         Group                   = "DevOps"
         Environment             = "dev"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
+        CreatedDate             = timestamp()
     }
 }
 
@@ -70,7 +88,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         Group                   = "DevOps"
         Environment             = "staging"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
+        CreatedDate             = timestamp()
     }
 }
 
@@ -84,19 +102,33 @@ output "kube_config_staging" {
     sensitive = true
 }
 
-# terraform output configure
-# Probably want this in a separate outputs.tf file?
-output "configure" {
-    value = <<CONFIGURE
+provider "kubernetes" {
+  host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
+  username               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.username}"
+  password               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.password}"
+  client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}"
+  client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
+}
 
-Run the following commands to configure the kubernetes client:
-
-terraform output kube_config_dev > ~/.kube/may24_devops_config_dev
-terraform output kube_config_staging > ~/.kube/may24_devops_config_staging
-export KUBECONFIG=~/.kube/may24_devops_config
-
-Test configuration using kubectl:
-
-kubectl get nodes
-CONFIGURE
+resource "kubernetes_limit_range" "may24_devops" {
+  metadata {
+    name = "may24-dev-resource-limits"
+  }
+  spec {
+    limit {
+      type = "Pod"
+      max = {
+        cpu    = "1000m"
+        memory = "1024Mi"
+      }
+    }
+    limit {
+      type = "Container"
+      default = {
+        cpu    = "1000m"
+        memory = "1024Mi"
+      }
+    }
+  }
 }

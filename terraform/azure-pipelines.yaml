@@ -1,103 +1,114 @@
-trigger: none
+trigger:
+- master
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
+<<<<<<< HEAD
   subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+=======
+  terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
+  branch: master
+  # may24_devops_subsription: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
+  may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+>>>>>>> pipeline-templates
 
 stages:
 - stage: Terraform
   jobs:
-  - job: init
+  - job: TFBuild
     steps:
-
-    # This task should only be run if NOT first run.
-#============= Template this ==========================================
     - task: DownloadPipelineArtifact@2
       enabled: true
       inputs:
         buildType: 'specific'
         project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
         definition: '149'
-        buildVersionToDownload: 'latestFromBranch'
-        branchName: 'refs/heads/pipeline-import-test'
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
-
-    - script: 'cp $(System.DefaultWorkingDirectory)/terraform/tf_state/terraform.tfstate $(System.DefaultWorkingDirectory)/terraform/'
-      enabled: true
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      displayName: Move tfstate to WD
-# ======================================================================
+        buildVersionToDownload: 'specific'
+        pipelineId: '5590'
+        artifactName: 'tf_state'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform'
+      displayName: download previous tfstate 
 
     - task: TerraformCLI@0
       inputs:
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        workingDirectory: 'terraform'
         allowTelemetryCollection: true
-      displayName: "init"
+      displayName: "TF Init"
 
     - task: TerraformCLI@0
       enabled: true
       inputs:
         command: 'validate'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        workingDirectory: 'terraform'
         allowTelemetryCollection: true
-      displayName: "Validate"
+      displayName: "TF Validate"
 
     - task: TerraformCLI@0
       inputs:
         command: 'plan'
+<<<<<<< HEAD
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: $(subscription)
+=======
+        workingDirectory: 'terraform'
+        environmentServiceName: $(may24_devops_subscription)
+>>>>>>> pipeline-templates
         allowTelemetryCollection: true
-      displayName: "Plan"
+      displayName: "TF Plan"
 
     - task: TerraformCLI@0
-      enabled: true
+      enabled: 'true'
       inputs:
         command: 'apply'
+<<<<<<< HEAD
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: $(subscription)
+=======
+        workingDirectory: 'terraform'
+        environmentServiceName: $(may24_devops_subscription)
+>>>>>>> pipeline-templates
         allowTelemetryCollection: true
-      displayName: "Apply"
+      displayName: "TF Apply"
 
-# Output kubeconfig details into file
+    # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      displayName: Save kubeconfig dev
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      displayName: Save kubeconfig staging
 
-# Delete the first and last lines of dev/staging config file
+    # Delete EOD output from first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      displayName: Format kubeconfig dev
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      displayName: Format kubeconfig staging
 
-# Publish the kubeconfig files as artifacts
+    # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
+        targetPath: 'terraform/may24_devops_config_dev'
         artifact: 'kubeconfig_dev'
         publishLocation: 'pipeline'
       displayName: Publish dev kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
+        targetPath: 'terraform/may24_devops_config_staging'
         artifact: 'kubeconfig_staging'
         publishLocation: 'pipeline'
       displayName: Publish staging kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
+        targetPath: 'terraform/terraform.tfstate'
         artifact: 'tf_state'
         publishLocation: 'pipeline'
       displayName: Publish state file
