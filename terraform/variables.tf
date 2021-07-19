@@ -19,7 +19,7 @@ variable "kubernetes_cluster_dev" {
     default = {
         "name"              = "may24_devops_aks_dev"
         "dns_prefix"        = "may24-devops-dev"
-        "node_count"        = 3
+        "node_count"        = 1
         "node_pool_name"    = "development"
     }
 }
@@ -29,7 +29,7 @@ variable "kubernetes_cluster_staging" {
     default = {
         "name"              = "may24_devops_aks_staging"
         "dns_prefix"        = "may24-devops-staging"
-        "node_count"        = 3
+        "node_count"        = 0
         "node_pool_name"    = "staging"        
     }
 }

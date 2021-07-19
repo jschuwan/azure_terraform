@@ -117,21 +117,15 @@ resource "kubernetes_limit_range" "may24_devops" {
     limit {
       type = "Pod"
       max = {
-        cpu    = "2000m"
-        memory = "2048Mi"
-      }
-    }
-    limit {
-      type = "PersistentVolumeClaim"
-      min = {
-        storage = "24M"
+        cpu    = "200m"
+        memory = "512Mi"
       }
     }
     limit {
       type = "Container"
       default = {
-        cpu    = "1000m"
-        memory = "1024Mi"
+        cpu    = "500m"
+        memory = "512Mi"
       }
     }
   }
