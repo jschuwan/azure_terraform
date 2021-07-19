@@ -7,6 +7,7 @@ pool:
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   branch: master
+  may24_devops_subsription: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
 
 stages:
 - stage: Terraform
@@ -22,7 +23,7 @@ stages:
     - task: TerraformCLI@0
       inputs:
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        workingDirectory: 'terraform'
         allowTelemetryCollection: true
       displayName: "init"
 
@@ -30,63 +31,63 @@ stages:
       enabled: true
       inputs:
         command: 'validate'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        workingDirectory: 'terraform'
         allowTelemetryCollection: true
       displayName: "Validate"
 
     - task: TerraformCLI@0
       inputs:
         command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
+        workingDirectory: 'terraform'
+        environmentServiceName: $(may24_devops_subscription)
         allowTelemetryCollection: true
       displayName: "Plan"
 
     - task: TerraformCLI@0
-      enabled: true
+      enabled: 'true'
       inputs:
         command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
+        workingDirectory: 'terraform'
+        environmentServiceName: $(may24_devops_subscription)
         allowTelemetryCollection: true
       displayName: "Apply"
 
-# Output kubeconfig details into file
+    # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      enabled: 'true'
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      enabled: 'true'
 
-# Delete the first and last lines of dev/staging config file
+    # Delete the first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      enabled: 'true'
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      enabled: true
+      workingDirectory: 'terraform'
+      enabled: 'true'
 
-# Publish the kubeconfig files as artifacts
+    # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_dev'
+        targetPath: 'terraform/may24_devops_config_dev'
         artifact: 'kubeconfig_dev'
         publishLocation: 'pipeline'
       displayName: Publish dev kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/may24_devops_config_staging'
+        targetPath: 'terraform/may24_devops_config_staging'
         artifact: 'kubeconfig_staging'
         publishLocation: 'pipeline'
       displayName: Publish staging kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/terraform.tfstate'
+        targetPath: 'terraform/terraform.tfstate'
         artifact: 'tf_state'
         publishLocation: 'pipeline'
       displayName: Publish state file
