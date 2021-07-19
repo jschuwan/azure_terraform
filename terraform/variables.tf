@@ -10,7 +10,7 @@ variable "resource_group" {
 variable "container_registry" {
     type = map
     default = {
-        "name"              = "may24DevOpsAcr"
+        "name" = "may24DevOpsAcr"
     }                  
 }
 

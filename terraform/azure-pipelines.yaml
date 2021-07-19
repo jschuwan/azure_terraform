@@ -15,15 +15,9 @@ stages:
   jobs:
   - job: TFBuild
     steps:
-    - task: DownloadPipelineArtifact@2
-      enabled: true
-      inputs:
-        buildType: 'specific'
-        project: '$(System.TeamProject)'
-        definition: '$(System.DefinitionId)'
-        buildVersionToDownload: 'latest'
-        artifactName: 'tf_state'
-        targetPath: '$(terraformDirectory)'
+    - template: azure-templates/dl-tfstate-template.yaml
+      parameters:
+        directory: $(terraformDirectory)
       displayName: download previous tfstate 
 
     - task: TerraformCLI@0
