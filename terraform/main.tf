@@ -87,6 +87,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         Environment             = "staging"
         ContactBeforeDelete     = "Nick Escalona"
         CreatedDate             = timestamp()
+    }
 }
 
 output "kube_config_dev" {
