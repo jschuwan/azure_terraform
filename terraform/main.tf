@@ -4,6 +4,10 @@ terraform {
             source  = "hashicorp/azurerm"
             version = "=2.60.0"
         }
+         kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.3.2"
+        }
     }
 }
 
@@ -95,19 +99,39 @@ output "kube_config_staging" {
     sensitive = true
 }
 
-# terraform output configure
-# Probably want this in a separate outputs.tf file?
-output "configure" {
-    value = <<CONFIGURE
+provider "kubernetes" {
+#   host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
+#   username               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.username}"
+#   password               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.password}"
+  client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}"
+  client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
+}
 
-Run the following commands to configure the kubernetes client:
-
-terraform output kube_config_dev > ~/.kube/may24_devops_config_dev
-terraform output kube_config_staging > ~/.kube/may24_devops_config_staging
-export KUBECONFIG=~/.kube/may24_devops_config
-
-Test configuration using kubectl:
-
-kubectl get nodes
-CONFIGURE
+resource "kubernetes_limit_range" "may24_devops" {
+  metadata {
+    name = "may24_dev_resource_limits"
+  }
+  spec {
+    limit {
+      type = "Pod"
+      max = {
+        cpu    = "1000m"
+        memory = "2048Mi"
+      }
+    }
+    limit {
+      type = "PersistentVolumeClaim"
+      min = {
+        storage = "24M"
+      }
+    }
+    limit {
+      type = "Container"
+      default = {
+        cpu    = "500m"
+        memory = "1024Mi"
+      }
+    }
+  }
 }

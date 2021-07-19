@@ -55,20 +55,16 @@ stages:
     # Output kubeconfig details into file
     - script: "terraform output kube_config_dev >> may24_devops_config_dev"
       workingDirectory: 'terraform'
-      enabled: 'true'
 
     - script: "terraform output kube_config_staging >> may24_devops_config_staging"
       workingDirectory: 'terraform'
-      enabled: 'true'
 
     # Delete EOD output from first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
       workingDirectory: 'terraform'
-      enabled: 'true'
 
     - script: "sed -i '1d;$d' may24_devops_config_staging"
       workingDirectory: 'terraform'
-      enabled: 'true'
 
     # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
