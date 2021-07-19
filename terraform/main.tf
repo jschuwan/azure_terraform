@@ -24,7 +24,7 @@ resource "azurerm_container_registry" "may24_devops_registry" {
   tags = {
         Group                   = "DevOps"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
+        CreatedDate             = timestamp()
   }  
 }
 
@@ -53,7 +53,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         Group                   = "DevOps"
         Environment             = "dev"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
+        CreatedDate             = timestamp()
     }
 }
 
@@ -82,8 +82,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         Group                   = "DevOps"
         Environment             = "staging"
         ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
-    }
+        CreatedDate             = timestamp()
 }
 
 output "kube_config_dev" {

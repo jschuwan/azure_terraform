@@ -61,7 +61,7 @@ stages:
       workingDirectory: 'terraform'
       enabled: 'true'
 
-    # Delete the first and last lines of dev/staging config file
+    # Delete EOD output from first and last lines of dev/staging config file
     - script: "sed -i '1d;$d' may24_devops_config_dev"
       workingDirectory: 'terraform'
       enabled: 'true'
