@@ -58,6 +58,8 @@ stages:
       displayName: Save kubeconfig staging
 
     # Delete EOD output from first and last lines of dev/staging config file
+    # terraform output includes unnecessary text at beginning and last lines of file
+    # so this needs to be removed.
     - script: "sed -i '1d;$d' may24_devops_config_dev"
       workingDirectory: 'terraform'
       displayName: Format kubeconfig dev
@@ -71,19 +73,16 @@ stages:
       inputs:
         targetPath: 'terraform/may24_devops_config_dev'
         artifact: 'kubeconfig_dev'
-        publishLocation: 'pipeline'
       displayName: Publish dev kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: 'terraform/may24_devops_config_staging'
         artifact: 'kubeconfig_staging'
-        publishLocation: 'pipeline'
       displayName: Publish staging kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: 'terraform/terraform.tfstate'
         artifact: 'tf_state'
-        publishLocation: 'pipeline'
       displayName: Publish state file
