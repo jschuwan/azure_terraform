@@ -29,7 +29,7 @@ variable "kubernetes_cluster_staging" {
     default = {
         "name"              = "may24_devops_aks_staging"
         "dns_prefix"        = "may24-devops-staging"
-        "node_count"        = 0
+        "node_count"        = 1
         "node_pool_name"    = "staging"        
     }
 }

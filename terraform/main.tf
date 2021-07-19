@@ -62,6 +62,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
 }
 
 resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
+    node_count          = 0
     name                = var.kubernetes_cluster_staging["name"]
     location            = azurerm_resource_group.may24_devops.location
     resource_group_name = azurerm_resource_group.may24_devops.name
@@ -101,9 +102,9 @@ output "kube_config_staging" {
 }
 
 provider "kubernetes" {
-#   host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
-#   username               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.username}"
-#   password               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.password}"
+  host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
+  username               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.username}"
+  password               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.password}"
   client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}"
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}"
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
@@ -117,7 +118,7 @@ resource "kubernetes_limit_range" "may24_devops" {
     limit {
       type = "Pod"
       max = {
-        cpu    = "200m"
+        cpu    = "500m"
         memory = "512Mi"
       }
     }
