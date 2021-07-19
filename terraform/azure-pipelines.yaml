@@ -1,11 +1,12 @@
-trigger: none
+trigger:
+- master
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  branch: pipeline-templates
+  branch: master
 
 stages:
 - stage: Terraform
@@ -37,7 +38,7 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
       displayName: "Plan"
 
@@ -46,7 +47,7 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        environmentServiceName: 'Azure subscription 1(5198ab11-bed1-4a17-9205-df35c05f87b9)'
         allowTelemetryCollection: true
       displayName: "Apply"
 
