@@ -117,15 +117,15 @@ resource "kubernetes_limit_range" "may24_devops" {
     limit {
       type = "Pod"
       max = {
-        cpu    = "500m"
-        memory = "512Mi"
+        cpu    = "1000m"
+        memory = "1024Mi"
       }
     }
     limit {
       type = "Container"
       default = {
-        cpu    = "500m"
-        memory = "512Mi"
+        cpu    = "1000m"
+        memory = "1024Mi"
       }
     }
   }
