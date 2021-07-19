@@ -15,12 +15,22 @@ stages:
   jobs:
   - job: TFBuild
     steps:
-    - script: 'echo $(terraformDirectory) + $(branch)'
-      displayName: Retrieve TF State
-    - template: azure-templates/dl-tfstate-template.yaml
-      parameters:
-        branchName: $(branch)
-        directory: $(terraformDirectory)
+    - task: DownloadPipelineArtifact@2
+      enabled: true
+      inputs:
+        buildType: 'specific'
+        project: '$(System.TeamProject)'
+        definition: '$(System.TeamProjectId)'
+        buildVersionToDownload: 'latestFromBranch'
+        branchName: '$(Build.SourceBranch)'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform'
+      displayName: download previous tfstate 
+    # - script: 'echo $(terraformDirectory) + $(branch)'
+    #   displayName: Retrieve TF State
+    # - template: azure-templates/dl-tfstate-template.yaml
+    #   parameters:
+    #     branchName: $(branch)
+    #     directory: $(terraformDirectory)
 
     - task: TerraformCLI@0
       inputs:
