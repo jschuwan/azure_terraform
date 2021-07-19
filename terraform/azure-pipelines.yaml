@@ -17,7 +17,6 @@ stages:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
-      displayName: download previous tfstate 
 
     - task: TerraformCLI@0
       inputs:
