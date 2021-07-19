@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "may24_devops" {
 }
 
 resource "azurerm_container_registry" "may24_devops_registry" {
-  name                  = var.container_registry["name"]
+    name                = var.container_registry["name"]
     location            = azurerm_resource_group.may24_devops.location
     resource_group_name = azurerm_resource_group.may24_devops.name
 
