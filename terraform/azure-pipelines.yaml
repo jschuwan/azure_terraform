@@ -19,10 +19,11 @@ stages:
       enabled: true
       inputs:
         buildType: 'specific'
-        project: '$(System.TeamProject)'
-        definition: '$(System.TeamProjectId)'
-        buildVersionToDownload: 'latestFromBranch'
-        branchName: '$(Build.SourceBranch)'
+        project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
+        definition: '149'
+        buildVersionToDownload: 'specific'
+        pipelineId: '5590'
+        artifactName: 'tf_state'
         targetPath: '$(System.DefaultWorkingDirectory)/terraform'
       displayName: download previous tfstate 
     # - script: 'echo $(terraformDirectory) + $(branch)'
