@@ -111,7 +111,7 @@ provider "kubernetes" {
 
 resource "kubernetes_limit_range" "may24_devops" {
   metadata {
-    name = "may24_dev_resource_limits"
+    name = "may24-dev-resource-limits"
   }
   spec {
     limit {
