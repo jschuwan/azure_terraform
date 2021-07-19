@@ -26,12 +26,6 @@ stages:
         artifactName: 'tf_state'
         targetPath: '$(System.DefaultWorkingDirectory)/terraform'
       displayName: download previous tfstate 
-    # - script: 'echo $(terraformDirectory) + $(branch)'
-    #   displayName: Retrieve TF State
-    # - template: azure-templates/dl-tfstate-template.yaml
-    #   parameters:
-    #     branchName: $(branch)
-    #     directory: $(terraformDirectory)
 
     - task: TerraformCLI@0
       inputs:
