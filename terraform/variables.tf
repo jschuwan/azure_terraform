@@ -7,6 +7,13 @@ variable "resource_group" {
     }
 }
 
+variable "container_registry" {
+    type = map
+    default = {
+        "name"              = "may24_devops_acr"
+    }                  
+}
+
 variable "kubernetes_cluster_dev" {
     type = map
     default = {

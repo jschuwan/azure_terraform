@@ -16,6 +16,18 @@ resource "azurerm_resource_group" "may24_devops" {
     location    = var.resource_group["location"]
 }
 
+resource "azurerm_container_registry" "may24_devops_registry" {
+  name                  = var.container_registry["name"]
+    location            = azurerm_resource_group.may24_devops.location
+    resource_group_name = azurerm_resource_group.may24_devops.name
+
+  tags = {
+        Group                   = "DevOps"
+        ContactBeforeDelete     = "Nick Escalona"
+        CreatedDate             = "2021-7-16"
+  }  
+}
+
 resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
     name                = var.kubernetes_cluster_dev["name"]
     location            = azurerm_resource_group.may24_devops.location
