@@ -49,7 +49,7 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: '$(subscription)'
+        environmentServiceName: $(subscription)
         allowTelemetryCollection: true
       displayName: "Plan"
 
@@ -58,7 +58,7 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: '$(subscription)'
+        environmentServiceName: $(subscription)
         allowTelemetryCollection: true
       displayName: "Apply"
 
