@@ -19,12 +19,11 @@ stages:
       enabled: true
       inputs:
         buildType: 'specific'
-        project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
-        definition: '149'
-        buildVersionToDownload: 'specific'
-        pipelineId: '5590'
+        project: '$(System.TeamProject)'
+        definition: '$(System.DefinitionId)'
+        buildVersionToDownload: 'latest'
         artifactName: 'tf_state'
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform'
+        targetPath: '$(terraformDirectory)'
       displayName: download previous tfstate 
 
     - task: TerraformCLI@0
