@@ -14,4 +14,4 @@ steps:
     buildVersionToDownload: 'latest'
     artifactName: 'tf_state'
     targetPath: '${{ parameters.directory }}'
-  displayName: download previous tfstate 
+  displayName: Download previous tfstate 
