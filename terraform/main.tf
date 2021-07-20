@@ -142,7 +142,7 @@ resource "kubernetes_limit_range" "may24_devops_dev_t1" {
   provider = kubernetes.dev
   metadata {
     name = "may24-dev-resource-limits-t1"
-    namespace = kubernetes_namespace.may24_devops_dev_t1.id
+    namespace = kubernetes_namespace.may24_devops_dev_t1.metadata.name
   }
   spec {
     limit {
@@ -159,7 +159,7 @@ resource "kubernetes_limit_range" "may24_devops_dev_t2" {
   provider = kubernetes.dev
   metadata {
     name = "may24-dev-resource-limits-t2"
-    namespace = kubernetes_namespace.may24_devops_dev_t2.id
+    namespace = kubernetes_namespace.may24_devops_dev_t2.metadata.name
   }
   spec {
     limit {
@@ -176,7 +176,7 @@ resource "kubernetes_limit_range" "may24_devops_dev_t3" {
   provider = kubernetes.dev
   metadata {
     name = "may24-dev-resource-limits-t3"
-    namespace = kubernetes_namespace.may24_devops_dev_t3.id
+    namespace = kubernetes_namespace.may24_devops_dev_t3.metadata.name
   }
   spec {
     limit {
@@ -229,7 +229,7 @@ resource "kubernetes_limit_range" "may24_devops_staging_t1" {
   provider = kubernetes.staging
   metadata {
     name = "may24-dev-resource-limits-t1"
-    namespace = kubernetes_namespace.may24_devops_staging_t1.id
+    namespace = kubernetes_namespace.may24_devops_staging_t1.metadata.name
   }
   spec {
     limit {
@@ -246,7 +246,7 @@ resource "kubernetes_limit_range" "may24_devops_staging_t2" {
   provider = kubernetes.staging
   metadata {
     name = "may24-dev-resource-limits-t2"
-    namespace = kubernetes_namespace.may24_devops_staging_t2.id
+    namespace = kubernetes_namespace.may24_devops_staging_t2.metadata.name
   }
   spec {
     limit {
@@ -263,7 +263,7 @@ resource "kubernetes_limit_range" "may24_devops_staging_t3" {
   provider = kubernetes.staging
   metadata {
     name = "may24-dev-resource-limits-t3"
-    namespace = kubernetes_namespace.may24_devops_staging_t3.id
+    namespace = kubernetes_namespace.may24_devops_staging_t3.metadata.name
   }
   spec {
     limit {
