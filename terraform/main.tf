@@ -145,10 +145,10 @@ resource "kubernetes_limit_range" "may24_devops_dev" {
   }
   spec {
     limit {
-      type = "Namespace"
+      type = "Pod"
       max = {
-        cpu    = "5000m"
-        memory = "5120Mi"
+        cpu    = "1000m"
+        memory = "1024Mi"
       }
     }
   }
@@ -194,12 +194,12 @@ resource "kubernetes_limit_range" "may24_devops_staging" {
   metadata {
     name = "may24-staging-resource-limits"
   }
-  spec {
+   spec {
     limit {
-      type = "Namespace"
+      type = "Pod"
       max = {
-        cpu    = "5000m"
-        memory = "5120Mi"
+        cpu    = "1000m"
+        memory = "1024Mi"
       }
     }
   }
