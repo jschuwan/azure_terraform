@@ -12,7 +12,7 @@ steps:
     project: '$(System.TeamProject)'
     definition: '$(System.DefinitionId)'
     buildVersionToDownload: 'specific'
-    pipelineId: '5848'
+    pipelineId: '5839'
     artifactName: 'tf_state'
     targetPath: '${{ parameters.directory }}'
   displayName: Download previous tfstate 
