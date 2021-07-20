@@ -8,9 +8,11 @@ variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   # may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
   may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 stages:
-- stage: Terraform
+- stage: Plan
+  displayName: 'Terraform Plan'
   jobs:
   - job: TFBuild
     steps:
@@ -41,6 +43,12 @@ stages:
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
+- stage:
+  condition: and(succeeded(), eq(variables.isMaster, true))
+  jobs:
+  - job: Apply
+    displayName: 'TF apply and outputs'
+    steps:
     - task: TerraformCLI@0
       inputs:
         command: 'apply'
