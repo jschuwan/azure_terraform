@@ -102,6 +102,7 @@ output "kube_config_staging" {
 }
 
 provider "kubernetes" {
+  alias                  = "dev"
   host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
   client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}"
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}"
@@ -149,6 +150,7 @@ resource "kubernetes_limit_range" "may24_devops_dev" {
 }
 
 provider "kubernetes" {
+  alias                  = "staging"
   host                   = "${azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.host}"
   client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_certificate)}"
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}"
