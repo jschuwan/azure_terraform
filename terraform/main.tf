@@ -108,23 +108,41 @@ provider "kubernetes" {
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
 }
 
+resource "kubernetes_namespace" "may24_devops_dev" {
+  metadata {
+    labels = {
+      group = "may24-dev"
+    }
+    name = "team1"
+  }
+}
+resource "kubernetes_namespace" "may24_devops_dev" {
+  metadata {
+    labels = {
+      group = "may24-dev"
+    }
+    name = "team2"
+  }
+}
+resource "kubernetes_namespace" "may24_devops_dev" {
+  metadata {
+    labels = {
+      group = "may24-dev"
+    }
+    name = "team3"
+  }
+}
+
 resource "kubernetes_limit_range" "may24_devops_dev" {
   metadata {
     name = "may24-dev-resource-limits"
   }
   spec {
     limit {
-      type = "Pod"
+      type = "Namespace"
       max = {
-        cpu    = "1000m"
-        memory = "1024Mi"
-      }
-    }
-    limit {
-      type = "Container"
-      default = {
-        cpu    = "1000m"
-        memory = "1024Mi"
+        cpu    = "5000m"
+        memory = "5120Mi"
       }
     }
   }
@@ -136,6 +154,30 @@ provider "kubernetes" {
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}"
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
 }
+resource "kubernetes_namespace" "may24_devops_staging" {
+  metadata {
+    labels = {
+      group = "may24-staging"
+    }
+    name = "team1"
+  }
+}
+resource "kubernetes_namespace" "may24_devops_staging" {
+  metadata {
+    labels = {
+      group = "may24-staging"
+    }
+    name = "team2"
+  }
+}
+resource "kubernetes_namespace" "may24_devops_staging" {
+  metadata {
+    labels = {
+      group = "may24-staging"
+    }
+    name = "team3"
+  }
+}
 
 resource "kubernetes_limit_range" "may24_devops_staging" {
   metadata {
@@ -143,17 +185,10 @@ resource "kubernetes_limit_range" "may24_devops_staging" {
   }
   spec {
     limit {
-      type = "Pod"
+      type = "Namespace"
       max = {
-        cpu    = "1000m"
-        memory = "1048Mi"
-      }
-    }
-    limit {
-      type = "Container"
-      default = {
-        cpu    = "1000m"
-        memory = "1024Mi"
+        cpu    = "5000m"
+        memory = "5120Mi"
       }
     }
   }
