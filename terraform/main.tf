@@ -108,7 +108,7 @@ provider "kubernetes" {
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
 }
 
-resource "kubernetes_namespace" "may24_devops_dev" {
+resource "kubernetes_namespace" "may24_devops_dev_t1" {
   metadata {
     labels = {
       group = "may24-dev"
@@ -116,7 +116,7 @@ resource "kubernetes_namespace" "may24_devops_dev" {
     name = "team1"
   }
 }
-resource "kubernetes_namespace" "may24_devops_dev" {
+resource "kubernetes_namespace" "may24_devops_dev_t2" {
   metadata {
     labels = {
       group = "may24-dev"
@@ -124,7 +124,7 @@ resource "kubernetes_namespace" "may24_devops_dev" {
     name = "team2"
   }
 }
-resource "kubernetes_namespace" "may24_devops_dev" {
+resource "kubernetes_namespace" "may24_devops_dev_t3" {
   metadata {
     labels = {
       group = "may24-dev"
@@ -154,7 +154,7 @@ provider "kubernetes" {
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}"
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
 }
-resource "kubernetes_namespace" "may24_devops_staging" {
+resource "kubernetes_namespace" "may24_devops_staging_t1" {
   metadata {
     labels = {
       group = "may24-staging"
@@ -162,7 +162,7 @@ resource "kubernetes_namespace" "may24_devops_staging" {
     name = "team1"
   }
 }
-resource "kubernetes_namespace" "may24_devops_staging" {
+resource "kubernetes_namespace" "may24_devops_staging_t2" {
   metadata {
     labels = {
       group = "may24-staging"
@@ -170,7 +170,7 @@ resource "kubernetes_namespace" "may24_devops_staging" {
     name = "team2"
   }
 }
-resource "kubernetes_namespace" "may24_devops_staging" {
+resource "kubernetes_namespace" "may24_devops_staging_t3" {
   metadata {
     labels = {
       group = "may24-staging"
