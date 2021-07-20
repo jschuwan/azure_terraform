@@ -7,6 +7,7 @@ terraform {
          kubernetes = {
             source = "hashicorp/kubernetes"
             version = "2.3.2"
+            configuration_aliases = [ kubernetes.dev, kubernetes.staging ]
         }
     }
 }
@@ -117,7 +118,6 @@ resource "kubernetes_namespace" "may24_devops_dev_t1" {
     name = "team1"
   }
 }
-
 resource "kubernetes_namespace" "may24_devops_dev_t2" {
   metadata {
     labels = {
@@ -126,7 +126,6 @@ resource "kubernetes_namespace" "may24_devops_dev_t2" {
     name = "team2"
   }
 }
-
 resource "kubernetes_namespace" "may24_devops_dev_t3" {
   metadata {
     labels = {
@@ -158,7 +157,6 @@ provider "kubernetes" {
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}"
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
 }
-
 resource "kubernetes_namespace" "may24_devops_staging_t1" {
   metadata {
     labels = {
@@ -167,7 +165,6 @@ resource "kubernetes_namespace" "may24_devops_staging_t1" {
     name = "team1"
   }
 }
-
 resource "kubernetes_namespace" "may24_devops_staging_t2" {
   metadata {
     labels = {
@@ -176,7 +173,6 @@ resource "kubernetes_namespace" "may24_devops_staging_t2" {
     name = "team2"
   }
 }
-
 resource "kubernetes_namespace" "may24_devops_staging_t3" {
   metadata {
     labels = {
