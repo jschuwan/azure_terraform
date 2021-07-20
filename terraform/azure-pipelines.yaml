@@ -20,7 +20,7 @@ stages:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
-        enabled: false
+        enabled: true
 
     - task: TerraformCLI@0
       inputs:
@@ -54,7 +54,7 @@ stages:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
-        enabled: false    
+        enabled: true    
 
     - task: TerraformCLI@0
       inputs:
