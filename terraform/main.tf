@@ -4,7 +4,7 @@ terraform {
             source  = "hashicorp/azurerm"
             version = "=2.60.0"
         }
-         kubernetes = {
+        kubernetes = {
             source = "hashicorp/kubernetes"
             version = "2.3.2"
             configuration_aliases = [ kubernetes.dev, kubernetes.staging ]
@@ -138,57 +138,21 @@ resource "kubernetes_namespace" "may24_devops_dev_t3" {
   }
 }
 
-resource "kubernetes_limit_range" "may24_devops_dev_t1" {
+resource "kubernetes_limit_range" "may24_devops_dev" {
   provider = kubernetes.dev
   metadata {
-    name = "may24-dev-resource-limits-t1"
-    namespace = kubernetes_namespace.may24_devops_dev_t1.metadata.name
+    name = "may24-dev-resource-limits"
   }
   spec {
     limit {
-      type = "Namespace"
+      type = "Pod"
       max = {
-        cpu    = "2000m"
+        cpu    = "1000m"
         memory = "2048Mi"
       }
     }
   }
 }
-
-resource "kubernetes_limit_range" "may24_devops_dev_t2" {
-  provider = kubernetes.dev
-  metadata {
-    name = "may24-dev-resource-limits-t2"
-    namespace = kubernetes_namespace.may24_devops_dev_t2.metadata.name
-  }
-  spec {
-    limit {
-      type = "Namespace"
-      max = {
-        cpu    = "2000m"
-        memory = "2048Mi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_limit_range" "may24_devops_dev_t3" {
-  provider = kubernetes.dev
-  metadata {
-    name = "may24-dev-resource-limits-t3"
-    namespace = kubernetes_namespace.may24_devops_dev_t3.metadata.name
-  }
-  spec {
-    limit {
-      type = "Namespace"
-      max = {
-        cpu    = "2000m"
-        memory = "2048Mi"
-      }
-    }
-  }
-}
-
 
 provider "kubernetes" {
   alias                  = "staging"
@@ -225,51 +189,16 @@ resource "kubernetes_namespace" "may24_devops_staging_t3" {
   }
 }
 
-resource "kubernetes_limit_range" "may24_devops_staging_t1" {
+resource "kubernetes_limit_range" "may24_devops_staging" {
   provider = kubernetes.staging
   metadata {
-    name = "may24-dev-resource-limits-t1"
-    namespace = kubernetes_namespace.may24_devops_staging_t1.metadata.name
+    name = "may24-staging-resource-limits"
   }
-  spec {
+   spec {
     limit {
-      type = "Namespace"
+      type = "Pod"
       max = {
-        cpu    = "2000m"
-        memory = "2048Mi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_limit_range" "may24_devops_staging_t2" {
-  provider = kubernetes.staging
-  metadata {
-    name = "may24-dev-resource-limits-t2"
-    namespace = kubernetes_namespace.may24_devops_staging_t2.metadata.name
-  }
-  spec {
-    limit {
-      type = "Namespace"
-      max = {
-        cpu    = "2000m"
-        memory = "2048Mi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_limit_range" "may24_devops_staging_t3" {
-  provider = kubernetes.staging
-  metadata {
-    name = "may24-dev-resource-limits-t3"
-    namespace = kubernetes_namespace.may24_devops_staging_t3.metadata.name
-  }
-  spec {
-    limit {
-      type = "Namespace"
-      max = {
-        cpu    = "2000m"
+        cpu    = "1000m"
         memory = "2048Mi"
       }
     }
