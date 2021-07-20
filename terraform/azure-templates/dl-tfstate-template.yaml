@@ -1,8 +1,11 @@
 parameters:
   # Parameter to determine if tfstate needs too be downloaded from previous build
-  enabled: true
+- name: enabled
+  type: boolean
+  default: true
   # Parameter for copying tfstate to to correct location 
-  directory: ''
+- name: directory
+  type: string
 
 steps:
 - task: DownloadPipelineArtifact@2
@@ -11,8 +14,7 @@ steps:
     buildType: 'specific'
     project: '$(System.TeamProject)'
     definition: '$(System.DefinitionId)'
-    buildVersionToDownload: 'specific'
-    pipelineId: '5839'
+    buildVersionToDownload: 'latest'
     artifactName: 'tf_state'
     targetPath: '${{ parameters.directory }}'
   displayName: Download previous tfstate 
