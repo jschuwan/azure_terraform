@@ -26,12 +26,11 @@ resource "azurerm_container_registry" "may24_devops_registry" {
     resource_group_name = azurerm_resource_group.may24_devops.name
     sku                 = "Standard"
 
-
-  tags = {
-        Group                   = "DevOps"
-        ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = timestamp()
-  }  
+    tags = {
+          Group                   = "DevOps"
+          ContactBeforeDelete     = "Nick Escalona"
+          CreatedDate             = timestamp()
+    }  
 }
 
 resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
@@ -104,14 +103,12 @@ output "kube_config_staging" {
 
 provider "kubernetes" {
   host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
-  username               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.username}"
-  password               = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.password}"
   client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}"
   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}"
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
 }
 
-resource "kubernetes_limit_range" "may24_devops" {
+resource "kubernetes_limit_range" "may24_devops_dev" {
   metadata {
     name = "may24-dev-resource-limits"
   }
@@ -121,6 +118,35 @@ resource "kubernetes_limit_range" "may24_devops" {
       max = {
         cpu    = "1000m"
         memory = "1024Mi"
+      }
+    }
+    limit {
+      type = "Container"
+      default = {
+        cpu    = "1000m"
+        memory = "1024Mi"
+      }
+    }
+  }
+}
+
+provider "kubernetes" {
+  host                   = "${azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.host}"
+  client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_certificate)}"
+  client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
+}
+
+resource "kubernetes_limit_range" "may24_devops_staging" {
+  metadata {
+    name = "may24-staging-resource-limits"
+  }
+  spec {
+    limit {
+      type = "Pod"
+      max = {
+        cpu    = "1000m"
+        memory = "1048Mi"
       }
     }
     limit {
