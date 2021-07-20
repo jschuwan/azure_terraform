@@ -1,6 +1,7 @@
 trigger:
 - dummy-master
 
+
 pool:
   vmImage: ubuntu-latest
 
