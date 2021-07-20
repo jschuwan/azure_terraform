@@ -21,7 +21,7 @@ stages:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
-        enabled: $(dl_TFState)
+        enabled: '$(dl_TFState)'
 
     - task: TerraformCLI@0
       inputs:
