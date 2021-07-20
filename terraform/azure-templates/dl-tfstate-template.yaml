@@ -1,6 +1,6 @@
 parameters:
   # Parameter to determine if tfstate needs too be downloaded from previous build
-  enabled: True
+  enabled: true
   # Parameter for copying tfstate to to correct location 
   directory: ''
 
