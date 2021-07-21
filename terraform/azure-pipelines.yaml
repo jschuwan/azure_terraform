@@ -25,12 +25,20 @@ stages:
     #     enabled: false
     
 
-    - task: TerraformCLI@0
-      inputs:
-        command: 'init'
-        workingDirectory: 'terraform'
-        allowTelemetryCollection: true
-      displayName: "TF Init"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'init'
+    #     workingDirectory: 'terraform'
+    #     allowTelemetryCollection: true
+    #   displayName: "TF Init"
+    - bash: |
+        terraform init \
+          -backend-config="organization=$ORGANIZATION" \
+          -backend-config="token=$TF_USER_TOKEN"
+      env:
+        ORGANIZATION: $(p3-organization)
+        TF_USER_TOKEN: $(p3-tf-user-token)
+
 
     - task: TerraformCLI@0
       inputs:
