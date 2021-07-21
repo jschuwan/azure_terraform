@@ -43,7 +43,7 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: 'terraform'
-        environmentServiceName: $(may24_devops_subscription)
+        environmentServiceName: 'Matthew_azure_connection'
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
