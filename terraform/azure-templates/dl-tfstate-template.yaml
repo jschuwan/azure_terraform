@@ -7,14 +7,41 @@ parameters:
 - name: directory
   type: string
 
+- name: definitionId
+  type: string
+  default: '$(System.DefinitionId)'
+
+- name: buildVersionToDownload
+  type: string
+  default: 'latest'
+
+- name: pipelineId
+  type: string
+
 steps:
+  # Default task when previous runs have been successful.
 - task: DownloadPipelineArtifact@2
+  condition: eq('${{ parameters.buildVersionToDownload }}', 'latest')
   enabled: ${{ parameters.enabled }}
   inputs:
     buildType: 'specific'
     project: '$(System.TeamProject)'
     definition: '$(System.DefinitionId)'
-    buildVersionToDownload: 'latest'
+    buildVersionToDownload: '${{ parameters.buildVersionToDownload }}'
     artifactName: 'tf_state'
     targetPath: '${{ parameters.directory }}'
   displayName: Download previous tfstate 
+
+  # Run only if you need to get state file from a specific build.
+- task: DownloadPipelineArtifact@2
+  condition: eq('${{ parameters.buildVersionToDownload }}', 'specific')
+  enabled: ${{ parameters.enabled }}
+  inputs:
+    buildType: 'specific'
+    project: '$(System.TeamProject)'
+    definition: '$(System.DefinitionId)'
+    buildVersionToDownload: '${{ parameters.buildVersionToDownload }}'
+    pipelineId: '${{ parameters.pipelineId }}'
+    artifactName: 'tf_state'
+    targetPath: '${{ parameters.directory }}'
+  displayName: Download previous tfstate
