@@ -7,7 +7,7 @@ pool:
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   # may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+  may24_devops_subscription: "Matthew's Azure sub"
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/pipeline-prtest')]
 
 stages:
@@ -17,14 +17,13 @@ stages:
   - job: TFBuild
     steps:
 
-    - task: TerraformCLI@0
-      inputs:
-          command: 'login'
+    
 
-    - template: azure-templates/dl-tfstate-template.yaml
-      parameters:
-        directory: $(terraformDirectory)
-        enabled: false
+    # - template: azure-templates/dl-tfstate-template.yaml
+    #   parameters:
+    #     directory: $(terraformDirectory)
+    #     enabled: false
+    
 
     - task: TerraformCLI@0
       inputs:
