@@ -43,7 +43,7 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: 'terraform'
-        environmentServiceName: 'Matthew_azure_connection'
+        environmentServiceName: 'Azure subscription 1(755ec02e-87e0-467e-b134-3b50116e3828)'
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
@@ -70,7 +70,7 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: 'terraform'
-        environmentServiceName: $(may24_devops_subscription)
+        environmentServiceName: 'Azure subscription 1(755ec02e-87e0-467e-b134-3b50116e3828)'
         allowTelemetryCollection: true
       displayName: "TF Apply"
 
