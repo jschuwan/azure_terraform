@@ -25,6 +25,18 @@ stages:
            -backend-config="token=$(p3-tf-user-token)"'
         allowTelemetryCollection: true
       displayName: "TF Init"
+      # env:
+      #   ORGANIZATION: $(p3-organization)
+      #   TF_USER_TOKEN: $(p3-tf-user-token)
+        
+    # - bash: |
+    #     terraform init \
+    #       -backend-config="organization=$ORGANIZATION" \
+    #       -backend-config="token=$TF_USER_TOKEN"
+    #   env:
+    #     ORGANIZATION: $(p3-organization)
+    #     TF_USER_TOKEN: $(p3-tf-user-token)
+
 
     - task: TerraformCLI@0
       inputs:
