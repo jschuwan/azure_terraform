@@ -17,6 +17,10 @@ stages:
   - job: TFBuild
     steps:
 
+    - task: TerraformCLI@0
+      inputs:
+          command: 'login'
+
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
