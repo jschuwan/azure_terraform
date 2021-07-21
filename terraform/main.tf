@@ -72,7 +72,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         name                = var.kubernetes_cluster_staging["node_pool_name"]
         node_count          = var.kubernetes_cluster_staging["node_count"]
         vm_size             = "Standard_DS2_v2"
-        #enable_auto_scaling = false
+        
     }
 
     role_based_access_control {
