@@ -1,17 +1,27 @@
 terraform {
+
+    #backenstoage in terraform cloud 
+    backend "remote"{
+        organization = "may24_devops_p3"
+        token        = "5nQYNwLfbxMLHg.atlasv1.oKiOE2twkzYlT2m2fhqQPtbO3WffhBQyuKDWATvVyJcpyJT6ckhvWzJfMzZ27mymwj8"
+    
+
+      workspaces{
+          name = "project3-common"
+      }
+    }
     required_providers {
         azurerm = {
             source  = "hashicorp/azurerm"
             version = "=2.60.0"
         }
-        kubernetes = {
+         kubernetes = {
             source = "hashicorp/kubernetes"
             version = "2.3.2"
             configuration_aliases = [ kubernetes.dev, kubernetes.staging ]
         }
     }
 }
-
 provider "azurerm" {
     features {}
 }
