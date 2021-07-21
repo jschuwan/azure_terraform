@@ -22,7 +22,6 @@ terraform {
         }
     }
 }
-
 provider "azurerm" {
     features {}
 }
@@ -122,6 +121,7 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_namespace" "may24_devops_dev_t1" {
+  provider = kubernetes.dev
   metadata {
     labels = {
       group = "may24-dev"
@@ -130,6 +130,7 @@ resource "kubernetes_namespace" "may24_devops_dev_t1" {
   }
 }
 resource "kubernetes_namespace" "may24_devops_dev_t2" {
+  provider = kubernetes.dev
   metadata {
     labels = {
       group = "may24-dev"
@@ -138,6 +139,7 @@ resource "kubernetes_namespace" "may24_devops_dev_t2" {
   }
 }
 resource "kubernetes_namespace" "may24_devops_dev_t3" {
+  provider = kubernetes.dev
   metadata {
     labels = {
       group = "may24-dev"
@@ -146,17 +148,44 @@ resource "kubernetes_namespace" "may24_devops_dev_t3" {
   }
 }
 
-resource "kubernetes_limit_range" "may24_devops_dev" {
+resource "kubernetes_resource_quota" "may24_devops_dev_t1" {
+  provider = kubernetes.dev
   metadata {
-    name = "may24-dev-resource-limits"
+    name = "may24-dev-resource-limits-t1"
+    namespace = "team1"    
   }
   spec {
-    limit {
-      type = "Namespace"
-      max = {
-        cpu    = "5000m"
-        memory = "5120Mi"
-      }
+    hard = {
+      "limits.cpu" = 4
+      "limits.memory" = "6Gi"
+    }
+  }
+}
+
+resource "kubernetes_resource_quota" "may24_devops_dev_t2" {
+  provider = kubernetes.dev
+  metadata {
+    name = "may24-dev-resource-limits-t2"
+    namespace = "team2"    
+  }
+  spec {
+    hard = {
+      "limits.cpu" = 4
+      "limits.memory" = "6Gi"
+    }
+  }
+}
+
+resource "kubernetes_resource_quota" "may24_devops_dev_t3" {
+  provider = kubernetes.dev
+  metadata {
+    name = "may24-dev-resource-limits-t3"
+    namespace = "team3"    
+  }
+  spec {
+    hard = {
+      "limits.cpu" = 4
+      "limits.memory" = "6Gi"
     }
   }
 }
@@ -169,6 +198,7 @@ provider "kubernetes" {
   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
 }
 resource "kubernetes_namespace" "may24_devops_staging_t1" {
+  provider = kubernetes.staging
   metadata {
     labels = {
       group = "may24-staging"
@@ -177,6 +207,7 @@ resource "kubernetes_namespace" "may24_devops_staging_t1" {
   }
 }
 resource "kubernetes_namespace" "may24_devops_staging_t2" {
+  provider = kubernetes.staging
   metadata {
     labels = {
       group = "may24-staging"
@@ -185,6 +216,7 @@ resource "kubernetes_namespace" "may24_devops_staging_t2" {
   }
 }
 resource "kubernetes_namespace" "may24_devops_staging_t3" {
+  provider = kubernetes.staging
   metadata {
     labels = {
       group = "may24-staging"
@@ -193,17 +225,44 @@ resource "kubernetes_namespace" "may24_devops_staging_t3" {
   }
 }
 
-resource "kubernetes_limit_range" "may24_devops_staging" {
+resource "kubernetes_resource_quota" "may24_devops_staging_t1" {
+  provider = kubernetes.staging
   metadata {
-    name = "may24-staging-resource-limits"
+    name = "may24-staging-resource-limits-t1"
+    namespace = "team1"    
   }
   spec {
-    limit {
-      type = "Namespace"
-      max = {
-        cpu    = "5000m"
-        memory = "5120Mi"
-      }
+    hard = {
+      "limits.cpu" = 4
+      "limits.memory" = "6Gi"
+    }
+  }
+}
+
+resource "kubernetes_resource_quota" "may24_devops_staging_t2" {
+  provider = kubernetes.staging
+  metadata {
+    name = "may24-staging-resource-limits-t2"
+    namespace = "team2"    
+  }
+  spec {
+    hard = {
+      "limits.cpu" = 4
+      "limits.memory" = "6Gi"
+    }
+  }
+}
+
+resource "kubernetes_resource_quota" "may24_devops_staging_t3" {
+  provider = kubernetes.staging
+  metadata {
+    name = "may24-staging-resource-limits-t3"
+    namespace = "team3"    
+  }
+  spec {
+    hard = {
+      "limits.cpu" = 4
+      "limits.memory" = "6Gi"
     }
   }
 }
