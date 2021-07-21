@@ -1,10 +1,10 @@
 terraform {
 
-    #backenstoage in terraform cloud 
+    #backend stage in terraform cloud 
     backend "remote"{
-        organization = "may24_devops_p3"
-        token        = "5nQYNwLfbxMLHg.atlasv1.oKiOE2twkzYlT2m2fhqQPtbO3WffhBQyuKDWATvVyJcpyJT6ckhvWzJfMzZ27mymwj8"
-    
+        #organization = "may24_devops_p3"
+        #token        = "5nQYNwLfbxMLHg.atlasv1.oKiOE2twkzYlT2m2fhqQPtbO3WffhBQyuKDWATvVyJcpyJT6ckhvWzJfMzZ27mymwj8"
+        #token        = "0aOZ9DThWsGFWA.atlasv1.S5f0dBl1XATqxKd9xUR020nN2TsNbn9KuA5prfZxHRYj9u1ztFKqA4gLbhd7zjF8bkg"
 
       workspaces{
           name = "project3-common"
