@@ -44,6 +44,7 @@ stages:
         command: 'plan'
         workingDirectory: 'terraform'
         environmentServiceName: 'Matthew_azure_connection'
+        runAzLogin: true
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
@@ -71,6 +72,7 @@ stages:
         command: 'apply'
         workingDirectory: 'terraform'
         environmentServiceName: 'Matthew_azure_connection'
+        runAzLogin: true
         allowTelemetryCollection: true
       displayName: "TF Apply"
 
