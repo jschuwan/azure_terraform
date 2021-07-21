@@ -7,8 +7,8 @@ pool:
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   # may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  may24_devops_subscription: "Matthew's Azure sub"
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/pipeline-prtest')]
+  may24_devops_subscription: "Matthew_azure_connection"
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_terraformcloud')]
 
 stages:
 - stage: Plan
@@ -54,10 +54,10 @@ stages:
     displayName: 'TF apply and outputs'
     steps:
     
-    - template: azure-templates/dl-tfstate-template.yaml
-      parameters:
-        directory: $(terraformDirectory)
-        enabled: false    
+    # - template: azure-templates/dl-tfstate-template.yaml
+    #   parameters:
+    #     directory: $(terraformDirectory)
+    #     enabled: false    
 
     - task: TerraformCLI@0
       inputs:
