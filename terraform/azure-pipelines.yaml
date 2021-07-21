@@ -14,7 +14,7 @@ stages:
         azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az account show > output.txt'
+        inlineScript: 'az role assignment create --role Contributor > output.txt'
         addSpnToEnvironment: true
     - task: PublishPipelineArtifact@1
       inputs:
