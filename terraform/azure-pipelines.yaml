@@ -14,5 +14,10 @@ stages:
         azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az account show'
+        inlineScript: 'az account show > output.txt'
         addSpnToEnvironment: true
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/output.txt'
+        artifact: 'output'
+        publishLocation: 'pipeline'
