@@ -3,6 +3,7 @@ terraform {
     #backenstoage in terraform cloud 
     backend "remote"{
         organization = "may24_devops_p3"
+        token        = "5nQYNwLfbxMLHg.atlasv1.oKiOE2twkzYlT2m2fhqQPtbO3WffhBQyuKDWATvVyJcpyJT6ckhvWzJfMzZ27mymwj8"
     }
 
     workspaces{
