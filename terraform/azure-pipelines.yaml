@@ -8,6 +8,10 @@ parameters:
 - name: dl_TFState
   type: boolean
   default: false
+- name: buildVersion
+  type: string
+- name: pipelineId
+  type: string
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
@@ -26,6 +30,8 @@ stages:
       parameters:
         directory: $(terraformDirectory)
         enabled: ${{ parameters.dl_TFState }}
+        buildVersionToDownload: ${{ parameters.buildVersion }}
+        pipelineId: ${{ parameters.pipelineId }}
 
     - task: TerraformCLI@0
       inputs:
