@@ -1,16 +1,25 @@
-variable "resource_group" {
+variable "resource_group_dev" {
 # Replace with your own values if this is used as a template
     type = map
     default = {
-        "name"      = "may24_devops"
-        "location"  = "East US"
+        "name"      = "may24_devops_dev"
+        "location"  = "Central US"
+    }
+}
+
+variable "resource_group_staging" {
+# Replace with your own values if this is used as a template
+    type = map
+    default = {
+        "name"      = "may24_devops_staging"
+        "location"  = "South Central US"
     }
 }
 
 variable "container_registry" {
     type = map
     default = {
-        "name" = "may24DevOpsAcr"
+        "name" = "may24DevOpsContainers"
     }                  
 }
 
