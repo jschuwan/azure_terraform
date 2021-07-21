@@ -12,7 +12,6 @@ parameters:
 
 - name: buildVersionToDownload
   type: string
-  default: 'latest'
 
 - name: pipelineId
   type: string

@@ -8,10 +8,14 @@ parameters:
 - name: dl_TFState
   type: boolean
   default: false
+
 - name: buildVersion
   type: string
+  default: 'latest'
+
 - name: pipelineId
   type: string
+  default: '$(Build.BuildId)'
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
