@@ -1,4 +1,5 @@
-trigger: none
+trigger:
+- master
 
 pool:
   vmImage: ubuntu-latest
@@ -10,9 +11,8 @@ parameters:
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  # may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/pipeline-templates')]
+  may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 stages:
 - stage: Plan
