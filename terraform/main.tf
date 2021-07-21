@@ -30,6 +30,12 @@ resource "azurerm_container_registry" "may24_devops_registry" {
           Group                   = "DevOps"
           ContactBeforeDelete     = "Nick Escalona"
           CreatedDate             = timestamp()
+    }
+
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
     }  
 }
 
