@@ -1,8 +1,8 @@
 parameters:
-  # Parameter to determine if tfstate needs too be downloaded from previous build
+  # Parameter to determine if tfstate needs to be downloaded from previous build
 - name: enabled
   type: boolean
-  # Parameter for copying tfstate to to correct location 
+  # Parameter for copying tfstate to correct location 
 - name: directory
   type: string
 
