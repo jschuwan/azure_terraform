@@ -29,8 +29,6 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
-        secureVarsFile: '.auto.tfvars'
-        backendType: 'selfConfigured'
         allowTelemetryCollection: true
       displayName: "TF Init"
 
@@ -47,6 +45,7 @@ stages:
         workingDirectory: 'terraform'
         environmentServiceName: '$(may24_devops_subscription)'
         runAzLogin: true
+        secureVarsFile: '.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
