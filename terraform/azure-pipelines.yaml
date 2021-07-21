@@ -1,14 +1,18 @@
-trigger:
-- master
+trigger: none
 
 pool:
   vmImage: ubuntu-latest
+
+parameters:
+- name: dl_TFState
+  type: boolean
+  default: false
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   # may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
   may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature-resources')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/pipeline-templates')]
 
 stages:
 - stage: Plan
@@ -20,7 +24,7 @@ stages:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
-        enabled: false
+        enabled: ${{ parameters.dl_TFState }}
 
     - task: TerraformCLI@0
       inputs:
@@ -54,7 +58,7 @@ stages:
     - template: azure-templates/dl-tfstate-template.yaml
       parameters:
         directory: $(terraformDirectory)
-        enabled: false    
+        enabled: ${{ parameters.dl_TFState }}   
 
     - task: TerraformCLI@0
       inputs:

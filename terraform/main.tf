@@ -4,7 +4,7 @@ terraform {
             source  = "hashicorp/azurerm"
             version = "=2.60.0"
         }
-        kubernetes = {
+         kubernetes = {
             source = "hashicorp/kubernetes"
             version = "2.3.2"
             configuration_aliases = [ kubernetes.dev, kubernetes.staging ]
@@ -148,7 +148,7 @@ resource "kubernetes_limit_range" "may24_devops_dev" {
       type = "Pod"
       max = {
         cpu    = "1000m"
-        memory = "2048Mi"
+        memory = "1024Mi"
       }
     }
   }
@@ -199,7 +199,7 @@ resource "kubernetes_limit_range" "may24_devops_staging" {
       type = "Pod"
       max = {
         cpu    = "1000m"
-        memory = "2048Mi"
+        memory = "1024Mi"
       }
     }
   }
