@@ -9,15 +9,22 @@ stages:
   jobs:
   - job:
     steps:
-    - task: AzureCLI@2
+    - task: AzureCLI@1
       inputs:
         azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
-        scriptType: 'bash'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az role assignment create --assignee 9ac6672d-a04f-4d2f-9ece-41ab803743dc --role Contributor > output.txt'
-        addSpnToEnvironment: true
-    - task: PublishPipelineArtifact@1
+        inlineScript: |
+          az group create \
+            --name storage-resource-group \
+            --location westus
+    - task: AzureCLI@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/output.txt'
-        artifact: 'output'
-        publishLocation: 'pipeline'
+        azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage account create \
+            --name storagep3 \
+            --resource-group storage-resource-group \
+            --location westus \
+            --sku Standard_RAGRS \
+            --kind StorageV2
