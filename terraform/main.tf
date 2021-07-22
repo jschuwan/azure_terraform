@@ -60,7 +60,6 @@ resource "azurerm_kubernetes_cluster" "may24_devops" {
 output "kube_config" {
     count = "${length(var.kubernetes_clusters)}"
     value = azurerm_kubernetes_cluster.may24_devops[count.index].kube_config_raw
-    name  = "${lookup(var.kubernetes_clusters[count.index],"name")}"
     sensitive = true
 }
 module "kubernetes" {
