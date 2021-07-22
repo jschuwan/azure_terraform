@@ -7,7 +7,7 @@ pool:
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   #may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+  #may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_terraformcloud')]
 
 stages:
@@ -21,7 +21,6 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
-        commandOptions: 
         allowTelemetryCollection: true
       displayName: "TF Init"
       
@@ -38,8 +37,9 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: 'terraform'
-        environmentServiceName: '$(may24_devops_subscription)'
-        runAzLogin: true
+        environmentServiceName: 'test_connection'
+        secureVarsFile: 'p3.auto.tfvars'
+        commandOptions: '-tfvars'
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
@@ -61,8 +61,9 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: 'terraform'
-        environmentServiceName: '$(may24_devops_subscription)'
-        runAzLogin: true
+        environmentServiceName: 'test_connection'
+        secureVarsFile: 'p3.auto.tfvars'
+        commandOptions: '-tfvars'
         allowTelemetryCollection: true
       displayName: "TF Apply"
 
