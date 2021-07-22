@@ -38,7 +38,7 @@ stages:
         command: 'plan'
         workingDirectory: 'terraform'
         environmentServiceName: 'test_connection'
-        secureVarsFile: 'p3.auto.tfvars'
+        #secureVarsFile: 'p3.auto.tfvars'
         #commandOptions: '-var-file=p3.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Plan"
@@ -62,7 +62,7 @@ stages:
         command: 'apply'
         workingDirectory: 'terraform'
         environmentServiceName: 'test_connection'
-        secureVarsFile: 'p3.auto.tfvars'
+        #secureVarsFile: 'p3.auto.tfvars'
         #commandOptions: '-var-file=p3.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Apply"
