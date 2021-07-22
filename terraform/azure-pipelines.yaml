@@ -19,21 +19,21 @@ stages:
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
-        inlineScript: 'ls'
+        inlineScript: 'terraform -chdir=terraform/ init'
     
     - task: AzureCLI@1
-      enabled: false
+      enabled: true
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
-        inlineScript: 'terraform validate'
+        inlineScript: 'terraform -chdir=terraform/ validate'
     
     - task: AzureCLI@1
-      enabled: false
+      enabled: true
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
-        inlineScript: 'terraform plan'
+        inlineScript: 'terraform -chdir=terraform/ plan'
         
     # - task: TerraformCLI@0
     #   inputs:
