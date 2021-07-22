@@ -46,3 +46,15 @@ variable "kubernetes_cluster_staging" {
         "node_pool_name"    = "staging"        
     }
 }
+
+variable "org"{
+    type = string
+}
+
+variable "token" {
+    type = string
+}
+
+variable "workplace"{
+    type = string
+}
