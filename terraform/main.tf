@@ -18,6 +18,6 @@ module "azure" {
 module "kubernetes" {
   source = "./modules/kubernetes"
 
-  kubeconfig = module.azure.kube_config_0_dev
+  kube_config_0_dev = kubeconfig
 }
 
