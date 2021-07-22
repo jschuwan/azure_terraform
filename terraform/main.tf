@@ -12,8 +12,9 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "may24_devops" {
-    name        = var.resource_group_dev["name"]
-    location    = var.resource_group_dev["location"]
+    count     = "${length(var.resource_groups)}"
+    name      = "${lookup(var.resource_groups[count.index],"name")}"
+    location  = "${lookup(var.resource_groups[count.index],"location")}"
 }
 
 resource "azurerm_container_registry" "may24_devops_registry" {
@@ -29,15 +30,15 @@ resource "azurerm_container_registry" "may24_devops_registry" {
     }  
 }
 
-resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
-    name                = var.kubernetes_cluster_dev["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
-    dns_prefix          = var.kubernetes_cluster_dev["dns_prefix"]
-
+resource "azurerm_kubernetes_cluster" "may24_devops" {
+    count                   = "${length(var.kubernetes_clusters)}"
+    name                    = "${lookup(var.kubernetes_clusters[count.index],"name")}"
+    location                = "${lookup(var.resource_groups[count.index],"location")}"
+    resource_group_name     = "${lookup(var.resource_groups[count.index],"name")}"
+    dns_prefix              = "${lookup(var.kubernetes_clusters[count.index],"dns_prefix")}"
     default_node_pool {
-        name                = var.kubernetes_cluster_dev["node_pool_name"]
-        node_count          = var.kubernetes_cluster_dev["node_count"]
+        name                = "${lookup(var.kubernetes_clusters[count.index],"node_pool_name")}"
+        node_count          = "${lookup(var.kubernetes_clusters[count.index],"node_count")}"
         vm_size             = "Standard_DS2_v2"
     }
 
@@ -56,46 +57,12 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         CreatedDate             = timestamp()
     }
 }
-
-resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
-    name                = var.kubernetes_cluster_staging["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
-    dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"]
-
-    default_node_pool {
-        name                = var.kubernetes_cluster_staging["node_pool_name"]
-        node_count          = var.kubernetes_cluster_staging["node_count"]
-        vm_size             = "Standard_DS2_v2"
-        #enable_auto_scaling = false
-    }
-
-    role_based_access_control {
-      enabled = true
-    }
-
-    identity {
-        type = "SystemAssigned"
-    }
-
-    tags = {
-        Group                   = "DevOps"
-        Environment             = "staging"
-        ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = timestamp()
-    }
-}
-
-output "kube_config_dev" {
-    value = azurerm_kubernetes_cluster.may24_devops_dev.kube_config_raw
+output "kube_config" {
+    count = "${length(var.kubernetes_clusters)}"
+    value = azurerm_kubernetes_cluster.may24_devops[count.index].kube_config_raw
+    name  = "${lookup(var.kubernetes_clusters[count.index],"name")}"
     sensitive = true
 }
-
-output "kube_config_staging" {
-    value = azurerm_kubernetes_cluster.may24_devops_staging.kube_config_raw
-    sensitive = true
-}
-
 module "kubernetes" {
   source = "./modules/kubernetes"
   cluster_dev = { 
