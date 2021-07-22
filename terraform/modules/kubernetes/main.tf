@@ -6,7 +6,7 @@ provider "kubernetes" {
   cluster_ca_certificate = var.cluster_dev.ca_certificate
 }
 
-resource "kubernetes_namespace" "may24_devops_dev" {
+resource "kubernetes_namespace" "may24_devops" {
   provider = kubernetes.dev
   count = "${length(var.namespaces)}"
   metadata {
@@ -17,7 +17,7 @@ resource "kubernetes_namespace" "may24_devops_dev" {
   }
 }
 
-resource "kubernetes_resource_quota" "may24_devops_dev_t1" {
+resource "kubernetes_resource_quota" "may24_devops" {
   provider = kubernetes.dev
   count = "${length(var.namespaces)}"
   metadata {
