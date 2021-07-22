@@ -5,10 +5,10 @@ provider "kubernetes" {
   # client_key             = "${base64decode(var.module.azure.kube_config_dev.0.client_key)}"
   # cluster_ca_certificate = "${base64decode(var.module.azure.kube_config_dev.0.cluster_ca_certificate)}"
   alias                  = "dev"
-  host                   = "${kube_config.0.host}"
-  client_certificate     = "${base64decode(kube_config.0.client_certificate)}"
-  client_key             = "${base64decode(kube_config.0.client_key)}"
-  cluster_ca_certificate = "${base64decode(kube_config.0.cluster_ca_certificate)}"
+  host                   = "${kubeconfig.0.host}"
+  client_certificate     = "${base64decode(kubeconfig.0.client_certificate)}"
+  client_key             = "${base64decode(kubeconfig.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(kubeconfig.0.cluster_ca_certificate)}"
 }
 
 resource "kubernetes_namespace" "may24_devops_dev_t1" {
