@@ -5,10 +5,10 @@ provider "kubernetes" {
   # client_key             = "${base64decode(var.module.azure.kube_config_dev.0.client_key)}"
   # cluster_ca_certificate = "${base64decode(var.module.azure.kube_config_dev.0.cluster_ca_certificate)}"
   alias                  = "dev"
-  host                   = "${kube_config_0.0.host}"
-  client_certificate     = "${base64decode(kube_config_0.0.client_certificate)}"
-  client_key             = "${base64decode(kube_config_0.0.client_key)}"
-  cluster_ca_certificate = "${base64decode(kube_config_0.0.cluster_ca_certificate)}"
+  host                   = "${kube_config_0.host}"
+  client_certificate     = "${base64decode(kube_config_0.client_certificate)}"
+  client_key             = "${base64decode(kube_config_0.client_key)}"
+  cluster_ca_certificate = "${base64decode(kube_config_0.cluster_ca_certificate)}"
 }
 
 resource "kubernetes_namespace" "may24_devops_dev_t1" {
@@ -83,7 +83,7 @@ resource "kubernetes_resource_quota" "may24_devops_dev_t3" {
 
 # provider "kubernetes" {
 #   alias                  = "staging"
-#   host                   = "${azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.host}"
+#   host                   = "${azurerm_kubernetes_cluster.may24_devops_staging.kube_config.host}"
 #   client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_certificate)}"
 #   client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}"
 #   cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
