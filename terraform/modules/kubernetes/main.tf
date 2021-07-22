@@ -33,7 +33,7 @@ resource "kubernetes_resource_quota" "may24_devops_dev_t1" {
 }
 
 provider "kubernetes" {
-  alias                  = "dev"
+  alias                  = "staging"
   host                   = var.cluster_staging.host
   client_certificate     = var.cluster_staging.client_certificate
   client_key             = var.cluster_staging.client_key
