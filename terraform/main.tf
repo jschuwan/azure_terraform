@@ -19,8 +19,8 @@ resource "azurerm_resource_group" "may24_devops" {
 
 resource "azurerm_container_registry" "may24_devops_registry" {
     name                = var.container_registry["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
+    location            = azurerm_resource_group.may24_devops.0.location
+    resource_group_name = azurerm_resource_group.may24_devops.0.name
     sku                 = "Standard"
 
     tags = {
@@ -70,17 +70,17 @@ output "kube_config_staging" {
 module "kubernetes" {
   source = "./modules/kubernetes"
   cluster_dev = { 
-    "host"                = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}",
-    "client_certificate"  = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}",
-    "client_key"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}",
-    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
+    "host"                        = "${azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.host}",
+    "client_certificate"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.client_certificate)}",
+    "client_key"                  = "${base64decode(azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.client_key)}",
+    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.cluster_ca_certificate)}"
   }
 
   cluster_staging = { 
-    "host"                = "${azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.host}",
-    "client_certificate"  = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_certificate)}",
-    "client_key"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}",
-    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
+    "host"                        = "${azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.host}",
+    "client_certificate"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.client_certificate)}",
+    "client_key"                  = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.client_key)}",
+    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.cluster_ca_certificate)}"
   }
 }
 module "azuredevops" {
