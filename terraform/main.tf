@@ -13,10 +13,6 @@ terraform {
 
     #backend stage in azure storage 
     backend "azurerm"{
-      resource_group_name   = "storage-resource-group"
-      storage_account_name  = "storagep3mjc"
-      container_name        = "tf-state-file-container"
-      key                   = "terraform.tfstate"
     }
 }
 provider "azurerm" {
