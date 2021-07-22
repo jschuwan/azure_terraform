@@ -34,6 +34,12 @@ resource "azurerm_container_registry" "may24_devops_registry" {
           Group                   = "DevOps"
           ContactBeforeDelete     = "Nick Escalona"
           CreatedDate             = timestamp()
+    }
+
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
     }  
 }
 
@@ -47,7 +53,6 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         name                = var.kubernetes_cluster_dev["node_pool_name"]
         node_count          = var.kubernetes_cluster_dev["node_count"]
         vm_size             = "Standard_DS2_v2"
-        #enable_auto_scaling = false
     }
 
     role_based_access_control {
@@ -64,6 +69,12 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         ContactBeforeDelete     = "Nick Escalona"
         CreatedDate             = timestamp()
     }
+
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
+    }  
 }
 
 resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
@@ -93,6 +104,13 @@ resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
         ContactBeforeDelete     = "Nick Escalona"
         CreatedDate             = timestamp()
     }
+
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
+    }  
+    
 }
 
 output "kube_config_dev" {
