@@ -16,14 +16,19 @@ stages:
   jobs:
   - job: TFBuild
     steps:
-
+    - task: BatchScript@1
+      inputs:
+        filename: './tf_env.sh'
+        arguments: '$(p3-tf-team-token) $(p3-orgnization) $(p3-workspace)'
+        modifyEnvironment: true
+      displayName: Modify env variables for tf init
     - task: TerraformCLI@0
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
-        commandOptions: |
-          '-backend-config="organization=$(p3-organization)" 
-           -backend-config="token=$(p3-tf-user-token)"'
+        # commandOptions: |
+        #   '-backend-config="organization=$(p3-organization)" 
+        #    -backend-config="token=$(p3-tf-user-token)"'
         allowTelemetryCollection: true
       displayName: "TF Init"
       # env:
