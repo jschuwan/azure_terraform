@@ -7,7 +7,7 @@ variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   #may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
   may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_azure_storage')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_azure_storages')]
 
 stages:
 - stage: Plan
@@ -19,30 +19,42 @@ stages:
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az login'
+        inlineScript: 'terraform init'
+    
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'terraform validate'
+    
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'terraform plan'
         
-    - task: TerraformCLI@0
-      inputs:
-        command: 'init'
-        workingDirectory: 'terraform'
-        allowTelemetryCollection: true
-      displayName: "TF Init"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'init'
+    #     workingDirectory: 'terraform'
+    #     allowTelemetryCollection: true
+    #   displayName: "TF Init"
 
-    - task: TerraformCLI@0
-      inputs:
-        command: 'validate'
-        workingDirectory: 'terraform'
-        allowTelemetryCollection: true
-      displayName: "TF Validate"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'validate'
+    #     workingDirectory: 'terraform'
+    #     allowTelemetryCollection: true
+    #   displayName: "TF Validate"
 
-    - task: TerraformCLI@0
-      inputs:
-        command: 'plan'
-        workingDirectory: 'terraform'
-        environmentServiceName: '$(may24_devops_subscription)'
-        runAzLogin: true
-        allowTelemetryCollection: true
-      displayName: "TF Plan"
+    # - task: TerraformCLI@0
+    #   inputs:
+    #     command: 'plan'
+    #     workingDirectory: 'terraform'
+    #     environmentServiceName: '$(may24_devops_subscription)'
+    #     runAzLogin: true
+    #     allowTelemetryCollection: true
+    #   displayName: "TF Plan"
 
 - stage:
   condition: and(succeeded(), eq(variables.isMaster, true))
