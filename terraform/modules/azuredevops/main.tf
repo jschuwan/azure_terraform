@@ -13,3 +13,5 @@ resource "azuredevops_serviceendpoint_azurecr" "azurecr" {
   azurecr_subscription_id   = "5198ab11-bed1-4a17-9205-df35c05f87b9"
   azurecr_subscription_name = "Azure subscription 1"
 }
+
+# revtenant_id: 6b63e28a-a8f9-47b5-aa40-97e231215164
