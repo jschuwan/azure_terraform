@@ -19,15 +19,19 @@ stages:
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
-        inlineScript: 'terraform init'
+        inlineScript: |
+          ls \
+          pwd 
     
     - task: AzureCLI@1
+      enabled: false
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
         inlineScript: 'terraform validate'
     
     - task: AzureCLI@1
+      enabled: false
       inputs:
         azureSubscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
         scriptLocation: 'inlineScript'
