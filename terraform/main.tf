@@ -57,11 +57,16 @@ resource "azurerm_kubernetes_cluster" "may24_devops" {
         CreatedDate             = timestamp()
     }
 }
-output "kube_config" {
-    count = "${length(var.kubernetes_clusters)}"
-    value = azurerm_kubernetes_cluster.may24_devops[count.index].kube_config_raw
+output "kube_config_dev" {
+    value = azurerm_kubernetes_cluster.may24_devops.0.kube_config_raw
     sensitive = true
 }
+output "kube_config_staging" {
+    value = azurerm_kubernetes_cluster.may24_devops.1.kube_config_raw
+    sensitive = true
+}
+
+
 module "kubernetes" {
   source = "./modules/kubernetes"
   cluster_dev = { 
