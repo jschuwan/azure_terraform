@@ -19,7 +19,7 @@ variable "resource_quota" {
     default = {
             cpu     = 3,
             mem     = "6Gi"
-        }
+    }
 }
 
 ##### Variables referenced from main module
