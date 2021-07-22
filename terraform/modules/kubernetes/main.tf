@@ -3,7 +3,7 @@ provider "kubernetes" {
   host                   = var.cluster_dev.host
   client_certificate     = var.cluster_dev.client_certificate
   client_key             = var.cluster_dev.client_key
-  cluster_ca_certificate = var.cluster_dev.ca_certificate
+  cluster_ca_certificate = var.cluster_dev.cluster_ca_certificate
 }
 
 resource "kubernetes_namespace" "may24_devops_dev" {
@@ -37,7 +37,7 @@ provider "kubernetes" {
   host                   = var.cluster_staging.host
   client_certificate     = var.cluster_staging.client_certificate
   client_key             = var.cluster_staging.client_key
-  cluster_ca_certificate = var.cluster_staging.ca_certificate
+  cluster_ca_certificate = var.cluster_staging.cluster_ca_certificate
 }
 
 resource "kubernetes_namespace" "may24_devops_staging" {
