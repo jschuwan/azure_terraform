@@ -12,8 +12,8 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "may24_devops" {
-    name        = var.resource_group["name"]
-    location    = var.resource_group["location"]
+    name        = var.resource_group_dev["name"]
+    location    = var.resource_group_dev["location"]
 }
 
 resource "azurerm_container_registry" "may24_devops_registry" {
@@ -114,4 +114,7 @@ module "kubernetes" {
 }
 module "azuredevops" {
   source = "./modules/azuredevops"
+
+  resource_group = azurerm_resource_group.may24_devops.name
+  azurecr_name = azurerm_container_registry.may24_devops_registry.name    
 }
