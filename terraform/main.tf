@@ -23,13 +23,17 @@ resource "azurerm_container_registry" "may24_devops_registry" {
     resource_group_name = azurerm_resource_group.may24_devops.0.name
     sku                 = "Standard"
 
-    tags = {
-          Group                   = "DevOps"
-          ContactBeforeDelete     = "Nick Escalona"
-          CreatedDate             = timestamp()
+     tags = {
+        Group                   = var.resource_tags.group
+        ContactBeforeDelete     = var.resource_tags.contact
+        CreatedDate             = timestamp()
+    }
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
     }  
 }
-
 resource "azurerm_kubernetes_cluster" "may24_devops" {
     count                   = "${length(var.kubernetes_clusters)}"
     name                    = "${lookup(var.kubernetes_clusters[count.index],"name")}"
@@ -51,11 +55,16 @@ resource "azurerm_kubernetes_cluster" "may24_devops" {
     }
 
     tags = {
-        Group                   = "DevOps"
+        Group                   = var.resource_tags.group
         Environment             = "dev"
-        ContactBeforeDelete     = "Nick Escalona"
+        ContactBeforeDelete     = var.resource_tags.contact
         CreatedDate             = timestamp()
     }
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
+    }  
 }
 output "kube_config_dev" {
     value = azurerm_kubernetes_cluster.may24_devops.0.kube_config_raw

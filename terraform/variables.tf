@@ -36,3 +36,11 @@ variable "container_registry" {
         "name" = "may24DevOpsContainers"
     }                  
 }
+
+variable "resource_tags" {
+    type = map
+    default = {
+        group       = "DevOps"
+        contact     = "Nick Escalona"
+    }
+}
