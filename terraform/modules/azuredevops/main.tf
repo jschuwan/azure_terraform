@@ -15,3 +15,4 @@ resource "azuredevops_serviceendpoint_azurecr" "azurecr" {
 }
 
 # revtenant_id: 6b63e28a-a8f9-47b5-aa40-97e231215164
+

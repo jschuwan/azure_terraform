@@ -1,5 +1,5 @@
+# Manifest is configured 
 variable "resource_groups" {
-# Replace with your own values if this is used as a template
     type = list
     default = [
         {
@@ -13,7 +13,6 @@ variable "resource_groups" {
     ]
 }
 variable "kubernetes_clusters" {
-# Replace with your own values if this is used as a template
     type = list
     default = [
         {

@@ -23,11 +23,12 @@ resource "azurerm_container_registry" "may24_devops_registry" {
     resource_group_name = azurerm_resource_group.may24_devops.0.name
     sku                 = "Standard"
 
-     tags = {
-        Group                   = var.resource_tags.group
-        ContactBeforeDelete     = var.resource_tags.contact
-        CreatedDate             = timestamp()
+    tags = {
+      Group                   = var.resource_tags.group
+      ContactBeforeDelete     = var.resource_tags.contact
+      CreatedDate             = timestamp()
     }
+
     lifecycle {
       ignore_changes = [
         tags["CreatedDate"]
@@ -55,17 +56,18 @@ resource "azurerm_kubernetes_cluster" "may24_devops" {
     }
 
     tags = {
-        Group                   = var.resource_tags.group
-        Environment             = "dev"
-        ContactBeforeDelete     = var.resource_tags.contact
-        CreatedDate             = timestamp()
+      Group                   = var.resource_tags.group
+      ContactBeforeDelete     = var.resource_tags.contact
+      CreatedDate             = timestamp()
     }
+    
     lifecycle {
       ignore_changes = [
         tags["CreatedDate"]
       ]
     }  
 }
+
 output "kube_config_dev" {
     value = azurerm_kubernetes_cluster.may24_devops.0.kube_config_raw
     sensitive = true
@@ -74,7 +76,6 @@ output "kube_config_staging" {
     value = azurerm_kubernetes_cluster.may24_devops.1.kube_config_raw
     sensitive = true
 }
-
 
 module "kubernetes" {
   source = "./modules/kubernetes"
