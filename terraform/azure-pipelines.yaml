@@ -7,7 +7,7 @@ pool:
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_terraformcloud')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 stages:
 - stage: Plan
