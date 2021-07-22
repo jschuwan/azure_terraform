@@ -5,6 +5,8 @@ terraform {
             version = "=2.60.0"
         }
     }
+
+    backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -44,7 +46,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops" {
     default_node_pool {
         name                = "${lookup(var.kubernetes_clusters[count.index],"node_pool_name")}"
         node_count          = "${lookup(var.kubernetes_clusters[count.index],"node_count")}"
-        vm_size             = "Standard_DS2_v2"
+        vm_size             = "${lookup(var.kubernetes_clusters[count.index],"vm_size")}"
     }
 
     role_based_access_control {
@@ -93,6 +95,7 @@ module "kubernetes" {
     "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.cluster_ca_certificate)}"
   }
 }
+
 module "azuredevops" {
   source = "./modules/azuredevops"
 

@@ -1,9 +1,19 @@
-variable "resource_group" {
-    type = string
+##### Variables referenced from local module
+variable "project_info" {
+    type = map
+    default = {
+            "url"     = "https://dev.azure.com/revature-training-uta"
+            "token"   = "mnj4zgom525w7bhz3a4phyh45u55kwtp5fxzhjkuhejhgyguy3cq"   
+    }
 }
 
-variable "azurecr_name" {
-    type = string
+variable "account_info" {
+    type = map
+    default = {
+            "tenant_id"           = "6b63e28a-a8f9-47b5-aa40-97e231215164"
+            "subscription_id"     = "e37a1117-750a-4552-bb20-e84ed6f3c85d"
+            "subscription_name"   = "Azure subscription 1"
+    }
 }
 
 variable "project_id" {
@@ -26,4 +36,13 @@ variable "project_id" {
             id      = "d2963c1a-e6cb-47b0-8d51-e0051b0d446e"
         },
     ]
+}
+
+##### Variables referenced from main module
+variable "resource_group" {
+    type = string
+}
+
+variable "azurecr_name" {
+    type = string
 }

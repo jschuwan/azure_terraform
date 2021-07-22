@@ -26,8 +26,8 @@ resource "kubernetes_resource_quota" "may24_devops_dev" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
-      "limits.memory" = "6Gi"
+      "limits.cpu" = var.resource_quota.cpu
+      "limits.memory" = var.resource_quota.mem
     }
   }
 }
@@ -60,8 +60,8 @@ resource "kubernetes_resource_quota" "may24_devops_staging" {
   }
   spec {
     hard = {
-      "limits.cpu" = 3
-      "limits.memory" = "6Gi"
+      "limits.cpu"    = var.resource_quota.cpu
+      "limits.memory" = var.resource_quota.mem
     }
   }
 }

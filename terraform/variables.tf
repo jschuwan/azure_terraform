@@ -1,4 +1,4 @@
-# Manifest is configured 
+##### Manifest is configured for 2 resource groups, each with an AKS cluster
 variable "resource_groups" {
     type = list
     default = [
@@ -20,19 +20,21 @@ variable "kubernetes_clusters" {
             "dns_prefix"        = "may24-devops-dev",
             "node_count"        = 3,
             "node_pool_name"    = "development"
+            "vm_size"           = "Standard_DS2_v2"
         },
         {
             "name"              = "may24_devops_aks_staging",
             "dns_prefix"        = "may24-devops-staging",
             "node_count"        = 3,
             "node_pool_name"    = "staging"        
+            "vm_size"           = "Standard_DS2_v2"
         }
     ]
 }
 variable "container_registry" {
     type = map
     default = {
-        "name" = "may24DevOpsContainers"
+        "name" = "DevOpsContainerRegistryMay24"
     }                  
 }
 
