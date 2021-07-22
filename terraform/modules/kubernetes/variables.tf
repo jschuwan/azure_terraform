@@ -18,7 +18,7 @@ variable "resource_quota" {
     type = map
     default = [
         {
-            cpu     = 3
+            cpu     = 3,
             mem     = "6Gi"
         }
     ]
