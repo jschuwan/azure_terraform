@@ -10,6 +10,7 @@ stages:
   - job:
     steps:
     - task: AzureCLI@1
+      enabled: false
       inputs:
         azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
         scriptLocation: 'inlineScript'
@@ -18,6 +19,7 @@ stages:
             --name storage-resource-group \
             --location westus
     - task: AzureCLI@1
+      enabled: false
       inputs:
         azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
         scriptLocation: 'inlineScript'
@@ -28,3 +30,13 @@ stages:
             --location westus \
             --sku Standard_RAGRS \
             --kind StorageV2
+    
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: 'RevatureProject3ARMSubscription-project3-common'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage container create \
+              --account-name storagep3 \
+              --name tf-state-file-container \
+              --auth-mode login
