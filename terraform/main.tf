@@ -4,13 +4,8 @@ terraform {
             source  = "hashicorp/azurerm"
             version = "=2.60.0"
         }
-         kubernetes = {
-            source = "hashicorp/kubernetes"
-            version = "2.3.2"
-            configuration_aliases = [ kubernetes.dev, kubernetes.staging ]
-        }
     }
-}        
+}
 
 provider "azurerm" {
     features {}
