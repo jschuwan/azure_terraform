@@ -19,9 +19,14 @@ provider "azurerm" {
     features {}
 }
 
-resource "azurerm_resource_group" "may24_devops" {
-    name        = var.resource_group["name"]
-    location    = var.resource_group["location"]
+resource "azurerm_resource_group" "may24_devops_dev" {
+    name        = var.resource_group_dev["name"]
+    location    = var.resource_group_dev["location"]
+}
+
+resource "azurerm_resource_group" "may24_devops_staging" {
+    name        = var.resource_group_staging["name"]
+    location    = var.resource_group_staging["location"]
 }
 
 resource "azurerm_container_registry" "may24_devops_registry" {
@@ -39,8 +44,8 @@ resource "azurerm_container_registry" "may24_devops_registry" {
 
 resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
     name                = var.kubernetes_cluster_dev["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
+    location            = azurerm_resource_group.may24_devops_dev.location
+    resource_group_name = azurerm_resource_group.may24_devops_dev.name
     dns_prefix          = var.kubernetes_cluster_dev["dns_prefix"]
 
     default_node_pool {
@@ -68,8 +73,8 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
 
 resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
     name                = var.kubernetes_cluster_staging["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
+    location            = azurerm_resource_group.may24_devops_staging.location
+    resource_group_name = azurerm_resource_group.may24_devops_staging.name
     dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"]
 
     default_node_pool {
@@ -149,7 +154,7 @@ resource "kubernetes_resource_quota" "may24_devops_dev_t1" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
@@ -163,7 +168,7 @@ resource "kubernetes_resource_quota" "may24_devops_dev_t2" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
@@ -177,7 +182,7 @@ resource "kubernetes_resource_quota" "may24_devops_dev_t3" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
@@ -226,7 +231,7 @@ resource "kubernetes_resource_quota" "may24_devops_staging_t1" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
@@ -240,7 +245,7 @@ resource "kubernetes_resource_quota" "may24_devops_staging_t2" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
@@ -254,7 +259,7 @@ resource "kubernetes_resource_quota" "may24_devops_staging_t3" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
