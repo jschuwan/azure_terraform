@@ -4,13 +4,13 @@ terraform {
     backend "remote"{
         organization = "may24_devops_p3"
         token        = "5nQYNwLfbxMLHg.atlasv1.oKiOE2twkzYlT2m2fhqQPtbO3WffhBQyuKDWATvVyJcpyJT6ckhvWzJfMzZ27mymwj8"
-        #token        = "0aOZ9DThWsGFWA.atlasv1.S5f0dBl1XATqxKd9xUR020nN2TsNbn9KuA5prfZxHRYj9u1ztFKqA4gLbhd7zjF8bkg"
+        
        
 
 
       workspaces{
-          name = "test-workspace"
-          #name        = var.workplace
+          name = "p3_common_master"
+          
       }
     }
     required_providers {
@@ -27,7 +27,7 @@ terraform {
 }
 provider "azurerm" {
     features {}
-   
+    
 
 }
 
@@ -59,7 +59,7 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
         name                = var.kubernetes_cluster_dev["node_pool_name"]
         node_count          = var.kubernetes_cluster_dev["node_count"]
         vm_size             = "Standard_DS2_v2"
-        #enable_auto_scaling = false
+        
     }
 
     role_based_access_control {
