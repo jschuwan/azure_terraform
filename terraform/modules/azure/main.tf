@@ -109,3 +109,7 @@ output "kube_config_staging" {
     value = azurerm_kubernetes_cluster.may24_devops_staging.kube_config_raw
     sensitive = true
 }
+
+output "kube_config_0_dev" {
+    value = azurerm_kubernetes_cluster.may24_devops_dev.kube_config
+}

@@ -18,6 +18,6 @@ module "azure" {
 module "kubernetes" {
   source = "./modules/kubernetes"
 
-  kubeconfig = module.azure.azurerm_kubernetes_cluster.may24_devops_dev.kube_config
+  kubeconfig = module.azure.kube_config_0_dev
 }
 
