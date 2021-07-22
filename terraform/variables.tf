@@ -47,14 +47,14 @@ variable "kubernetes_cluster_staging" {
     }
 }
 
-variable "org"{
-    type = string
-}
+# variable "org"{
+#     type = string
+# }
 
-variable "token" {
-    type = string
-}
+# variable "token" {
+#     type = string
+# }
 
-variable "workplace"{
-    type = string
-}
+# variable "workplace"{
+#     type = string
+# }
