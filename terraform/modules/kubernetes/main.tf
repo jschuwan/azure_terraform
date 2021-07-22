@@ -60,7 +60,7 @@ resource "kubernetes_resource_quota" "may24_devops_staging" {
   }
   spec {
     hard = {
-      "limits.cpu" = 4
+      "limits.cpu" = 3
       "limits.memory" = "6Gi"
     }
   }
