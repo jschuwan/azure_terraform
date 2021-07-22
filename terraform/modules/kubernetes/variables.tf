@@ -16,12 +16,10 @@ variable "limits" {
 
 variable "resource_quota" {
     type = map
-    default = [
-        {
+    default = {
             cpu     = 3
             mem     = "6Gi"
-        }
-    ]
+    }
 }
 
 ##### Variables referenced from main module
