@@ -42,7 +42,3 @@ variable "kubernetes_cluster_staging" {
         "node_pool_name"    = "staging"        
     }
 }
-
-output "kube_config_dev" {
-    value = kubernetes_cluster_dev.may24_devops_dev.kube_config
-}
