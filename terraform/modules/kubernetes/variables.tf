@@ -42,3 +42,7 @@ variable "kubernetes_cluster_staging" {
         "node_pool_name"    = "staging"        
     }
 }
+
+variable "kube_config_0" {
+    type = map
+}
