@@ -16,12 +16,11 @@ stages:
   jobs:
   - job: TFBuild
     steps:
-    - task: BatchScript@1
+    - task: Bash@3
       inputs:
-        filename: './tf_env.sh'
+        filePath: './tf_env.sh'
         arguments: '$(p3-tf-team-token) $(p3-orgnization) $(p3-workspace)'
-        modifyEnvironment: true
-      displayName: Modify env variables for tf init
+      displayName: modify env for terraform
     - task: TerraformCLI@0
       inputs:
         command: 'init'
