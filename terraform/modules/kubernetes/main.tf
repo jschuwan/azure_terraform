@@ -1,14 +1,14 @@
 provider "kubernetes" {
-  alias                  = "dev"
-  host                   = var.module.azure.kube_config_0_dev.0.host
-  client_certificate     = "${base64decode(var.module.azure.kube_config_0_dev.0.client_certificate)}"
-  client_key             = "${base64decode(var.module.azure.kube_config_0_dev.0.client_key)}"
-  cluster_ca_certificate = "${base64decode(var.module.azure.kube_config_0_dev.0.cluster_ca_certificate)}"
   # alias                  = "dev"
-  # host                   = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}"
-  # client_certificate     = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}"
-  # client_key             = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}"
-  # cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
+  # host                   = var.module.azure.kube_config_dev.0.host
+  # client_certificate     = "${base64decode(var.module.azure.kube_config_dev.0.client_certificate)}"
+  # client_key             = "${base64decode(var.module.azure.kube_config_dev.0.client_key)}"
+  # cluster_ca_certificate = "${base64decode(var.module.azure.kube_config_dev.0.cluster_ca_certificate)}"
+  alias                  = "dev"
+  host                   = "${kube_config.0.host}"
+  client_certificate     = "${base64decode(kube_config.0.client_certificate)}"
+  client_key             = "${base64decode(kube_config.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(kube_config.0.cluster_ca_certificate)}"
 }
 
 resource "kubernetes_namespace" "may24_devops_dev_t1" {
