@@ -1,16 +1,3 @@
-variable "client_id" {
-    type = string
-}
-variable "client_secret" {
-    type = string
-}
-variable "tenant_id" {
-    type = string
-}
-variable "subscription_id" {
-    type = string
-}
-
 variable "resource_group" {
 # Replace with your own values if this is used as a template
     type = map
@@ -45,16 +32,4 @@ variable "kubernetes_cluster_staging" {
         "node_count"        = 1
         "node_pool_name"    = "staging"        
     }
-}
-
-variable "org"{
-    type = string
-}
-
-variable "token" {
-    type = string
-}
-
-variable "workplace"{
-    type = string
 }

@@ -1,12 +1,4 @@
 terraform {
-
-    #backend stage in terraform cloud 
-    backend "remote"{
-      resource_group_name   = "storage-resource-group"
-      storage_account_name  = "storagep3"
-      container_name        = "tf-state-file-container"
-      key                   = "terraform.tfstate"
-    }
     required_providers {
         azurerm = {
             source  = "hashicorp/azurerm"
@@ -17,6 +9,14 @@ terraform {
             version = "2.3.2"
             configuration_aliases = [ kubernetes.dev, kubernetes.staging ]
         }
+    }
+
+    #backend stage in azure storage 
+    backend "azurerm"{
+      resource_group_name   = "storage-resource-group"
+      storage_account_name  = "storagep3mjc"
+      container_name        = "tf-state-file-container"
+      key                   = "terraform.tfstate"
     }
 }
 provider "azurerm" {
