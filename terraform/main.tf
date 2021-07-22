@@ -2,17 +2,10 @@ terraform {
 
     #backend stage in terraform cloud 
     backend "remote"{
-        #organization = "may24_devops_p3"
-        #token        = "5nQYNwLfbxMLHg.atlasv1.oKiOE2twkzYlT2m2fhqQPtbO3WffhBQyuKDWATvVyJcpyJT6ckhvWzJfMzZ27mymwj8"
-        #token        = "0aOZ9DThWsGFWA.atlasv1.S5f0dBl1XATqxKd9xUR020nN2TsNbn9KuA5prfZxHRYj9u1ztFKqA4gLbhd7zjF8bkg"
-        organization  = var.org
-        token         = var.token
-
-
-      workspaces{
-          #name = "project3-common"
-          name        = var.workplace
-      }
+      resource_group_name   = "storage-resource-group"
+      storage_account_name  = "storagep3"
+      container_name        = "tf-state-file-container"
+      key                   = "terraform.tfstate"
     }
     required_providers {
         azurerm = {
@@ -28,11 +21,6 @@ terraform {
 }
 provider "azurerm" {
     features {}
-    client_id = var.client_id
-    client_secret = var.client_secret
-    tenant_id = var.tenant_id
-    subscription_id = var.subscription_id
-
 }
 
 resource "azurerm_resource_group" "may24_devops" {

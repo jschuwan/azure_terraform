@@ -1,14 +1,13 @@
 trigger: none
 
 pool:
-  #vmImage: ubuntu-latest
-  name: test
+  vmImage: ubuntu-latest
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  #may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_terraformcloud')]
+  may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
+  #may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_azure_storage')]
 
 stages:
 - stage: Plan
@@ -21,23 +20,8 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
-        commandOptions: |
-          '-backend-config="organization=$(p3-organization)" 
-           -backend-config="token=$(p3-tf-user-token)"'
         allowTelemetryCollection: true
       displayName: "TF Init"
-      # env:
-      #   ORGANIZATION: $(p3-organization)
-      #   TF_USER_TOKEN: $(p3-tf-user-token)
-        
-    # - bash: |
-    #     terraform init \
-    #       -backend-config="organization=$ORGANIZATION" \
-    #       -backend-config="token=$TF_USER_TOKEN"
-    #   env:
-    #     ORGANIZATION: $(p3-organization)
-    #     TF_USER_TOKEN: $(p3-tf-user-token)
-
 
     - task: TerraformCLI@0
       inputs:
