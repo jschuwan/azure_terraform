@@ -4,7 +4,7 @@ variable "cluster_dev" {
         "host" = "",
         "client_certificate" = "",
         "client_key" = "",
-        "ca_certificate" = ""
+        "cluster_ca_certificate" = ""
     }
 }
 
@@ -14,7 +14,7 @@ variable "cluster_staging" {
         "host" = "",
         "client_certificate" = "",
         "client_key" = "",
-        "ca_certificate" = ""
+        "cluster_ca_certificate" = ""
     }
 }
 

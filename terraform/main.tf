@@ -102,14 +102,14 @@ module "kubernetes" {
     "host"                = "${azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.host}",
     "client_certificate"  = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_certificate)}",
     "client_key"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.client_key)}",
-    "ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
+    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops_dev.kube_config.0.cluster_ca_certificate)}"
   }
 
   cluster_staging = { 
     "host"                = "${azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.host}",
     "client_certificate"  = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_certificate)}",
     "client_key"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.client_key)}",
-    "ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
+    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops_staging.kube_config.0.cluster_ca_certificate)}"
   }
 }
 module "azuredevops" {
