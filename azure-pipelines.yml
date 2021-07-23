@@ -16,7 +16,7 @@ stages:
           buildId: '6556'
           downloadType: 'single'
           artifactName: 'tf_state'
-          downloadPath: '$(System.ArtifactsDirectory)'
+          downloadPath: '$(System.DefaultWorkingDirectory)/terraform'
       - task: TerraformCLI@0
         inputs:
           command: 'init'
