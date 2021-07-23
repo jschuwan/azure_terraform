@@ -3,15 +3,23 @@ variable "project_info" {
     type = map
     default = {
             "url"       = "https://dev.azure.com/revature-training-uta"
-            "token"     = "k3o2odqc7fqbwa3fzzlfukdjg5mcqkeeltth4xcbwfwxna3x233a"
+            ### revature
+            # "token"     = "k3o2odqc7fqbwa3fzzlfukdjg5mcqkeeltth4xcbwfwxna3x233a"
+            ### moonjun
+            "token"         = "6lzxucssollxt3owfcw52utbeftzvrftzbue7adzfjwinobewsuq"
     }
 }
 
 variable "account_info" {
     type = map
     default = {
-            "tenant_id"           = "6b63e28a-a8f9-47b5-aa40-97e231215164"
-            "subscription_id"     = "e37a1117-750a-4552-bb20-e84ed6f3c85d"
+            ### revature
+            # "tenant_id"           = "6b63e28a-a8f9-47b5-aa40-97e231215164"
+            # "subscription_id"     = "e37a1117-750a-4552-bb20-e84ed6f3c85d"
+            # "subscription_name"   = "Azure subscription 1"
+            ### moonjun
+            "tenant_id"           = "483707c6-0f72-4fc7-81e7-8e1d1fceb753"
+            "subscription_id"     = "9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0"
             "subscription_name"   = "Azure subscription 1"
     }
 }
