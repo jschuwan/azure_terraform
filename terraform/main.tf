@@ -52,8 +52,8 @@ resource "azurerm_container_registry" "may24_devops_registry" {
 
 resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
     name                = var.kubernetes_cluster_dev["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
+    location            = azurerm_resource_group.may24_devops_dev.location
+    resource_group_name = azurerm_resource_group.may24_devops_dev.name
     dns_prefix          = var.kubernetes_cluster_dev["dns_prefix"]
 
     default_node_pool {
@@ -81,8 +81,8 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
 
 resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
     name                = var.kubernetes_cluster_staging["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
+    location            = azurerm_resource_group.may24_devops_staging.location
+    resource_group_name = azurerm_resource_group.may24_devops_staging.name
     dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"]
 
     default_node_pool {
