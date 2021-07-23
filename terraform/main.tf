@@ -37,6 +37,7 @@ resource "azurerm_container_registry" "may24_devops_registry" {
       ]
     }  
 }
+
 resource "azurerm_kubernetes_cluster" "may24_devops" {
     count                   = "${length(var.kubernetes_clusters)}"
     name                    = "${lookup(var.kubernetes_clusters[count.index],"name")}"
