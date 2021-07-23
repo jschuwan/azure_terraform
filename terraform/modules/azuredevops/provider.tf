@@ -5,7 +5,4 @@ terraform {
                 version = "0.1.6"
         }
     }
-    backend {
-
-    }
 }

@@ -1,6 +1,6 @@
 ######################### devops
 provider "azuredevops" {
-  org_service_url       = var.url
+  org_service_url       = var.project_info
   personal_access_token = var.token
 }
 resource "azuredevops_serviceendpoint_azurecr" "azurecr" {

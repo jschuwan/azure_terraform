@@ -22,7 +22,7 @@ variable "project_id" {
 }
 
 ##### Variables referenced from main module
-variable "url" {
+variable "project_info" {
     type        = string
     sensitive   = true
 }
