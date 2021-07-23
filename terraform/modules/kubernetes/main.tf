@@ -6,7 +6,7 @@ provider "kubernetes" {
   cluster_ca_certificate = var.cluster_dev.cluster_ca_certificate
 }
 
-resource "kubernetes_namespace" "may24_devops_dev" {
+resource "kubernetes_namespace" "dev" {
   provider = kubernetes.dev
   count = "${length(var.namespaces)}"
   metadata {
@@ -17,7 +17,7 @@ resource "kubernetes_namespace" "may24_devops_dev" {
   }
 }
 
-resource "kubernetes_resource_quota" "may24_devops_dev" {
+resource "kubernetes_resource_quota" "dev" {
   provider = kubernetes.dev
   count = "${length(var.namespaces)}"
   metadata {
@@ -40,7 +40,7 @@ provider "kubernetes" {
   cluster_ca_certificate = var.cluster_staging.cluster_ca_certificate
 }
 
-resource "kubernetes_namespace" "may24_devops_staging" {
+resource "kubernetes_namespace" "staging" {
   provider = kubernetes.staging
   count = "${length(var.namespaces)}"
   metadata {
@@ -51,7 +51,7 @@ resource "kubernetes_namespace" "may24_devops_staging" {
   }
 }
 
-resource "kubernetes_resource_quota" "may24_devops_staging" {
+resource "kubernetes_resource_quota" "staging" {
   provider = kubernetes.staging
   count = "${length(var.namespaces)}"
   metadata {
