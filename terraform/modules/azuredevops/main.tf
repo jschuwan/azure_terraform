@@ -7,7 +7,7 @@ resource "azuredevops_serviceendpoint_azurecr" "azurecr" {
   count = "${length(var.project_id)}"
   project_id             = "${lookup(var.project_id[count.index],"id")}"
   service_endpoint_name  = "${lookup(var.project_id[count.index],"name")}"
-  resource_group            = var.resource_grp
+  resource_group            = var.resource_group
   azurecr_spn_tenantid      = var.account_info.tenant_id
   azurecr_name              = var.azurecr_name
   azurecr_subscription_id   = var.account_info.subscription_id
