@@ -16,11 +16,11 @@ stages:
           buildId: '6556'
           downloadType: 'single'
           artifactName: 'tf_state'
-          downloadPath: '$(System.DefaultWorkingDirectory)/terraform'
-      - task: TerraformCLI@0
-        inputs:
-          command: 'init'
-          allowTelemetryCollection: true
+          downloadPath: '$(System.DefaultWorkingDirectory)'
+      # - task: TerraformCLI@0
+      #   inputs:
+      #     command: 'init'
+      #     allowTelemetryCollection: true
       - task: TerraformCLI@0
         inputs:
           command: 'destroy'
