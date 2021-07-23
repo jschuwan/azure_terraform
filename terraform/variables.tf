@@ -1,4 +1,4 @@
-##### Manifest is configured for 2 resource groups, each with an AKS cluster
+# Manifest is configured for 2 resource groups, each with an AKS cluster
 variable "resource_groups" {
     type = list
     default = [
@@ -45,24 +45,3 @@ variable "resource_tags" {
         contact     = "Nick Escalona"
     }
 }
-#Azure devops vaiables 
-
-#id for the projects you wish to add service connection to 
-variable "ado_poject_id"{
-    type = list(string)
-}
-#name of the service connection you wich to create
-vaiable "service_endpoint_name" {
-    type = string 
-}
-#url of the org projects are part of 
-variable "ado_org_url" {
-    type = string
-}
-#token for access to orginization 
-varialbe "ado_token" {
-    type = string 
-
-}
-
-

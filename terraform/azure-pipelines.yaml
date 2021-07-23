@@ -1,13 +1,8 @@
 trigger:
-  - master
+- master
 
 pool:
   vmImage: ubuntu-latest
-
-parameters:
-- name: dl_TFState
-  type: boolean
-  default: false
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
@@ -28,7 +23,7 @@ stages:
         backendType: 'azurerm'
         backendServiceArm: $(may24_devops_subscription)
         backendAzureRmResourceGroupName: 'storage-resource-group'
-        backendAzureRmStorageAccountName: 'storagep3mjc'
+        backendAzureRmStorageAccountName: 'storagep3'
         backendAzureRmContainerName: 'tf-state-file-container'
         backendAzureRmKey: 'terraform.tfstate'
         allowTelemetryCollection: true
@@ -56,11 +51,6 @@ stages:
     displayName: 'TF apply and outputs'
     steps:
     
-    - template: azure-templates/dl-tfstate-template.yaml
-      parameters:
-        directory: $(terraformDirectory)
-        enabled: ${{ parameters.dl_TFState }}   
-
     - task: TerraformCLI@0
       inputs:
         command: 'init'
@@ -68,7 +58,7 @@ stages:
         backendType: 'azurerm'
         backendServiceArm: $(may24_devops_subscription)
         backendAzureRmResourceGroupName: 'storage-resource-group'
-        backendAzureRmStorageAccountName: 'storagep3mjc'
+        backendAzureRmStorageAccountName: 'storagep3'
         backendAzureRmContainerName: 'tf-state-file-container'
         backendAzureRmKey: 'terraform.tfstate'
         allowTelemetryCollection: true
@@ -114,9 +104,3 @@ stages:
         targetPath: 'terraform/may24_devops_config_staging'
         artifact: 'kubeconfig_staging'
       displayName: Publish staging kubeconfig
-
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: 'terraform/terraform.tfstate'
-        artifact: 'tf_state'
-      displayName: Publish state file
