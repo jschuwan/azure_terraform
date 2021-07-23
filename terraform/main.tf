@@ -1,7 +1,13 @@
 terraform {
 
     #backend stage in terraform cloud 
-    backend "remote"{}
+    backend "remote"{
+
+
+      workspaces{
+        name = "test-workspace"
+      }
+    }
     required_providers {
         azurerm = {
             source  = "hashicorp/azurerm"
