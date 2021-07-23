@@ -102,13 +102,9 @@ module "azuredevops" {
   resource_group = azurerm_resource_group.may24_devops.0.name
   azurecr_name = azurerm_container_registry.may24_devops_registry.name
 
-  project_info = {
-    "url"       = "${vars.url}",
-    "token"     = "${vars.token}"
-  }
-  account_info = {
-    "tenant_id"           = "${vars.tenant_id}",
-    "subscription_id"     = "${vars.subscription_id}",
-    "subscription_name"   = "${vars.subscription_name}"
-  }
+  project_info        = vars.url
+  token               = vars.token
+  tenant_id           = vars.tenant_id
+  subscription_id     = vars.subscription_id
+  subscription_name   = vars.subscription_name
 }

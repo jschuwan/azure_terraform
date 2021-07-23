@@ -46,19 +46,24 @@ variable "resource_tags" {
     }
 }
 
-variable "project_info" {
-    type = map
-    default = {
-            "url"       = "",
-            "token"     = ""
-    }
+### Variables from auto.tfvars
+variable "url" {
+    type        = string
+    sensitive   = true
 }
-
-variable "account_info" {
-    type = map
-    default = {
-            "tenant_id"           = "",
-            "subscription_id"     = "",
-            "subscription_name"   = ""
-    }
+variable "token" {
+    type        = string
+    sensitive   = true
+}
+variable "tenant_id" {
+    type        = string
+    sensitive   = true
+}
+variable "subscription_id" {
+    type        = string
+    sensitive   = true
+}
+variable "subscription_name" {
+    type        = string
+    sensitive   = true
 }
