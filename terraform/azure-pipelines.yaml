@@ -1,4 +1,5 @@
-trigger: none
+trigger:
+  - master
 
 pool:
   vmImage: ubuntu-latest
@@ -11,7 +12,7 @@ parameters:
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature-refactor')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 stages:
 - stage: Plan
