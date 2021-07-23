@@ -34,7 +34,7 @@ variable "kubernetes_clusters" {
 variable "container_registry" {
     type = map
     default = {
-        "name" = "ZZZDevOpsContainerRegistryMay24"
+        "name" = "Zmay24DevOpsContainers"
     }                  
 }
 
