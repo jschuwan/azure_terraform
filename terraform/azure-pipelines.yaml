@@ -19,7 +19,7 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
-        secureVarsFile: 'backend.config'
+        secureVarsFile: 'backend.env'
         backendType: 'selfConfigured'
         allowTelemetryCollection: true
       displayName: "TF Init"
@@ -52,7 +52,7 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
-        secureVarsFile: 'backend.config'
+        secureVarsFile: 'backend.env'
         backendType: 'selfConfigured'
         allowTelemetryCollection: true
       displayName: "TF Init" 
