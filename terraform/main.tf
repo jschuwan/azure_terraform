@@ -99,7 +99,6 @@ module "kubernetes" {
 
 module "azuredevops" {
   source = "./modules/azuredevops"
-  depends_on = [ azurerm_container_registry.may24_devops_registry]
   resource_group = azurerm_resource_group.may24_devops.0.name
   azurecr_name = azurerm_container_registry.may24_devops_registry.name    
 }
