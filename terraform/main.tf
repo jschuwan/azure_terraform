@@ -40,8 +40,7 @@ resource "azurerm_container_registry" "may24_devops_registry" {
 resource "azurerm_kubernetes_cluster" "may24_devops" {
     count                   = "${length(var.kubernetes_clusters)}"
     name                    = "${lookup(var.kubernetes_clusters[count.index],"name")}"
-    location                = "${lookup(var.resource_groups[count.index],"location")}"
-    # resource_group_name     = "${lookup(var.resource_groups[count.index],"name")}"
+    location                = azurerm_resource_group.may24_devops[count.index].location
     resource_group_name     = azurerm_resource_group.may24_devops[count.index].name
     dns_prefix              = "${lookup(var.kubernetes_clusters[count.index],"dns_prefix")}"
     default_node_pool {
