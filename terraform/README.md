@@ -6,4 +6,4 @@
 - Module used to configure Kubernetes namespaces and resource quotas
 ### AzureDevops
 - Module used to create service connections for ACR
-- Authentication variables should be set in modules/azuredevops/variables.tf first
+- Authentication variables should be set in modules/azuredevops/variables.tf

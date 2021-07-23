@@ -45,3 +45,20 @@ variable "resource_tags" {
         contact     = "Nick Escalona"
     }
 }
+
+variable "project_info" {
+    type = map
+    default = {
+            "url"       = "",
+            "token"     = ""
+    }
+}
+
+variable "account_info" {
+    type = map
+    default = {
+            "tenant_id"           = "",
+            "subscription_id"     = "",
+            "subscription_name"   = ""
+    }
+}
