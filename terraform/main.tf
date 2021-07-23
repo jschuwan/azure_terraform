@@ -27,9 +27,14 @@ provider "azurerm" {
     features {}
 }
 
-resource "azurerm_resource_group" "may24_devops" {
-    name        = var.resource_group["name"]
-    location    = var.resource_group["location"]
+resource "azurerm_resource_group" "may24_devops_dev" {
+    name        = var.resource_group_dev["name"]
+    location    = var.resource_group_dev["location"]
+}
+
+resource "azurerm_resource_group" "may24_devops_staging" {
+    name        = var.resource_group_staging["name"]
+    location    = var.resource_group_staging["location"]
 }
 
 resource "azurerm_container_registry" "may24_devops_registry" {
