@@ -21,9 +21,9 @@ stages:
         workingDirectory: 'terraform'
         secureVarsFile: 'backend.env'
         commandOptions: |
-         "-backend-config "organization=$(p3-orgnization)" 
-          -backend-config "token=$(p3-tf-user-token)" 
-          -backend-config 'workspaces=[{name="test-workspace"}]'"
+         -backend-config "organization=$(p3-orgnization)" \ 
+         -backend-config "token=$(p3-tf-user-token)" \
+         -backend-config 'workspaces=[{name="test-workspace"}]'
         allowTelemetryCollection: true
       displayName: "TF Init"
     
@@ -55,9 +55,9 @@ stages:
         workingDirectory: 'terraform'
         secureVarsFile: 'backend.env'
         commandOptions: |
-         "-backend-config "organization=$(p3-orgnization)" 
-          -backend-config "token=$(p3-tf-user-token)" 
-          -backend-config 'workspaces=[{name="test-workspace"}]'"
+         -backend-config "organization=$(p3-orgnization)" \ 
+          -backend-config "token=$(p3-tf-user-token)" \
+          -backend-config 'workspaces=[{name="test-workspace"}]'
         allowTelemetryCollection: true
       displayName: "TF Init" 
 
