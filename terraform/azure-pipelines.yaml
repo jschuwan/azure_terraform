@@ -10,8 +10,7 @@ parameters:
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  #may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
-  may24_devops_subscription: 'Azure subscription 1(9fde5dd2-3d1a-4575-80c2-9ca0b55f5fc0)'
+  may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature-refactor')]
 
 stages:
@@ -21,17 +20,6 @@ stages:
   - job: TFBuild
     steps:
 
-    # - template: azure-templates/dl-tfstate-template.yaml
-    #   parameters:
-    #     directory: $(terraformDirectory)
-    #     enabled: ${{ parameters.dl_TFState }}
-
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'init'
-    #     workingDirectory: 'terraform'
-    #     allowTelemetryCollection: true
-    #   displayName: "TF Init"
     - task: TerraformCLI@0
       inputs:
         command: 'init'
@@ -72,12 +60,6 @@ stages:
         directory: $(terraformDirectory)
         enabled: ${{ parameters.dl_TFState }}   
 
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'init'
-    #     workingDirectory: 'terraform'
-    #     allowTelemetryCollection: true
-    #   displayName: "TF Init" 
     - task: TerraformCLI@0
       inputs:
         command: 'init'
@@ -108,7 +90,7 @@ stages:
       workingDirectory: 'terraform'
       displayName: Save kubeconfig staging
 
-    # Delete EOD output from first and last lines of dev/staging config file
+    # Delete EOT output from first and last lines of dev/staging config file
     # terraform output includes unnecessary text at beginning and last lines of file
     # so this needs to be removed.
     - script: "sed -i '1d;$d' may24_devops_config_dev"
