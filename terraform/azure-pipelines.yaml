@@ -1,5 +1,4 @@
-trigger: 
-- master
+trigger: none
 
 pool:
   vmImage: ubuntu-latest
@@ -7,7 +6,7 @@ pool:
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/feature_terraformcloud')]
 
 stages:
 - stage: Plan
@@ -20,6 +19,8 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
+        secureVarsFile: 'backend.config'
+        backendType: 'selfConfigured'
         allowTelemetryCollection: true
       displayName: "TF Init"
       
@@ -51,6 +52,8 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
+        secureVarsFile: 'backend.config'
+        backendType: 'selfConfigured'
         allowTelemetryCollection: true
       displayName: "TF Init" 
 
