@@ -19,7 +19,7 @@ variable "resource_group_staging" {
 variable "container_registry" {
     type = map
     default = {
-        "name" = "may24DevOpsAcr"
+        "name" = "may24DevOpsContainers"
     }                  
 }
 
