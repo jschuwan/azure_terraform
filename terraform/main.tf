@@ -1,6 +1,9 @@
 terraform {
 
-    #backend stage in terraform cloud 
+    # backend config for terraform cloud
+    # orginization and token values will be 
+    # injected with -backend-config flag.
+    # during terraform init
     backend "remote"{
 
 
@@ -22,8 +25,6 @@ terraform {
 }
 provider "azurerm" {
     features {}
-    
-
 }
 
 resource "azurerm_resource_group" "may24_devops" {
