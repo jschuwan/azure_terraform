@@ -24,7 +24,6 @@ variable "project_id" {
 ##### Variables referenced from main module
 variable "project_info" {
     type        = string
-    sensitive   = true
 }
 variable "token" {
     type        = string
@@ -32,15 +31,12 @@ variable "token" {
 }
 variable "tenant_id" {
     type        = string
-    sensitive   = true
 }
 variable "subscription_id" {
     type        = string
-    sensitive   = true
 }
 variable "subscription_name" {
     type        = string
-    sensitive   = true
 }
 
 variable "resource_group" {
