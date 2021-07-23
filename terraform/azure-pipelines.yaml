@@ -20,12 +20,13 @@ stages:
         command: 'init'
         workingDirectory: 'terraform'
         secureVarsFile: 'backend.env'
-        commandOptions: '-backend-config "organization=$(p3-orgnization) -backend-config "token=$(p3-tf-user-token)" -backend-config ''workspaces=[{name="test-workspace"}]'''
+        commandOptions: |
+         "-backend-config "organization=$(p3-orgnization)" \
+          -backend-config "token=$(p3-tf-user-token)" \
+          -backend-config 'workspaces=[{name="test-workspace"}]'"
         allowTelemetryCollection: true
       displayName: "TF Init"
-      
-
-
+    
     - task: TerraformCLI@0
       inputs:
         command: 'validate'
@@ -53,7 +54,10 @@ stages:
         command: 'init'
         workingDirectory: 'terraform'
         secureVarsFile: 'backend.env'
-        commandOptions: '-backend-config "organization=$(p3-orgnization) -backend-config "token=$(p3-tf-user-token)" -backend-config ''workspaces=[{name="test-workspace"}]'''
+        commandOptions: |
+         "-backend-config "organization=$(p3-orgnization)" \
+          -backend-config "token=$(p3-tf-user-token)" \
+          -backend-config 'workspaces=[{name="test-workspace"}]'"
         allowTelemetryCollection: true
       displayName: "TF Init" 
 
