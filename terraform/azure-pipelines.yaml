@@ -25,11 +25,7 @@ stages:
          -backend-config "token=$(p3-tf-user-token)" 
         allowTelemetryCollection: true
       displayName: "TF Init"
-    - task: TerraformCLI@0
-      inputs:
-        command: 'destroy'
-        environmentServiceName: 'test_connection'
-        allowTelemetryCollection: true
+  
     - task: TerraformCLI@0
       inputs:
         command: 'validate'
