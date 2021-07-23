@@ -21,17 +21,6 @@ stages:
   - job: TFBuild
     steps:
 
-    # - template: azure-templates/dl-tfstate-template.yaml
-    #   parameters:
-    #     directory: $(terraformDirectory)
-    #     enabled: ${{ parameters.dl_TFState }}
-
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'init'
-    #     workingDirectory: 'terraform'
-    #     allowTelemetryCollection: true
-    #   displayName: "TF Init"
     - task: TerraformCLI@0
       inputs:
         command: 'init'
@@ -72,12 +61,6 @@ stages:
         directory: $(terraformDirectory)
         enabled: ${{ parameters.dl_TFState }}   
 
-    # - task: TerraformCLI@0
-    #   inputs:
-    #     command: 'init'
-    #     workingDirectory: 'terraform'
-    #     allowTelemetryCollection: true
-    #   displayName: "TF Init" 
     - task: TerraformCLI@0
       inputs:
         command: 'init'
