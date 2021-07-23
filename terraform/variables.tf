@@ -46,10 +46,9 @@ variable "resource_tags" {
     }
 }
 
-### Variables from auto.tfvars
+### Variables from *.auto.tfvars
 variable "url" {
     type        = string
-    sensitive   = true
 }
 variable "token" {
     type        = string
@@ -57,13 +56,10 @@ variable "token" {
 }
 variable "tenant_id" {
     type        = string
-    sensitive   = true
 }
 variable "subscription_id" {
     type        = string
-    sensitive   = true
 }
 variable "subscription_name" {
     type        = string
-    sensitive   = true
 }
