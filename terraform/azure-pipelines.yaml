@@ -40,7 +40,8 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: 'terraform'
-        environmentServiceName: $(may24_devops_subscription)
+        environmentServiceName: '$(may24_devops_subscription)'
+        secureVarsFile: '.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
@@ -68,7 +69,8 @@ stages:
       inputs:
         command: 'apply'
         workingDirectory: 'terraform'
-        environmentServiceName: $(may24_devops_subscription)
+        environmentServiceName: '$(may24_devops_subscription)'
+        secureVarsFile: '.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Apply"
 
