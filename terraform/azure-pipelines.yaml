@@ -55,7 +55,7 @@ stages:
         secureVarsFile: 'backend.env'
         commandOptions: |
          -backend-config "organization=$(p3-orgnization)"  
-          -backend-config "token=$(p3-tf-user-token)" 
+         -backend-config "token=$(p3-tf-user-token)" 
         allowTelemetryCollection: true
       displayName: "TF Init" 
 
