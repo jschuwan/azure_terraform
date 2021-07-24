@@ -1,21 +1,36 @@
-variable "resource_group_dev" {
-# Replace with your own values if this is used as a template
-    type = map
-    default = {
-        "name"      = "may24_devops_dev"
-        "location"  = "Central US"
-    }
+# Manifest is configured for 2 resource groups, each with an AKS cluster
+variable "resource_groups" {
+    type = list
+    default = [
+        {
+            "name"      = "may24_devops_dev",
+            "location"  = "Central US"
+        },
+        {
+            "name"      = "may24_devops_staging",
+            "location"  = "South Central US"
+        }
+    ]
 }
-
-variable "resource_group_staging" {
-# Replace with your own values if this is used as a template
-    type = map
-    default = {
-        "name"      = "may24_devops_staging"
-        "location"  = "South Central US"
-    }
+variable "kubernetes_clusters" {
+    type = list
+    default = [
+        {
+            "name"              = "may24_devops_aks_dev",
+            "dns_prefix"        = "may24-devops-dev",
+            "node_count"        = 3,
+            "node_pool_name"    = "development"
+            "vm_size"           = "Standard_DS2_v2"
+        },
+        {
+            "name"              = "may24_devops_aks_staging",
+            "dns_prefix"        = "may24-devops-staging",
+            "node_count"        = 3,
+            "node_pool_name"    = "staging"        
+            "vm_size"           = "Standard_DS2_v2"
+        }
+    ]
 }
-
 variable "container_registry" {
     type = map
     default = {
@@ -23,22 +38,28 @@ variable "container_registry" {
     }                  
 }
 
-variable "kubernetes_cluster_dev" {
+variable "resource_tags" {
     type = map
     default = {
-        "name"              = "may24_devops_aks_dev"
-        "dns_prefix"        = "may24-devops-dev"
-        "node_count"        = 3
-        "node_pool_name"    = "development"
+        group       = "DevOps"
+        contact     = "Nick Escalona"
     }
 }
 
-variable "kubernetes_cluster_staging" {
-    type = map
-    default = {
-        "name"              = "may24_devops_aks_staging"
-        "dns_prefix"        = "may24-devops-staging"
-        "node_count"        = 3
-        "node_pool_name"    = "staging"        
-    }
+### Variables from *.auto.tfvars
+variable "url" {
+    type        = string
+}
+variable "token" {
+    type        = string
+    sensitive   = true
+}
+variable "tenant_id" {
+    type        = string
+}
+variable "subscription_id" {
+    type        = string
+}
+variable "subscription_name" {
+    type        = string
 }

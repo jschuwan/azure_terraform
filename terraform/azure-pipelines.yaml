@@ -4,11 +4,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-parameters:
-- name: dl_TFState
-  type: boolean
-  default: false
-
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   may24_devops_subscription: 'RevatureProject3ARMSubscription-project3-common'
@@ -21,17 +16,18 @@ stages:
   - job: TFBuild
     steps:
 
-    - template: azure-templates/dl-tfstate-template.yaml
-      parameters:
-        directory: $(terraformDirectory)
-        enabled: ${{ parameters.dl_TFState }}
-
     - task: TerraformCLI@0
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
+        backendType: 'azurerm'
+        backendServiceArm: $(may24_devops_subscription)
+        backendAzureRmResourceGroupName: 'storage-resource-group'
+        backendAzureRmStorageAccountName: 'storagep3'
+        backendAzureRmContainerName: 'tf-state-file-container'
+        backendAzureRmKey: 'terraform.tfstate'
         allowTelemetryCollection: true
-      displayName: "TF Init"
+      displayName: "TF Init"    
 
     - task: TerraformCLI@0
       inputs:
@@ -44,7 +40,8 @@ stages:
       inputs:
         command: 'plan'
         workingDirectory: 'terraform'
-        environmentServiceName: $(may24_devops_subscription)
+        environmentServiceName: '$(may24_devops_subscription)'
+        secureVarsFile: '.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Plan"
 
@@ -55,23 +52,25 @@ stages:
     displayName: 'TF apply and outputs'
     steps:
     
-    - template: azure-templates/dl-tfstate-template.yaml
-      parameters:
-        directory: $(terraformDirectory)
-        enabled: ${{ parameters.dl_TFState }}   
-
     - task: TerraformCLI@0
       inputs:
         command: 'init'
         workingDirectory: 'terraform'
+        backendType: 'azurerm'
+        backendServiceArm: $(may24_devops_subscription)
+        backendAzureRmResourceGroupName: 'storage-resource-group'
+        backendAzureRmStorageAccountName: 'storagep3'
+        backendAzureRmContainerName: 'tf-state-file-container'
+        backendAzureRmKey: 'terraform.tfstate'
         allowTelemetryCollection: true
-      displayName: "TF Init" 
-
+      displayName: "TF Init"
+      
     - task: TerraformCLI@0
       inputs:
         command: 'apply'
         workingDirectory: 'terraform'
-        environmentServiceName: $(may24_devops_subscription)
+        environmentServiceName: '$(may24_devops_subscription)'
+        secureVarsFile: '.auto.tfvars'
         allowTelemetryCollection: true
       displayName: "TF Apply"
 
@@ -84,7 +83,7 @@ stages:
       workingDirectory: 'terraform'
       displayName: Save kubeconfig staging
 
-    # Delete EOD output from first and last lines of dev/staging config file
+    # Delete EOT output from first and last lines of dev/staging config file
     # terraform output includes unnecessary text at beginning and last lines of file
     # so this needs to be removed.
     - script: "sed -i '1d;$d' may24_devops_config_dev"
@@ -107,9 +106,3 @@ stages:
         targetPath: 'terraform/may24_devops_config_staging'
         artifact: 'kubeconfig_staging'
       displayName: Publish staging kubeconfig
-
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: 'terraform/terraform.tfstate'
-        artifact: 'tf_state'
-      displayName: Publish state file
