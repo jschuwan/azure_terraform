@@ -21,6 +21,31 @@ variable "project_id" {
     ]
 }
 
+variable "k8s_id" {
+    type = list
+    default = [
+        {
+            name    = "k8s-team1",
+            id      = "d6293b30-b115-4508-b81b-a6c0d733cfa0"
+        },
+        {
+            name    = "k8s-team2",
+            id      = "eb90657a-0d4f-4efc-ab88-854ac581c5a8"
+        },
+        {
+            name    = "k8s-team3",
+            id      = "d2963c1a-e6cb-47b0-8d51-e0051b0d446e"
+        },
+    ]
+}
+
+variable "k8s_namespaces" {
+    type = list
+    default = [
+        { name = "team1" },{ name = "team2" },{ name = "team3" }
+    ]
+}
+
 ##### Variables referenced from main module
 variable "project_info" {
     type        = string
@@ -45,4 +70,20 @@ variable "resource_group" {
 
 variable "azurecr_name" {
     type = string
+}
+
+variable "k8s_svc_url_dev" {
+    type = string
+}
+
+variable "k8s_svc_url_staging" {
+    type = string
+}
+
+variable "k8s_resource_groups" {
+    type = list
+}
+
+variable "k8s_cluster_names" {
+    type = list
 }
