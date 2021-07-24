@@ -7,24 +7,30 @@ stages:
     jobs:
     - job: DL_revature
       steps:
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: 'specific'
-          project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
-          definition: '152'
-          buildVersionToDownload: 'specific'
-          pipelineId: '6182'
-          artifactName: 'tf_state'
-          targetPath: '$(System.DefaultWorkingDirectory)/terraform'
-      - task: TerraformCLI@0
-        inputs:
-          command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-          allowTelemetryCollection: true
+      # - task: DownloadPipelineArtifact@2
+      #   inputs:
+      #     buildType: 'specific'
+      #     project: '9a591d1a-b59e-4089-a839-aaf3cf17a3a9'
+      #     definition: '152'
+      #     buildVersionToDownload: 'specific'
+      #     pipelineId: '6182'
+      #     artifactName: 'tf_state'
+      #     targetPath: '$(System.DefaultWorkingDirectory)/terraform'
+      # - task: TerraformCLI@0
+      #   inputs:
+      #     command: 'init'
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      #     allowTelemetryCollection: true
 
-      - task: TerraformCLI@0
+      # - task: TerraformCLI@0
+      #   inputs:
+      #     command: 'destroy'
+      #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      #     environmentServiceName: 'RevatureProject3ARMSubscription'
+      #     allowTelemetryCollection: true
+      - task: AzureCLI@2
         inputs:
-          command: 'destroy'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-          environmentServiceName: 'RevatureProject3ARMSubscription'
-          allowTelemetryCollection: true
+          azureSubscription: 'RevatureProject3ARMSubscription'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'az acr list'
