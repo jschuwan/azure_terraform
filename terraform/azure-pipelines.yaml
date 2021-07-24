@@ -6,7 +6,7 @@ pool:
 
 variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
-  may24_devops_subscription: 'RevatureProject3ARMSubscription-project3'
+  may24_devops_subscription: 'RevatureProject3ARMSubscription'
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 stages:
