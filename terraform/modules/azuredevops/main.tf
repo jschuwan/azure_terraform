@@ -20,6 +20,7 @@ resource "azuredevops_serviceendpoint_kubernetes" "k8s_svc_dev" {
   service_endpoint_name     = "${lookup(var.k8s_id[count.index], "name")}-config-dev"
   apiserver_url             = var.k8s_svc_url_dev
   authorization_type        = "AzureSubscription"
+  
   azure_subscription {
     subscription_id         = var.subscription_id
     subscription_name       = var.subscription_name
@@ -37,6 +38,7 @@ resource "azuredevops_serviceendpoint_kubernetes" "k8s_svc_staging" {
   service_endpoint_name     = "${lookup(var.k8s_id[count.index], "name")}-config-staging"
   apiserver_url             = var.k8s_svc_url_staging
   authorization_type        = "AzureSubscription"
+  
   azure_subscription {
     subscription_id         = var.subscription_id
     subscription_name       = var.subscription_name
