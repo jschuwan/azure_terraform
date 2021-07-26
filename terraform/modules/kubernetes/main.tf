@@ -12,6 +12,7 @@ resource "kubernetes_namespace" "dev" {
   metadata {
     labels = {
       group = "may24-dev"
+      istio-injection = "enabled"
     }
     name = "${lookup(var.namespaces[count.index],"name")}"
   }
@@ -46,6 +47,8 @@ resource "kubernetes_namespace" "staging" {
   metadata {
     labels = {
       group = "may24-staging"
+      istio-injection = "enabled"
+
     }
     name = "${lookup(var.namespaces[count.index],"name")}"
   }
