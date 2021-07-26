@@ -107,4 +107,5 @@ module "azuredevops" {
   tenant_id           = var.tenant_id
   subscription_id     = var.subscription_id
   subscription_name   = var.subscription_name
+  subnet_id           = azurerm_kubernetes_cluster.may24_devops.0.subnet_id
 }

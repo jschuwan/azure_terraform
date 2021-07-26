@@ -68,6 +68,6 @@ resource "kubernetes_resource_quota" "staging" {
 
 resource "azurerm_app_service_environment" "may24_resources" {
   name = "test"
-  subnet_id = kubernetes_namespace.dev.subnet_id
+  subnet_id = kubernetes_
   
 }
