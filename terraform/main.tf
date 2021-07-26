@@ -5,6 +5,8 @@ terraform {
             version = "=2.60.0"
         }
     }
+
+   backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -12,28 +14,41 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "may24_devops" {
-    name        = var.resource_group["name"]
-    location    = var.resource_group["location"]
+    count     = "${length(var.resource_groups)}"
+    name      = "${lookup(var.resource_groups[count.index],"name")}"
+    location  = "${lookup(var.resource_groups[count.index],"location")}"
 }
 
-resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
-    name                = var.kubernetes_cluster_dev["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
-    dns_prefix          = var.kubernetes_cluster_dev["dns_prefix"]
+resource "azurerm_container_registry" "may24_devops_registry" {
+    name                = var.container_registry["name"]
+    location            = azurerm_resource_group.may24_devops.0.location
+    resource_group_name = azurerm_resource_group.may24_devops.0.name
+    sku                 = "Standard"
 
-    default_node_pool {
-        name                = var.kubernetes_cluster_dev["node_pool_name"]
-        node_count          = var.kubernetes_cluster_dev["node_count"]
-        vm_size             = "Standard_DS2_v2"
-        #enable_auto_scaling = false
+    tags = {
+      Group                   = var.resource_tags.group
+      ContactBeforeDelete     = var.resource_tags.contact
+      CreatedDate             = timestamp()
     }
 
-# Can be used with Service principal for my own Azure Service but how for Nick's?
-    // service_principal {
-    //   client_id     = var.appId
-    //   client_secret = var.password
-    // }
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
+    }  
+}
+
+resource "azurerm_kubernetes_cluster" "may24_devops" {
+    count                   = "${length(var.kubernetes_clusters)}"
+    name                    = "${lookup(var.kubernetes_clusters[count.index],"name")}"
+    location                = azurerm_resource_group.may24_devops[count.index].location
+    resource_group_name     = azurerm_resource_group.may24_devops[count.index].name
+    dns_prefix              = "${lookup(var.kubernetes_clusters[count.index],"dns_prefix")}"
+    default_node_pool {
+        name                = "${lookup(var.kubernetes_clusters[count.index],"node_pool_name")}"
+        node_count          = "${lookup(var.kubernetes_clusters[count.index],"node_count")}"
+        vm_size             = "${lookup(var.kubernetes_clusters[count.index],"vm_size")}"
+    }
 
     role_based_access_control {
       enabled = true
@@ -44,69 +59,56 @@ resource "azurerm_kubernetes_cluster" "may24_devops_dev" {
     }
 
     tags = {
-        Group                   = "DevOps"
-        Environment             = "dev"
-        ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
+      Group                   = var.resource_tags.group
+      ContactBeforeDelete     = var.resource_tags.contact
+      CreatedDate             = timestamp()
     }
-}
-
-resource "azurerm_kubernetes_cluster" "may24_devops_staging" {
-    name                = var.kubernetes_cluster_staging["name"]
-    location            = azurerm_resource_group.may24_devops.location
-    resource_group_name = azurerm_resource_group.may24_devops.name
-    dns_prefix          = var.kubernetes_cluster_staging["dns_prefix"]
-
-    default_node_pool {
-        name                = var.kubernetes_cluster_staging["node_pool_name"]
-        node_count          = var.kubernetes_cluster_staging["node_count"]
-        vm_size             = "Standard_DS2_v2"
-        #enable_auto_scaling = false
-    }
-    // service_principal {
-    //   client_id     = var.appId
-    //   client_secret = var.password
-    // }
-
-    role_based_access_control {
-      enabled = true
-    }
-
-    identity {
-        type = "SystemAssigned"
-    }
-
-    tags = {
-        Group                   = "DevOps"
-        Environment             = "staging"
-        ContactBeforeDelete     = "Nick Escalona"
-        CreatedDate             = "2021-7-16"
-    }
+    
+    lifecycle {
+      ignore_changes = [
+        tags["CreatedDate"]
+      ]
+    }  
 }
 
 output "kube_config_dev" {
-    value = azurerm_kubernetes_cluster.may24_devops_dev.kube_config_raw
+    value     = azurerm_kubernetes_cluster.may24_devops.0.kube_config_raw
     sensitive = true
 }
-
 output "kube_config_staging" {
-    value = azurerm_kubernetes_cluster.may24_devops_staging.kube_config_raw
+    value     = azurerm_kubernetes_cluster.may24_devops.1.kube_config_raw
     sensitive = true
 }
 
-# terraform output configure
-# Probably want this in a separate outputs.tf file?
-output "configure" {
-    value = <<CONFIGURE
+module "kubernetes" {
+  source = "./modules/kubernetes"
+  cluster_dev = { 
+    "host"                        = "${azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.host}",
+    "client_certificate"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.client_certificate)}",
+    "client_key"                  = "${base64decode(azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.client_key)}",
+    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.cluster_ca_certificate)}"
+  }
 
-Run the following commands to configure the kubernetes client:
+  cluster_staging = { 
+    "host"                        = "${azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.host}",
+    "client_certificate"          = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.client_certificate)}",
+    "client_key"                  = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.client_key)}",
+    "cluster_ca_certificate"      = "${base64decode(azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.cluster_ca_certificate)}"
+  }
+}
 
-terraform output kube_config_dev > ~/.kube/may24_devops_config_dev
-terraform output kube_config_staging > ~/.kube/may24_devops_config_staging
-export KUBECONFIG=~/.kube/may24_devops_config
+module "azuredevops" {
+  source = "./modules/azuredevops"
 
-Test configuration using kubectl:
-
-kubectl get nodes
-CONFIGURE
+  resource_group          = azurerm_resource_group.may24_devops.0.name
+  azurecr_name            = azurerm_container_registry.may24_devops_registry.name
+  k8s_svc_url_dev         = azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.host
+  k8s_svc_url_staging     = azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.host
+  k8s_resource_groups     = var.resource_groups
+  k8s_cluster_names       = var.kubernetes_clusters 
+  project_info            = var.url
+  token                   = var.token
+  tenant_id               = var.tenant_id
+  subscription_id         = var.subscription_id
+  subscription_name       = var.subscription_name
 }
