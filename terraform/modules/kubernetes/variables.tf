@@ -5,8 +5,8 @@ variable "namespaces" {
         { name = "team1" },
         { name = "team2" },
         { name = "team3" },
-        { "name" = "istio-operator" },
-        { "name" = "istio-system" }
+        { name = "istio-operator" },
+        { name = "istio-system" }
     ]
 }
 variable "limits" {
