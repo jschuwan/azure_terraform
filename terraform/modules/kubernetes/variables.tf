@@ -2,7 +2,11 @@
 variable "namespaces" {
     type = list
     default = [
-        { name = "team1" },{ name = "team2" },{ name = "team3" }, { name = "istio" }
+        { name = "team1" },
+        { name = "team2" },
+        { name = "team3" },
+        { name = "istio-operator" },
+        { name = "istio-system" }
     ]
 }
 variable "limits" {
@@ -11,7 +15,8 @@ variable "limits" {
         { name = "may24-resource-limits-t1" },
         { name = "may24-resource-limits-t2" },
         { name = "may24-resource-limits-t3" },
-        { name = "may24-resource-limits-istio" }
+        { name = "may24-istio-operator-limits" },
+        { name = "may24-istio-system-limits" }
     ]
 }
 
@@ -20,6 +25,14 @@ variable "resource_quota" {
     default = {
             cpu     = 3,
             mem     = "6Gi"
+    }
+}
+
+variable "resource_quota_istio" {
+    type = map
+    default = {
+            cpu     = "200m",
+            mem     = "256Mi"
     }
 }
 
