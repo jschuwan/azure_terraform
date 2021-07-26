@@ -2,7 +2,11 @@
 variable "namespaces" {
     type = list
     default = [
-        { name = "team1" },{ name = "team2" },{ name = "team3" },{ "name" = "istio-operator" },{ "name" = "istio-system" }
+        { name = "team1" },
+        { name = "team2" },
+        { name = "team3" },
+        { "name" = "istio-operator" },
+        { "name" = "istio-system" }
     ]
 }
 variable "limits" {
@@ -11,8 +15,8 @@ variable "limits" {
         { name = "may24-staging-resource-limits-t1" },
         { name = "may24-staging-resource-limits-t2" },
         { name = "may24-staging-resource-limits-t3" },
-        { name = "may24-istio-operator-limits-t3" },
-        { name = "may24-istio-system-limits-t3" }
+        { name = "may24-istio-operator-limits" },
+        { name = "may24-istio-system-limits" }
     ]
 }
 
