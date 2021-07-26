@@ -2,15 +2,16 @@
 variable "namespaces" {
     type = list
     default = [
-        { name = "team1" },{ name = "team2" },{ name = "team3" }
+        { name = "team1" },{ name = "team2" },{ name = "team3" }, { name = "istio" }
     ]
 }
 variable "limits" {
     type = list
     default = [
-        { name = "may24-staging-resource-limits-t1" },
-        { name = "may24-staging-resource-limits-t2" },
-        { name = "may24-staging-resource-limits-t3" }
+        { name = "may24-resource-limits-t1" },
+        { name = "may24-resource-limits-t2" },
+        { name = "may24-resource-limits-t3" },
+        { name = "may24-resource-limits-istio" }
     ]
 }
 
