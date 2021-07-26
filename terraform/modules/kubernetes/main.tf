@@ -26,8 +26,8 @@ resource "kubernetes_resource_quota" "dev" {
   }
   spec {
     hard = {
-      "limits.cpu"    = "${count.index}" < 3 ? var.resource_quota.cpu : var.resource_quota_itsio.cpu
-      "limits.memory" = "${count.index}" < 3 ? var.resource_quota.mem : var.resource_quota_itsio.mem
+      "limits.cpu"    = "${count.index}" < 3 ? var.resource_quota.cpu : var.resource_quota_istio.cpu
+      "limits.memory" = "${count.index}" < 3 ? var.resource_quota.mem : var.resource_quota_istio.mem
     }
   }
 }
@@ -60,8 +60,8 @@ resource "kubernetes_resource_quota" "staging" {
   }
   spec {
     hard = {
-      "limits.cpu"    = "${count.index}" < 3 ? var.resource_quota.cpu : var.resource_quota_itsio.cpu
-      "limits.memory" = "${count.index}" < 3 ? var.resource_quota.mem : var.resource_quota_itsio.mem
+      "limits.cpu"    = "${count.index}" < 3 ? var.resource_quota.cpu : var.resource_quota_istio.cpu
+      "limits.memory" = "${count.index}" < 3 ? var.resource_quota.mem : var.resource_quota_istio.mem
     }
   }
 }
