@@ -12,9 +12,9 @@ terraform apply
 ```
 mapUsers: |
 - userarn: <userarn>
-username: <username>
-groups:
-- system:masters
+  username: <username>
+  groups:
+    - system:masters
 ```
 
 ### Users
