@@ -16,3 +16,7 @@
 ```
 - Using Azure CLI, use ```az account list``` to find the tenant_id, subscription_id, and subscription_name.
 - Secure File should be referenced in Terraform Plan and Terraform Apply steps in the pipeline.
+### Pipelines
+**Two pipelines files:**
+- `terraform-destroy.yaml` will destroy the existing infrastructure.
+- `create-az-storage.yaml` will create the backend azurerm storage required to store the terraform state file.
