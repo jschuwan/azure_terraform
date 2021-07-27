@@ -112,12 +112,6 @@ module "eks" {
       instance_types  = "t1.micro"
       subnets         = concat(module.vpc.private_subnets,module.vpc.public_subnets)
       max_capacity    = 1
-      depends_on      = [
-        module.eks,
-        aws_iam_role_policy_attachment.revature_amazonEKS_CNI_Policy,
-        aws_iam_role_policy_attachment.revature_amazonEKSWorkerNodePolicy,
-        aws_iam_role_policy_attachment.revature_amazonEC2ContainerRegistryReadOnly
-      ]
     }
   ]
 }
