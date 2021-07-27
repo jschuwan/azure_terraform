@@ -2,7 +2,7 @@ variable "host" {
     type = string
 }
 
-variable "provider" {
+variable "certificate" {
     type = string
 }
 
