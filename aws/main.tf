@@ -31,7 +31,7 @@ module "vpc" {
     enable_dns_hostnames  = true
 }
 
-##### create iam role for cluster
+##### Create IAM role for cluster
 resource "aws_iam_role" "eks_cluster_role" {
     name = var.iam_roles.eks_cluster_role
 
@@ -54,7 +54,7 @@ resource "aws_iam_role_policy_attachment" "revature_eksclusterpolicy" {
     role            = aws_iam_role.eks_cluster_role.name
 }
 
-##### create iam role for node group
+##### Create IAM role for node group
 resource "aws_iam_role" "eks_node_role" {
   name = var.iam_roles.eks_node_role
 
@@ -85,7 +85,7 @@ resource "aws_iam_role_policy_attachment" "revature_amazonEC2ContainerRegistryRe
   role       = aws_iam_role.eks_node_role.name
 }
 
-##### create eks cluster
+##### Create EKS cluster
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
@@ -98,6 +98,7 @@ provider "kubernetes" {
   host                    = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate  = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                   = data.aws_eks_cluster_auth.cluster.token
+  depends_on              = module.eks
 }
 
 module "eks" {
@@ -118,29 +119,7 @@ module "eks" {
   ]
 }
 
-##### create node group
-# resource "aws_eks_node_group" "revature" {
-#   cluster_name      = var.aws_eks_cluster.name #????????
-#   node_group_name   = var.aws_eks_node_group_name
-#   node_role_arn     = aws_iam_role.eks_node_role.arn
-#   subnet_ids        = concat(module.vpc.private_subnets,module.vpc.public_subnets)
-  
-#   scaling_config {
-#     desired_size  = var.scaling_config.desired_size
-#     max_size      = var.scaling_config.max_size
-#     min_size      = var.scaling_config.min_size
-#   }
-
-#   instance_types = ["t1.micro"]
-#   depends_on = [
-#     module.eks,
-#     aws_iam_role_policy_attachment.revature_amazonEKS_CNI_Policy,
-#     aws_iam_role_policy_attachment.revature_amazonEKSWorkerNodePolicy,
-#     aws_iam_role_policy_attachment.revature_amazonEC2ContainerRegistryReadOnly
-#   ]
-# }
-
-##### create iam user for cluster access
+##### Create IAM user for cluster access
 resource "aws_iam_user" "eks_user" {
   name = var.aws_iam_eks_user
 }
@@ -165,13 +144,3 @@ resource "aws_iam_user_policy" "user_policy" {
     }]
   })
 }
-
-# output "access_key" {
-#   value = aws_iam_access_key.eks_user
-#   sensitive = true
-# }
-
-# output "kubeconfig_file" {
-#   value = module.eks.kubeconfig
-#   sensitive = true
-# }
