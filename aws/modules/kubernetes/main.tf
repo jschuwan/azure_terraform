@@ -12,3 +12,5 @@ provider "kubernetes" {
   cluster_ca_certificate  = var.cluster_ca_certificate
   token                   = var.token
 }
+
+##### namespace configurations here #####
