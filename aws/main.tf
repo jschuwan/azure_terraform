@@ -21,8 +21,8 @@ module "vpc" {
     source  = "terraform-aws-modules/vpc/aws"
     version = "2.66.0"
 
-    name                  = "testing-vpc"
-    cidr                  = "192.168.0.0/16"
+    name                  = var.vpc.name
+    cidr                  = var.vpc.cidr
     azs                   = data.aws_availability_zones.available.names
     private_subnets       = ["192.168.128.0/18", "192.168.192.0/18"]
     public_subnets        = ["192.168.0.0/18", "192.168.64.0/18"]
@@ -33,7 +33,7 @@ module "vpc" {
 
 ##### create iam role for cluster
 resource "aws_iam_role" "eks_cluster_role" {
-    name = "eks_cluster_role"
+    name = var.iam_role.eks_cluster_role
 
     assume_role_policy = jsonencode({
         "Version": "2012-10-17",
@@ -56,7 +56,7 @@ resource "aws_iam_role_policy_attachment" "revature_eksclusterpolicy" {
 
 ##### create iam role for node group
 resource "aws_iam_role" "eks_node_role" {
-  name = "eks_node_role"
+  name = var.iam_role.eks_node_role
 
  assume_role_policy = jsonencode({
     Statement = [{
@@ -86,15 +86,6 @@ resource "aws_iam_role_policy_attachment" "revature_amazonEC2ContainerRegistryRe
 }
 
 ##### create eks cluster
-# resource "aws_eks_cluster" "revature" {
-#     name        = "revature_eks"
-#     role_arn    = aws_iam_role.eks_cluster_role.arn
-
-#     vpc_config {
-#         subnet_ids = concat(module.vpc.private_subnets,module.vpc.public_subnets)
-#     }
-# }
-
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
@@ -112,13 +103,6 @@ module "eks" {
   cluster_version = "1.17"
   subnets = concat(module.vpc.private_subnets,module.vpc.public_subnets)
   vpc_id = module.vpc.vpc_id
-
-  # worker_groups = [
-  #   {
-  #     instance_type = "t1.micro"
-  #     asg_max_size = 1
-  #   }
-  # ]
 }
 
 ##### create node group
@@ -132,9 +116,11 @@ resource "aws_eks_node_group" "revature" {
     desired_size  = 1
     max_size      = 1
     min_size      = 1
-  } 
+  }
+
   instance_types = ["t1.micro"]
   depends_on = [
+    module.eks,
     aws_iam_role_policy_attachment.revature_amazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.revature_amazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.revature_amazonEC2ContainerRegistryReadOnly
@@ -167,16 +153,6 @@ resource "aws_iam_user_policy" "user_policy" {
   })
 }
 
-##### eks config
-# output "endpoint" {
-#   value = aws_eks_cluster.revature.endpoint
-# }
-
-# output "kubeconfig" {
-#   value = aws_eks_cluster.revature.certificate_authority[0].data
-#   sensitive = true
-# }
-
 output "access_key" {
   value = aws_iam_access_key.eks_user
   sensitive = true
@@ -184,4 +160,5 @@ output "access_key" {
 
 output "kubeconfig_file" {
   value = module.eks.kubeconfig
+  sensitive = true
 }
