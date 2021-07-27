@@ -114,7 +114,8 @@ module "eks" {
       node_group_name = var.aws_eks_node_group_name
       node_role_arn   = aws_iam_role.eks_node_role.arn
       subnets         = concat(module.vpc.private_subnets,module.vpc.public_subnets)
-      max_capacity    = 1
+      scaling_config  = var.scaling_config
+      # max_capacity    = 1
     }
   ]
 }
