@@ -25,7 +25,7 @@ module "vpc" {
     cidr                  = var.vpc.cidr
     azs                   = data.aws_availability_zones.available.names
     private_subnets       = var.private_subnets[*].name #["192.168.128.0/18", "192.168.192.0/18"]
-    public_subnets        = var.public_subnets #["192.168.0.0/18", "192.168.64.0/18"]
+    public_subnets        = var.public_subnets[*].name #["192.168.0.0/18", "192.168.64.0/18"]
     enable_nat_gateway    = true
     single_nat_gateway    = false
     enable_dns_hostnames  = true
