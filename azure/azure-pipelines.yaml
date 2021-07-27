@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
+  terraformDirectory: $(System.DefaultWorkingDirectory)/azure
   may24_devops_subscription: 'RevatureProject3ARMSubscription'
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
@@ -97,12 +97,12 @@ stages:
     # Publish the kubeconfig files as artifacts
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: 'terraform/may24_devops_config_dev'
+        targetPath: 'azure/may24_devops_config_dev'
         artifact: 'kubeconfig_dev'
       displayName: Publish dev kubeconfig
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: 'terraform/may24_devops_config_staging'
+        targetPath: 'azure/may24_devops_config_staging'
         artifact: 'kubeconfig_staging'
       displayName: Publish staging kubeconfig
