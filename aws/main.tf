@@ -110,7 +110,7 @@ module "eks" {
 
 ##### create node group
 resource "aws_eks_node_group" "revature" {
-  cluster_name      = module.eks.name #????????
+  cluster_name      = var.aws_eks_cluster.name #????????
   node_group_name   = var.aws_eks_node_group_name
   node_role_arn     = aws_iam_role.eks_node_role.arn
   subnet_ids        = concat(module.vpc.private_subnets,module.vpc.public_subnets)
