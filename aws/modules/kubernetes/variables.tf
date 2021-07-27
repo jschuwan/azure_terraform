@@ -2,7 +2,7 @@ variable "host" {
     type = string
 }
 
-variable "certificate" {
+variable "cluster_ca_certificate" {
     type = string
 }
 
