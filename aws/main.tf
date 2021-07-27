@@ -106,29 +106,43 @@ module "eks" {
   cluster_version   = var.aws_eks_cluster.version #???????
   subnets           = concat(module.vpc.private_subnets,module.vpc.public_subnets)
   vpc_id            = module.vpc.vpc_id
+
+  node_groups = [
+    {
+      instance_types  = "t1.micro"
+      subnets         = concat(module.vpc.private_subnets,module.vpc.public_subnets)
+      max_capacity    = 1
+      depends_on      = [
+        module.eks,
+        aws_iam_role_policy_attachment.revature_amazonEKS_CNI_Policy,
+        aws_iam_role_policy_attachment.revature_amazonEKSWorkerNodePolicy,
+        aws_iam_role_policy_attachment.revature_amazonEC2ContainerRegistryReadOnly
+      ]
+    }
+  ]
 }
 
 ##### create node group
-resource "aws_eks_node_group" "revature" {
-  cluster_name      = var.aws_eks_cluster.name #????????
-  node_group_name   = var.aws_eks_node_group_name
-  node_role_arn     = aws_iam_role.eks_node_role.arn
-  subnet_ids        = concat(module.vpc.private_subnets,module.vpc.public_subnets)
+# resource "aws_eks_node_group" "revature" {
+#   cluster_name      = var.aws_eks_cluster.name #????????
+#   node_group_name   = var.aws_eks_node_group_name
+#   node_role_arn     = aws_iam_role.eks_node_role.arn
+#   subnet_ids        = concat(module.vpc.private_subnets,module.vpc.public_subnets)
   
-  scaling_config {
-    desired_size  = var.scaling_config.desired_size
-    max_size      = var.scaling_config.max_size
-    min_size      = var.scaling_config.min_size
-  }
+#   scaling_config {
+#     desired_size  = var.scaling_config.desired_size
+#     max_size      = var.scaling_config.max_size
+#     min_size      = var.scaling_config.min_size
+#   }
 
-  instance_types = ["t1.micro"]
-  depends_on = [
-    module.eks,
-    aws_iam_role_policy_attachment.revature_amazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.revature_amazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.revature_amazonEC2ContainerRegistryReadOnly
-  ]
-}
+#   instance_types = ["t1.micro"]
+#   depends_on = [
+#     module.eks,
+#     aws_iam_role_policy_attachment.revature_amazonEKS_CNI_Policy,
+#     aws_iam_role_policy_attachment.revature_amazonEKSWorkerNodePolicy,
+#     aws_iam_role_policy_attachment.revature_amazonEC2ContainerRegistryReadOnly
+#   ]
+# }
 
 ##### create iam user for cluster access
 resource "aws_iam_user" "eks_user" {
