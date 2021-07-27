@@ -1,15 +1,15 @@
 variable "vpc" {
     type = map
     default = {
-        name            = "testing-vpc",
-        cidr            = "192.168.0.0/16",
+        name            = "testing-vpc"
+        cidr            = "192.168.0.0/16"
     }
 }
 
 variable "iam_roles" {
     type = map
     default = {
-        eks_cluster_role    = "eks-cluster-role",
+        eks_cluster_role    = "eks-cluster-role"
         eks_node_role       = "trg-cluster-nodegrp-role"
     }
 }
@@ -43,7 +43,7 @@ variable "aws_iam_user_policy" {
 variable "aws_eks_cluster" {
     type    = map
     default = {
-        name    = "default-cluster-name",
+        name    = "default-cluster-name"
         version = "1.17"
     }
 }
@@ -56,8 +56,8 @@ variable "aws_eks_node_group_name" {
 variable "scaling_config" {
     type    = map
     default = {
-        desired_size    = 1,
-        max_size        = 1,
+        desired_size    = 1
+        max_size        = 1
         min_size        = 1
     }
 }
