@@ -5,6 +5,16 @@
 terraform init
 terraform apply
 ```
+- If you get the following error after 1 apply:
+```
+Error: Error making request: Get "": dial tcp "": connect: connection refused
+│
+│   with module.eks.data.http.wait_for_cluster[0],
+│   on .terraform/modules/eks/data.tf line *, in data "http" "wait_for_cluster":
+    *: data "http" "wait_for_cluster" {
+```
+- This is due to the cluster name being referenced from the Kubernetes provider before creation
+- Run `terraform apply` one more time to resolve
 ### Kubeconfig
 - From cmd run `terraform output access_key` to get `ID` and `Secret` of new user
 - Run the following, substitiuting `ID` and `Secret`
