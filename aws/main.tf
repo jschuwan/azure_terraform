@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.0"
     }
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "2.3.2"
-    }
   }
 }
 
@@ -108,17 +104,16 @@ module "eks" {
       node_role_arn   = aws_iam_role.eks_node_role.arn
       subnets         = concat(module.vpc.private_subnets,module.vpc.public_subnets)
       scaling_config  = var.scaling_config
-      # max_capacity    = 1
     }
   ]
 }
 
-provider "kubernetes" {
+module "kubernetes" {
+  source  = "./modules/kubernetes"
   host                    = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate  = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                   = data.aws_eks_cluster_auth.cluster.token
 }
-
 
 ##### Create IAM user for cluster access
 resource "aws_iam_user" "eks_user" {
