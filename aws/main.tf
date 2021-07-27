@@ -24,8 +24,8 @@ module "vpc" {
     name                  = var.vpc.name
     cidr                  = var.vpc.cidr
     azs                   = data.aws_availability_zones.available.names
-    private_subnets       = ["192.168.128.0/18", "192.168.192.0/18"]
-    public_subnets        = ["192.168.0.0/18", "192.168.64.0/18"]
+    private_subnets       = var.private_subnets #["192.168.128.0/18", "192.168.192.0/18"]
+    public_subnets        = var.public_subnets #["192.168.0.0/18", "192.168.64.0/18"]
     enable_nat_gateway    = true
     single_nat_gateway    = false
     enable_dns_hostnames  = true
@@ -89,33 +89,36 @@ resource "aws_iam_role_policy_attachment" "revature_amazonEC2ContainerRegistryRe
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
+
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
 }
+
 provider "kubernetes" {
-  host = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
-  token = data.aws_eks_cluster_auth.cluster.token
+  host                    = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate  = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                   = data.aws_eks_cluster_auth.cluster.token
 }
+
 module "eks" {
-  source = "terraform-aws-modules/eks/aws"
-  cluster_name = "testing-eks"
-  cluster_version = "1.17"
-  subnets = concat(module.vpc.private_subnets,module.vpc.public_subnets)
-  vpc_id = module.vpc.vpc_id
+  source            = "terraform-aws-modules/eks/aws"
+  cluster_name      = var.aws_eks_cluster.name
+  cluster_version   = var.aws_eks_cluster.version #???????
+  subnets           = concat(module.vpc.private_subnets,module.vpc.public_subnets)
+  vpc_id            = module.vpc.vpc_id
 }
 
 ##### create node group
 resource "aws_eks_node_group" "revature" {
-  cluster_name = "testing-eks"
-  node_group_name = "revature"
-  node_role_arn = aws_iam_role.eks_node_role.arn
-  subnet_ids = concat(module.vpc.private_subnets,module.vpc.public_subnets)
+  cluster_name      = module.eks.cluster_name #????????
+  node_group_name   = var.aws_eks_node_group_name
+  node_role_arn     = aws_iam_role.eks_node_role.arn
+  subnet_ids        = concat(module.vpc.private_subnets,module.vpc.public_subnets)
   
   scaling_config {
-    desired_size  = 1
-    max_size      = 1
-    min_size      = 1
+    desired_size  = var.scaling_config.desired_size
+    max_size      = var.scaling_config.max_size
+    min_size      = var.scaling_config.min_size
   }
 
   instance_types = ["t1.micro"]
@@ -129,16 +132,16 @@ resource "aws_eks_node_group" "revature" {
 
 ##### create iam user for cluster access
 resource "aws_iam_user" "eks_user" {
-  name = "test_user"
+  name = var.aws_iam_eks_user
 }
 resource "aws_iam_access_key" "eks_user" {
   user = aws_iam_user.eks_user.name
 }
 resource "aws_iam_user_policy" "user_policy" {
-  name = "test_user_policy"
-  user = aws_iam_user.eks_user.name
+  name    = var.aws_iam_user_policy
+  user    = aws_iam_user.eks_user.name
 
-  policy = jsonencode(
+  policy  = jsonencode(
   {
   "Version": "2012-10-17",
   "Statement": [{
@@ -153,12 +156,12 @@ resource "aws_iam_user_policy" "user_policy" {
   })
 }
 
-output "access_key" {
-  value = aws_iam_access_key.eks_user
-  sensitive = true
-}
+# output "access_key" {
+#   value = aws_iam_access_key.eks_user
+#   sensitive = true
+# }
 
-output "kubeconfig_file" {
-  value = module.eks.kubeconfig
-  sensitive = true
-}
+# output "kubeconfig_file" {
+#   value = module.eks.kubeconfig
+#   sensitive = true
+# }
