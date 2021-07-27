@@ -25,8 +25,8 @@ module "vpc" {
     name                  = var.vpc.name
     cidr                  = var.vpc.cidr
     azs                   = data.aws_availability_zones.available.names
-    private_subnets       = var.private_subnets[*].name #["192.168.128.0/18", "192.168.192.0/18"]
-    public_subnets        = var.public_subnets[*].name #["192.168.0.0/18", "192.168.64.0/18"]
+    private_subnets       = var.private_subnets[*].name
+    public_subnets        = var.public_subnets[*].name
     enable_nat_gateway    = true
     single_nat_gateway    = false
     enable_dns_hostnames  = true
@@ -37,17 +37,17 @@ resource "aws_iam_role" "eks_cluster_role" {
     name = var.iam_roles.eks_cluster_role
 
     assume_role_policy = jsonencode({
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "eks.amazonaws.com"
-            },
-            "Action": "sts:AssumeRole"
-            }
-        ]
-        })
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+        "Effect": "Allow",
+        "Principal": {
+            "Service": "eks.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+        }
+      ]
+    })
 }
 
 resource "aws_iam_role_policy_attachment" "revature_eksclusterpolicy" {
@@ -59,7 +59,7 @@ resource "aws_iam_role_policy_attachment" "revature_eksclusterpolicy" {
 resource "aws_iam_role" "eks_node_role" {
   name = var.iam_roles.eks_node_role
 
- assume_role_policy = jsonencode({
+  assume_role_policy = jsonencode({
     Statement = [{
       Action = "sts:AssumeRole"
       Effect = "Allow"
@@ -98,7 +98,7 @@ data "aws_eks_cluster_auth" "cluster" {
 module "eks" {
   source            = "terraform-aws-modules/eks/aws"
   cluster_name      = var.aws_eks_cluster.name
-  cluster_version   = var.aws_eks_cluster.version #???????
+  cluster_version   = var.aws_eks_cluster.version
   subnets           = concat(module.vpc.private_subnets,module.vpc.public_subnets)
   vpc_id            = module.vpc.vpc_id
 
