@@ -19,7 +19,7 @@ resource "kubernetes_namespace" "dev" {
 
 resource "kubernetes_resource_quota" "dev" {
   provider = kubernetes.dev
-  count = "${length(var.namespaces)}"
+  count = "${length(var.limits)}"
   metadata {
     name = "${lookup(var.limits[count.index],"name")}"
     namespace = "${lookup(var.namespaces[count.index],"name")}"
@@ -53,8 +53,8 @@ resource "kubernetes_namespace" "staging" {
 
 resource "kubernetes_resource_quota" "staging" {
   provider = kubernetes.staging
-  count = "${length(var.namespaces)}"
-  metadata {
+  count = "${length(var.limits)}"
+ metadata {
     name = "${lookup(var.limits[count.index],"name")}"
     namespace = "${lookup(var.namespaces[count.index],"name")}"
   }

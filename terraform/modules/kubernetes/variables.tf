@@ -15,8 +15,7 @@ variable "limits" {
         { name = "may24-resource-limits-t1" },
         { name = "may24-resource-limits-t2" },
         { name = "may24-resource-limits-t3" },
-        { name = "may24-istio-operator-limits" },
-        { name = "may24-istio-system-limits" }
+        { name = "may24-istio-operator-limits" }
     ]
 }
 
