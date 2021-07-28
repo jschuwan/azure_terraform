@@ -7,7 +7,7 @@ variables:
   terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
   may24_devops_subscription: 'RevatureProject3ARMSubscription'
   azurermResourceGroupName: 'storage-resource-group'
-  azurermStorageAccountName: 'storagep3mjc'
+  azurermStorageAccountName: 'storagep3'
   azurermContainerName: 'tf-state-file-container'
 
 stages:
