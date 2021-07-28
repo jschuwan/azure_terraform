@@ -97,18 +97,18 @@ module "kubernetes" {
   }
 }
 
-module "azuredevops" {
-  source = "./modules/azuredevops"
+# module "azuredevops" {
+#   source = "./modules/azuredevops"
 
-  resource_group          = azurerm_resource_group.may24_devops.0.name
-  azurecr_name            = azurerm_container_registry.may24_devops_registry.name
-  k8s_svc_url_dev         = azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.host
-  k8s_svc_url_staging     = azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.host
-  k8s_resource_groups     = var.resource_groups
-  k8s_cluster_names       = var.kubernetes_clusters 
-  project_info            = var.url
-  token                   = var.token
-  tenant_id               = var.tenant_id
-  subscription_id         = var.subscription_id
-  subscription_name       = var.subscription_name
-}
+#   resource_group          = azurerm_resource_group.may24_devops.0.name
+#   azurecr_name            = azurerm_container_registry.may24_devops_registry.name
+#   k8s_svc_url_dev         = azurerm_kubernetes_cluster.may24_devops.0.kube_config.0.host
+#   k8s_svc_url_staging     = azurerm_kubernetes_cluster.may24_devops.1.kube_config.0.host
+#   k8s_resource_groups     = var.resource_groups
+#   k8s_cluster_names       = var.kubernetes_clusters 
+#   project_info            = var.url
+#   token                   = var.token
+#   tenant_id               = var.tenant_id
+#   subscription_id         = var.subscription_id
+#   subscription_name       = var.subscription_name
+# }
