@@ -128,15 +128,16 @@ provider "kubernetes" {
   host                    = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate  = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                   = data.aws_eks_cluster_auth.cluster.token
-  depends_on = [time_sleep.wait_30_seconds]
 }
 
 ##### Create IAM user for cluster access
 resource "aws_iam_user" "eks_user" {
   name = var.aws_iam_eks_user
+  depends_on = [time_sleep.wait_30_seconds]
 }
 resource "aws_iam_access_key" "eks_user" {
   user = aws_iam_user.eks_user.name
+  depends_on = [time_sleep.wait_30_seconds]
 }
 resource "aws_iam_user_policy" "user_policy" {
   name    = var.aws_iam_user_policy
