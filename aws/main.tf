@@ -8,6 +8,10 @@ terraform {
       source = "hashicorp/kubernetes"
       version = "2.3.2"
     }
+    time = {
+      source = "hashicorp/time"
+      version = "0.7.2"
+    }
   }
 }
 
@@ -89,10 +93,12 @@ resource "aws_iam_role_policy_attachment" "revature_amazonEC2ContainerRegistryRe
 ##### Create EKS cluster
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
+  depends_on = time_sleep.wait_30_seconds
 }
 
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
+  depends_on = time_sleep.wait_30_seconds
 }
 
 module "eks" {
@@ -111,6 +117,13 @@ module "eks" {
       scaling_config  = var.scaling_config
     }
   ]
+}
+provider "time" {
+}    
+
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [module.eks] 
+  create_duration = "30s"
 }
 
 provider "kubernetes" {
