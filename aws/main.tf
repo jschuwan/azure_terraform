@@ -93,12 +93,12 @@ resource "aws_iam_role_policy_attachment" "revature_amazonEC2ContainerRegistryRe
 ##### Create EKS cluster
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
-  depends_on = time_sleep.wait_30_seconds
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
-  depends_on = time_sleep.wait_30_seconds
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 module "eks" {
