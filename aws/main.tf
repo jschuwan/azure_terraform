@@ -93,12 +93,10 @@ resource "aws_iam_role_policy_attachment" "revature_amazonEC2ContainerRegistryRe
 ##### Create EKS cluster
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
-  depends_on = [time_sleep.wait_30_seconds]
 }
 
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
-  depends_on = [time_sleep.wait_30_seconds]
 }
 
 module "eks" {
@@ -130,6 +128,7 @@ provider "kubernetes" {
   host                    = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate  = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                   = data.aws_eks_cluster_auth.cluster.token
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 ##### Create IAM user for cluster access
