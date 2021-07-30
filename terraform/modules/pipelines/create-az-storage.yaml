@@ -1,0 +1,50 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  may24_devops_subscription: 'RevatureProject3ARMSubscription'
+  STORAGE_GROUP_NAME: 'storage-resource-group'
+  STORAGE_ACCOUNT_NAME: 'storagep3'
+  STORAGE_CONTAINER_NAME: 'tf-state-file-container'
+  STORAGE_LOCATION: 'westus'
+
+stages:
+- stage:
+  jobs:
+  - job:
+    steps:
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: $(may24_devops_subscription)
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az group create \
+            --name $env:STORAGE_GROUP_NAME \
+            --location $env:STORAGE_LOCATION
+      displayName: Create Azure storage resource group
+
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: $(may24_devops_subscription)
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage account create \
+            --name $env:STORAGE_ACCOUNT_NAME \
+            --resource-group $env:STORAGE_GROUP_NAME \
+            --location $env:STORAGE_LOCATION \
+            --sku Standard_RAGRS \
+            --kind StorageV2
+        displayName: Create Azure storage account
+    
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: $(may24_devops_subscription)
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage container create \
+              --account-name $env:STORAGE_ACCOUNT_NAME \
+              --name $env:STORAGE_CONTAINER_NAME \
+              --auth-mode login
+      displayName: Create blob storage container
