@@ -1,0 +1,38 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  terraformDirectory: $(System.DefaultWorkingDirectory)/terraform
+  may24_devops_subscription: 'RevatureProject3ARMSubscription'
+  azurermResourceGroupName: 'storage-resource-group'
+  azurermStorageAccountName: 'storagep3'
+  azurermContainerName: 'tf-state-file-container'
+
+stages:
+- stage: Destroy
+  jobs:
+  - job: 
+    steps:
+
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: 'terraform'
+        backendType: 'azurerm'
+        backendServiceArm: $(may24_devops_subscription)
+        backendAzureRmResourceGroupName: $(azurermResourceGroupName)
+        backendAzureRmStorageAccountName: $(azurermStorageAccountName)
+        backendAzureRmContainerName: $(azurermContainerName)
+        backendAzureRmKey: 'terraform.tfstate'
+        allowTelemetryCollection: true
+      displayName: "TF Init"
+
+    - task: TerraformCLI@0
+      inputs:
+        command: 'destroy'
+        workingDirectory: 'terraform'
+        environmentServiceName: $(may24_devops_subscription)
+        allowTelemetryCollection: true
+      displayName: "TF Destroy"
